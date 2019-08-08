@@ -1,6 +1,5 @@
 <div class="container">
     <div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
-
         <input type="file"
         id="file"
         (change)="handleFileInput($event.target.files)">
@@ -32,8 +31,8 @@
 
     <br [hidden]="!ShowPostingForm">
     <div class="row uk-text-center board-container" (click)="OpenCatalog()">
-        <h2>/{{ postBoard }}/</h2>
-    </div>
+            /{{ postBoard }}/
+        </div>
     <div class="row uk-text-center upload-container" *ngIf="thread !== null">
 
         <div class="progress-container">
@@ -111,7 +110,7 @@
         <h3>Loading...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
     </div>
-    <div class="row">
+    <div class="row" [hidden]="PostLoading">
         <div (click)="refresh()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Refresh</div>
     </div>
 </div>

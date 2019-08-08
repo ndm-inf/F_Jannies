@@ -95,10 +95,13 @@ a:visited {
     padding-left: 7px;
  }
  .board-container{
-   background-color: rgba(52, 52, 52, 0.85);
+   background-color: black;
    border-radius: 12px;
-   padding:10px;
-   margin:10px;
+   padding:5px;
+   margin:5px;
+   text-align: center;
+   font-size: 20px;
+   cursor: pointer;
 }
 
 .btn-round{
