@@ -1,6 +1,5 @@
 .progress-container{
     background-color: rgba(32, 32, 32, 0.75);
-    border-radius: 12px;
     padding-top:5px;
     margin-top:5px;
     padding-bottom:5px;
@@ -19,12 +18,14 @@
  }
  .progress-item-container{
     background-color: rgba(16, 16, 16, 0.85);
-    border-radius: 12px;
     padding:10px;
     margin:10px;
     white-space: pre-wrap;
  }
- 
+ .sub-cont{
+    margin-left:15px;
+    padding-left:15px;
+ }
  .toggle-margin{
     margin:5px;
  }

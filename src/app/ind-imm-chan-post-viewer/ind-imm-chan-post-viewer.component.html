@@ -63,36 +63,37 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="thread !== null && thread.IndImmChanPostModelChildren !== null && thread.IndImmChanPostModelChildren.length > 0">
-        <div class="row uk-text-center upload-container" *ngFor="let post of thread.IndImmChanPostModelChildren">
-            <div class="progress-container">
-                <div class="row"> 
-                    <div class="col-lg-1">
-                        <span class="comment-name post-header green">{{ post.Name }}</span>
-                    </div>
-                    <div class="col-lg-3">
-                        <span class="comment-time post-header">{{  post.Timestamp | date:'medium'}}</span>
-                    </div>
-                    <div class="col-lg-7" #elem [id]="post.Tx">
-                        <span class="comment-time post-header white"><b>Id:</b>
-                            <span style="cursor:pointer" (click)="quoteMessage(post.Tx)">{{  post.Tx}}
+   
+        <div *ngIf="thread !== null && thread.IndImmChanPostModelChildren !== null && thread.IndImmChanPostModelChildren.length > 0">
+            <div class="row uk-text-center upload-container sub-cont" *ngFor="let post of thread.IndImmChanPostModelChildren">
+                <div class="progress-container">
+                    <div class="row"> 
+                        <div class="col-lg-1">
+                            <span class="comment-name post-header green">{{ post.Name }}</span>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="comment-time post-header">{{  post.Timestamp | date:'medium'}}</span>
+                        </div>
+                        <div class="col-lg-7" #elem [id]="post.Tx">
+                            <span class="comment-time post-header white"><b>Id:</b>
+                                <span style="cursor:pointer" (click)="quoteMessage(post.Tx)">{{  post.Tx}}
+                                </span>
                             </span>
-                        </span>
+                        </div>
                     </div>
-                </div>
-                <div class="row"> 
-                    <div class="col-lg-12">
-                        <div class="progress-item-container" *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
-                            <img [src]="post.Base64Image" width="200px"  [hidden]="post.ShowFullSizeFile">
-                            <img [src]="post.Base64Image" [hidden]="!post.ShowFullSizeFile">
-                        </div>
-                        <div class="progress-item-container" (click)="ManualOverRideShowImage(post)" *ngIf="!post.ShowImageOverride
-                            && post.HasImage && !this.Config.ShowImages">
-                            <div (click)="ToggleFullSizeFile(post)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
-                        </div>
-                        <div class="progress-item-container">
-                            <span [innerHTML]="post.Msg"></span>
+                    <div class="row"> 
+                        <div class="col-lg-12">
+                            <div class="progress-item-container" *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
+                                <img [src]="post.Base64Image" width="200px"  [hidden]="post.ShowFullSizeFile">
+                                <img [src]="post.Base64Image" [hidden]="!post.ShowFullSizeFile">
+                            </div>
+                            <div class="progress-item-container" (click)="ManualOverRideShowImage(post)" *ngIf="!post.ShowImageOverride
+                                && post.HasImage && !this.Config.ShowImages">
+                                <div (click)="ToggleFullSizeFile(post)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
+                            </div>
+                            <div class="progress-item-container">
+                                <span [innerHTML]="post.Msg"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
