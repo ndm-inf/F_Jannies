@@ -1,5 +1,5 @@
 <div class="container">
-<div class="row uk-text-center upload-container">
+<div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
 
     <input type="file"
     id="file"
@@ -11,12 +11,19 @@
     <div [hidden]="!PostingEnabled">
         <div (click)="post()" class="btn btn-wrapper btn-default btn-round" style="width:100%">Post</div>
     </div>
+    <br>
+    <div [hidden]="!PostingEnabled">
+        <div (click)="togglePostingForm()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Close</div>
+    </div>
     <div [hidden]="PostingEnabled">
         <div class="btn btn-wrapper btn-primary btn-round" style="width:100%">
             Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
         </div>
     </div>
-</div>    
+</div>   
+<div class="row uk-text-center upload-container" [hidden]="ShowPostingForm">
+    <div (click)="togglePostingForm()" class="btn btn-wrapper btn-default btn-round" style="width:100%">+ New Post</div>
+</div> 
 <div class="text-center" [hidden]="!Posting">
         <h3>Posting...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
@@ -24,7 +31,7 @@
     <div class="row board-container text-center" [hidden]="!PostingError">
         <div class="btn btn-wrapper btn-round" style="width:100%">Error Posting</div>
     </div> 
-<br>
+<br [hidden]="!ShowPostingForm">
 <div class="row uk-text-center board-container">
 <h2>/{{ postBoard }}/</h2>
 </div>
@@ -47,7 +54,7 @@
                         </div>
                         <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">
-                            <div (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)" class="btn btn-wrapper btn-primary btn-round click-show">Show Image Preview</div>
+                            <div class="btn btn-wrapper btn-primary btn-round click-show">Show Image Preview</div>
                         </div>
                         <div class="progress-item-container">
                             Last: {{  thread.LastCommentTime | date:'medium' }}

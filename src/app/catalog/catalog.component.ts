@@ -39,7 +39,8 @@ export class CatalogComponent implements OnInit {
   PostingError = false;
   PostingEnabled = true;
   PostingSecondsLeftCounter = 0;
-  
+  ShowPostingForm = false;
+
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService,   config: IndImmConfigService
     ) {
@@ -51,6 +52,9 @@ export class CatalogComponent implements OnInit {
       this.ToastrService = toasterService;
     }
   
+  togglePostingForm() {
+    this.ShowPostingForm = !this.ShowPostingForm;
+  }
 
   public async blockPosting() {
     this.PostingEnabled = false;

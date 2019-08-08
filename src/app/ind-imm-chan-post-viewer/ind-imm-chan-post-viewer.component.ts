@@ -42,6 +42,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   PostingEnabled = true;
   PostingSecondsLeftCounter = 0;
   Config: IndImmConfigService;
+  ShowPostingForm = false;
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -56,6 +57,10 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.PostingEnabled = true;
   }
 
+  togglePostingForm() {
+    this.ShowPostingForm = !this.ShowPostingForm;
+  }
+  
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService) {
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
