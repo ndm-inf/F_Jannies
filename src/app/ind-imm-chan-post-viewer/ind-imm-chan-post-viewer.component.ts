@@ -144,6 +144,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
     post.ShowFullSizeFile = false;
+    post.ImageLoading = true;
     await this.IndImmChanPostManagerService.ManualOverRideShowImage(post);
   }
 
