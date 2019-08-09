@@ -98,8 +98,14 @@ export class IndImmChanPostManagerService {
             imageCounter++;
             postModel.HasImage = true;
             if(this.Config.ShowImages) {
-              postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
-              postModel.CreateImageFromBlob();
+              // postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
+              // postModel.CreateImageFromBlob();
+              postModel.ImageLoading = true;
+              this.getImageBlobFromIPFSHash(postModel).then(res=> {
+                postModel.Image = res; 
+                postModel.CreateImageFromBlob();
+                postModel.ImageLoading = true;
+              });
             }
           }
           postModel.Timestamp = new Date(unfilteredResults[i].outcome.timestamp);
@@ -175,8 +181,14 @@ export class IndImmChanPostManagerService {
             postModel.HasImage = true;
               if(!postModel.Parent || postModel.Parent.length === 0) {
                 if(this.Config.ShowImages) {
-                  postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
-                  postModel.CreateImageFromBlob();
+                  // postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
+                  // postModel.CreateImageFromBlob();
+                  postModel.ImageLoading = true;
+                  this.getImageBlobFromIPFSHash(postModel).then(res=> {
+                    postModel.Image = res; 
+                    postModel.CreateImageFromBlob();
+                    postModel.ImageLoading = false;
+                  });
                 }
             }
           }
@@ -217,14 +229,16 @@ export class IndImmChanPostManagerService {
   }
 
   public async ManualOverRideShowImage(post: IndImmChanPostModel): Promise<IndImmChanPostModel> {
+    post.ImageLoading = true;
     const blob = await this.IndImmChanPostService.getFromIPFS(post.IPFSHash);    
     post.Image = blob;
     post.CreateImageFromBlob();
     post.ShowImageOverride = true;
+    post.ImageLoading = false;
     return post; 
   }
-  public async getImageBlobFromIPFSHash(hash: string) {
-    const result = this.IndImmChanPostService.getFromIPFS(hash);      
+  public async getImageBlobFromIPFSHash(post: IndImmChanPost) {
+    const result = this.IndImmChanPostService.getFromIPFS(post.IPFSHash);      
     return result;   
   }
 }

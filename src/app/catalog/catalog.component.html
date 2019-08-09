@@ -49,6 +49,9 @@
                         <div class="progress-item-container">
                             Images: {{  thread.ImageReplies }} |&nbsp; Replies: {{  thread.TotalReplies }}
                         </div>
+                        <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.ImageLoading">
+                            <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+                        </div>
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image">
                             <img [src]=" thread.IndImmChanPostModelParent.Base64Image" width="150px">
                         </div>

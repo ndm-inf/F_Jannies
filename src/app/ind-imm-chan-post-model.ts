@@ -11,6 +11,7 @@ export class IndImmChanPostModel extends IndImmChanPost{
     IsOrganized = false;
     ShowFullSizeFile = false;
     MsgSafeHtml: SafeHtml;
+    ImageLoading = false;
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {
