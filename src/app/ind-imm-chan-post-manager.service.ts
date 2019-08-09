@@ -104,7 +104,7 @@ export class IndImmChanPostManagerService {
               this.getImageBlobFromIPFSHash(postModel).then(res=> {
                 postModel.Image = res; 
                 postModel.CreateImageFromBlob();
-                postModel.ImageLoading = true;
+                postModel.ImageLoading = false;
               });
             }
           }
