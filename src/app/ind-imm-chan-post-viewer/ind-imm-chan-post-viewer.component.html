@@ -43,11 +43,22 @@
                 <div class="col-lg-3">
                     <span class="comment-time post-header">{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span>
                 </div>
-                <div class="col-lg-7" #elem [id]="thread.IndImmChanPostModelParent.Tx">
-                    <span class="comment-time post-header white"><b>Post Id:</b> 
-                        <span style="cursor:pointer" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)">{{  thread.IndImmChanPostModelParent.Tx }}
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-2" #elem [id]="thread.IndImmChanPostModelParent.Tx">
+                    <div style="float:right; text-align:right; margin-right:7px; padding-right:7px">
+                        <span class="comment-time post-header white"><b>Post Id:</b>&nbsp;
                         </span>
-                    </span>
+                        <span style="cursor:pointer" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" (Title)="post.Tx">{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">                        
+                    <div style="margin-left: 7px; padding-left: 7px;">
+                        <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
+                    </div>  
                 </div>
             </div>
             <div class="row"> 
@@ -83,11 +94,22 @@
                         <div class="col-lg-3">
                             <span class="comment-time post-header">{{  post.Timestamp | date:'medium'}}</span>
                         </div>
-                        <div class="col-lg-7" #elem [id]="post.Tx">
-                            <span class="comment-time post-header white"><b>Post Id:</b>
-                                <span style="cursor:pointer" (click)="quoteMessage(post.Tx)">{{  post.Tx}}
+                        <div class="col-lg-6">
+                        </div>
+                        <div class="col-lg-2" #elem [id]="post.Tx">
+                            <div style="float:right; text-align:right; margin-right:7px; padding-right:7px">
+                                <span class="comment-time post-header white"><b>Post Id:</b>&nbsp;
                                 </span>
-                            </span>
+                                <span style="cursor:pointer" (click)="quoteMessage(post.Tx)" (Title)="post.Tx">{{  post.Tx.substring(0, 10)}}...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10">                        
+                            <div style="margin-left: 7px; padding-left: 7px;">
+                                <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
+                            </div>  
                         </div>
                     </div>
                     <div class="row"> 
@@ -104,8 +126,8 @@
                                 <div (click)="ToggleFullSizeFile(post)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
                             </div>
                             <div class="progress-item-container">
-                                <span [innerHTML]="post.Msg"></span>
-                            </div>
+                                <span [innerHtml]="post.Msg | safe: 'html'"></span>
+                            </div>                            
                         </div>
                     </div>
                 </div>

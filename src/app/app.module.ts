@@ -22,6 +22,7 @@ import { FileIndexComponent } from './file-index/file-index.component';
 import { IndImmChanPostViewerComponent } from './ind-imm-chan-post-viewer/ind-imm-chan-post-viewer.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { BoardsComponent } from './boards/boards.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { BoardsComponent } from './boards/boards.component';
     FileIndexComponent,
     IndImmChanPostViewerComponent,
     CatalogComponent,
-    BoardsComponent
+    BoardsComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

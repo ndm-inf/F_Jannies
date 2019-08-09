@@ -13,7 +13,7 @@ export class IndImmChanThread {
     public Prep() {
         this.orderRepliesDescending();
         this.populateLastCommentTime();
-        // this.linkReplies(sanitizer);
+        this.linkReplies();
     }
     orderRepliesDescending() {
        this.IndImmChanPostModelChildren = this.IndImmChanPostModelChildren.sort(this.compare);
@@ -27,28 +27,42 @@ export class IndImmChanThread {
         }
     }
 
-    /*
-    linkReplies(sanitizer: DomSanitizer) {
+    
+    linkReplies() {
         const ids: string[] = [];
         ids.push(this.IndImmChanPostModelParent.Tx);
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             ids.push(this.IndImmChanPostModelChildren[i].Tx)
         }
 
-        const testprefix = 'postViewer/b/07CC1C1615962DF87C325A0080B8AED3302A0695CD245014A4CCA74C212F594D';
-
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             for (let j = 0; j < ids.length; j++) {
-                this.IndImmChanPostModelChildren[i].MsgSafeHtml = sanitizer.bypassSecurityTrustHtml(
-                    this.IndImmChanPostModelChildren[i].Msg.replace(ids[j],
-                  //'<a onClick="window.location.hash=\'#'+ ids[j]  +'\'">' + ids[j] + '</a>')
-                   '<div onclick="console.log(\'hai\')">' + ids[j] + '</div>'));
-                  // '<a href="' +  testprefix+'/#'+ ids[j]  +'">' + ids[j] + '</a>')
-
+                if(this.IndImmChanPostModelChildren[i].Msg.includes(ids[j])) {
+                    this.IndImmChanPostModelChildren[i].Msg =  this.IndImmChanPostModelChildren[i].Msg.replace('>>' + ids[j],
+                        '<a title="' + ids[j] + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'+ ids[j]  +'\'">>>' + ids[j].substring(0, 10) + '...</a>');
+                }
             }
         }
+
+        for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
+            for (let j = 0; j < this.IndImmChanPostModelChildren.length; j++) {
+                if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelChildren[i].Tx)) {
+                    const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
+                        + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
+                        this.IndImmChanPostModelChildren[i].HeaderLinks = this.IndImmChanPostModelChildren[i].HeaderLinks + headerLink + ' ';                    
+                }
+            }
+        }
+
+        for (let j = 0; j < this.IndImmChanPostModelChildren.length; j++) {
+            if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelParent.Tx)) {
+                const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
+                    + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
+                    this.IndImmChanPostModelParent.HeaderLinks = this.IndImmChanPostModelParent.HeaderLinks + headerLink + ' ';      
+            }
+        }        
     }
-    */
+    
     compare( a: IndImmChanPostModel, b:IndImmChanPostModel ) {
         if ( a.Timestamp < b.Timestamp ){
           return -1;
