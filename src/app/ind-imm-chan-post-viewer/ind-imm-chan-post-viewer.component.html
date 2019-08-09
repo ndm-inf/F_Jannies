@@ -44,7 +44,7 @@
                     <span class="comment-time post-header">{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span>
                 </div>
                 <div class="col-lg-7" #elem [id]="thread.IndImmChanPostModelParent.Tx">
-                    <span class="comment-time post-header white"><b>Id:</b> 
+                    <span class="comment-time post-header white"><b>Post Id:</b> 
                         <span style="cursor:pointer" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)">{{  thread.IndImmChanPostModelParent.Tx }}
                         </span>
                     </span>
@@ -84,7 +84,7 @@
                             <span class="comment-time post-header">{{  post.Timestamp | date:'medium'}}</span>
                         </div>
                         <div class="col-lg-7" #elem [id]="post.Tx">
-                            <span class="comment-time post-header white"><b>Id:</b>
+                            <span class="comment-time post-header white"><b>Post Id:</b>
                                 <span style="cursor:pointer" (click)="quoteMessage(post.Tx)">{{  post.Tx}}
                                 </span>
                             </span>
