@@ -27,12 +27,42 @@ export class IndImmChanThread {
         }
     }
 
+    greenText(post:IndImmChanPostModel) {
+        const splitMessage = post.Msg.split('\n');
+
+        const newMsgArray: string[] = [];
+        let newMsg = '';
+        let resultMsg = '';
+
+        for (let i = 0; i < splitMessage.length; i++) {
+            const curMsg = splitMessage[i];
+            newMsg = curMsg;
+            if (curMsg.length>0){
+                if (curMsg.charAt(0) === '>') {
+                    if (curMsg.length>1){
+                        if (curMsg.charAt(1) !== '>') {
+                            newMsg = '<span style="color:green">' + curMsg + '</span>'
+                        }
+                    }
+                }
+            }
+            newMsgArray.push(newMsg);
+        }
+
+        for(let i = 0; i < newMsgArray.length; i++) {
+            resultMsg += newMsgArray[i] + '\n';
+        }
+        post.Msg = resultMsg;
+    }
     
     linkReplies() {
         const ids: string[] = [];
         ids.push(this.IndImmChanPostModelParent.Tx);
+        this.greenText(this.IndImmChanPostModelParent);
+
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             ids.push(this.IndImmChanPostModelChildren[i].Tx)
+            this.greenText(this.IndImmChanPostModelChildren[i]);        
         }
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
