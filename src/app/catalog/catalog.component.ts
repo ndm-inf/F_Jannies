@@ -152,9 +152,10 @@ export class CatalogComponent implements OnInit {
 
     try {
       this.blockPosting();
-      await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload, this.postBoard, this.parentTx);
+      const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload, this.postBoard, this.parentTx);
       this.PostingError = false;
-      this.refresh();
+      this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
+      // this.refresh();
     } catch (error) {
       console.log(error);
       this.PostingError = true;

@@ -52,7 +52,7 @@ export class IndImmChanPostManagerService {
     const ipfsResult = await this.IndImmChanPostService.getFromIPFS(ripResults.IPFSHash);      
     this.createImageFromBlob(ipfsResult);     
     */
-    
+    return txResult;
   }
 
   public async GetPostsForPostViewer(boardAddress: string, parent: string): Promise<IndImmChanThread> {
