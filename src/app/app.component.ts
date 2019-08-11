@@ -15,16 +15,23 @@ export class AppComponent {
   router: Router;
   toaster: ToastrService;
   Config: IndImmConfigService;
-  ShowImages: false;
 
   constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService) {
     this.router = rtr;
     this.toaster = tstr;
     this.Config = config;
+
+    let configFromMemory = JSON.parse(localStorage.getItem('Config'));
+    if(configFromMemory) {
+      this.Config.ShowImages = configFromMemory.ShowImages;
+    }
+
   }
 
   toggle() {
     this.toaster.warning('Showing Images Set to ' + this.Config.ShowImages + '. Please hit refresh button for view to update.', 'Images Toggled');
+    localStorage.setItem('Config', JSON.stringify(this.Config));
+
   }
   public viewMain() {
     this.router.navigate(['/main']);
