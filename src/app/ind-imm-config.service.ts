@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import {ConfigEnvironment} from './config-environment.enum';
 
 @Injectable({
@@ -8,7 +8,8 @@ import {ConfigEnvironment} from './config-environment.enum';
 export class IndImmConfigService {
   public Environment: ConfigEnvironment;
   public IsDev = false;
-  public ShowImages = true;
+  public ShowImages = false;
+
   constructor() {
   }
 

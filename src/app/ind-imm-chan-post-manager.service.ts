@@ -229,14 +229,37 @@ export class IndImmChanPostManagerService {
   }
 
   public async ManualOverRideShowImage(post: IndImmChanPostModel): Promise<IndImmChanPostModel> {
-    post.ImageLoading = true;
-    const blob = await this.IndImmChanPostService.getFromIPFS(post.IPFSHash);    
-    post.Image = blob;
-    post.CreateImageFromBlob();
-    post.ShowImageOverride = true;
-    post.ImageLoading = false;
-    return post; 
+    if (post && !post.ShowImageOverride) {
+      post.ImageLoading = true;
+      const blob = await this.IndImmChanPostService.getFromIPFS(post.IPFSHash);    
+      post.Image = blob;
+      post.CreateImageFromBlob();
+      post.ShowImageOverride = true;
+      post.ImageLoading = false;
+      return post; 
+    } else {
+      return post;
+    }
   }
+
+  public async ManualOverRideHideImages(post: IndImmChanPostModel) {
+    if(post) {
+      try {
+        post.ImageLoading = false;
+        post.Image = null;
+        post.ShowImageOverride = false;
+        post.ImageLoading = false;
+        post.Base64Image = null;
+        return post;
+      } catch (error) {
+        console.log(error);
+        return post;
+      } 
+    } else {
+      return post;
+    }
+  }
+
   public async getImageBlobFromIPFSHash(post: IndImmChanPost) {
     const result = this.IndImmChanPostService.getFromIPFS(post.IPFSHash);      
     return result;   

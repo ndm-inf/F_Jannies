@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser'
 import { ChunkingUtility } from '../chunking-utility';
 import { IndImmConfigService } from '../ind-imm-config.service';
+import { GlobalEventService } from '../global-event.service';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -43,7 +44,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
   PostingSecondsLeftCounter = 0;
   Config: IndImmConfigService;
   ShowPostingForm = false;
-
+  GlobalEventService: GlobalEventService
+  
   public async blockPosting() {
     this.PostingEnabled = false;
     this.PostingSecondsLeftCounter = 60;
@@ -62,7 +64,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
   
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
-    route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService) {
+    route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
+    globalEventService: GlobalEventService) {
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
     this.Route = route;
@@ -71,8 +74,39 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Sanitizer = sanitizer;
     this.PostingEnabled = true;
     this.Config = config; 
+    this.GlobalEventService = globalEventService;
+    this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
+
+      if(state) {
+        this.showImagesFromToggle()
+      } else {
+        this.hideImagesFromToggle();
+      }
+    });
+
   }
 
+  async showImagesFromToggle() {
+    var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent);
+    this.thread.IndImmChanPostModelParent = modifiedPost;
+    for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
+      if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0) {
+        var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelChildren[i]);
+        this.thread.IndImmChanPostModelChildren[i] = modifiedPost;
+      }
+    }
+  }
+
+  async hideImagesFromToggle() {
+    var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelParent);
+    this.thread.IndImmChanPostModelParent = modifiedPost;
+      for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
+        if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0) {
+        var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelChildren[i]);
+        this.thread.IndImmChanPostModelChildren[i] = modifiedPost;
+      }
+    }
+  }
 
   public handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);

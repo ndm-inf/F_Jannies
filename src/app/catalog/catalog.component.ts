@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChunkingUtility } from '../chunking-utility';
 import { IndImmConfigService } from '../ind-imm-config.service';
+import { GlobalEventService } from '../global-event.service';
 
 @Component({
   selector: 'app-catalog',
@@ -21,6 +22,7 @@ import { IndImmConfigService } from '../ind-imm-config.service';
 export class CatalogComponent implements OnInit {
   AddressManagerService: IndImmChanAddressManagerService;
   IndImmChanPostManagerService: IndImmChanPostManagerService;
+  GlobalEventService: GlobalEventService;
   Route: ActivatedRoute
   ToastrService: ToastrService;
   Config: IndImmConfigService
@@ -42,7 +44,7 @@ export class CatalogComponent implements OnInit {
   ShowPostingForm = false;
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
-    route: ActivatedRoute, router:Router, toasterService: ToastrService,   config: IndImmConfigService
+    route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService
     ) {
       this.Config = config;
       this.Route = route;
@@ -50,8 +52,32 @@ export class CatalogComponent implements OnInit {
       this.AddressManagerService = indImmChanAddressManagerService;
       this.Router = router;
       this.ToastrService = toasterService;
+      this.GlobalEventService = globalEventService;
+      this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
+
+        if(state) {
+          this.showImagesFromToggle()
+        } else {
+          this.hideImagesFromToggle();
+        }
+      });
+  
     }
   
+  async showImagesFromToggle() {
+    for (let i = 0; i < this.threads.length; i++) {
+      var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.threads[i].IndImmChanPostModelParent);
+      this.threads[i].IndImmChanPostModelParent = modifiedPost;
+    }
+  }
+
+  async hideImagesFromToggle() {
+    for (let i = 0; i < this.threads.length; i++) {
+      var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideHideImages(this.threads[i].IndImmChanPostModelParent);
+      this.threads[i].IndImmChanPostModelParent = modifiedPost;
+    }
+  }
+
   togglePostingForm() {
     this.ShowPostingForm = !this.ShowPostingForm;
   }

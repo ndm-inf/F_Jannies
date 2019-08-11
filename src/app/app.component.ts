@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IndImmConfigService } from './ind-imm-config.service';
+import { GlobalEventService } from './global-event.service';
 
 
 @Component({
@@ -15,12 +16,13 @@ export class AppComponent {
   router: Router;
   toaster: ToastrService;
   Config: IndImmConfigService;
+  GlobalEventService: GlobalEventService;
 
-  constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService) {
+  constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService, globalEventService: GlobalEventService) {
     this.router = rtr;
     this.toaster = tstr;
     this.Config = config;
-
+    this.GlobalEventService = globalEventService;
     let configFromMemory = JSON.parse(localStorage.getItem('Config'));
     if(configFromMemory) {
       this.Config.ShowImages = configFromMemory.ShowImages;
@@ -29,7 +31,8 @@ export class AppComponent {
   }
 
   toggle() {
-    this.toaster.warning('Showing Images Set to ' + this.Config.ShowImages + '. Please hit refresh button for view to update.', 'Images Toggled');
+    const showImage = this.Config.ShowImages;
+    this.GlobalEventService.ToggleShowImages(showImage);
     localStorage.setItem('Config', JSON.stringify(this.Config));
 
   }
