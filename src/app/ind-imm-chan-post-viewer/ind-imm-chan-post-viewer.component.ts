@@ -87,23 +87,33 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async showImagesFromToggle() {
-    var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent);
-    this.thread.IndImmChanPostModelParent = modifiedPost;
+    // var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent);
+    // this.thread.IndImmChanPostModelParent = modifiedPost;
+    
+    this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent).then(result=>{
+      this.thread.IndImmChanPostModelParent = result;
+    });
+
     for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
       if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0) {
-        var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelChildren[i]);
-        this.thread.IndImmChanPostModelChildren[i] = modifiedPost;
+        // var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelChildren[i]);
+        // this.thread.IndImmChanPostModelChildren[i] = modifiedPost;
+        this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelChildren[i]).then(result=> {
+          this.thread.IndImmChanPostModelChildren[i] = result;
+        });
       }
     }
   }
 
   async hideImagesFromToggle() {
-    var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelParent);
-    this.thread.IndImmChanPostModelParent = modifiedPost;
+    this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelParent).then(result=>{
+      this.thread.IndImmChanPostModelParent = result;
+    });
       for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
         if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0) {
-        var modifiedPost = await this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelChildren[i]);
-        this.thread.IndImmChanPostModelChildren[i] = modifiedPost;
+        this.IndImmChanPostManagerService.ManualOverRideHideImages(this.thread.IndImmChanPostModelChildren[i]).then(results => {
+          this.thread.IndImmChanPostModelChildren[i] = results;
+        });
       }
     }
   }
