@@ -206,6 +206,9 @@ export class IndImmChanPostManagerService {
         const curPost = postSet[i];
         if(!curPost.Parent || curPost.Parent.length === 0) {
           const newThread: IndImmChanThread = new IndImmChanThread();
+          if(curPost.Tx ==='7F9444A0342349AF997EEC992F1121462190242A532773C244B6BB80B0B4EA27') {
+            curPost.EncDemo = true;
+          }
           newThread.IndImmChanPostModelParent = curPost;
           retSet.push(newThread);
         } else {

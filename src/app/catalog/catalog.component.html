@@ -79,6 +79,13 @@
                                 </ul>    
                             Encrypted Thread. Open thread and enter key to decrypt.
                         </div>
+                        <div class="progress-item-container-encrypted" *ngIf="thread.IndImmChanPostModelParent.EncDemo" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
+                            Demo Thread, Use following keys/IV to view/post:
+                            <br>
+                            <span class="wht">Key: </span><br> XfysAu7BDaa1dKdzaOkkPxPTVmIsFUcCOt7O6thMCms=
+                            <br>
+                            <span class="wht">IV: </span><br> Ps1cYZHxlQga2dnSeelgfA==
+                        </div>
                      <!--   <div (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)" class="btn btn-wrapper btn-default btn-round" style="width:100%">Open</div>
                     -->
                     </div>       

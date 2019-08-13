@@ -13,6 +13,7 @@ export class IndImmChanPostModel extends IndImmChanPost{
     MsgSafeHtml: SafeHtml;
     ImageLoading = false;
     HeaderLinks = '';
+    EncDemo:boolean = false;
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {
