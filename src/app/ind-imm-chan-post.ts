@@ -6,4 +6,5 @@ export class IndImmChanPost {
     Msg = '';
     IPFSHash = '';
     Name = '';
+    Enc = false;
 }

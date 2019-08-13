@@ -10,8 +10,19 @@
     <div>{{ postMessage.length }}/420</div>
     <div [hidden]="!PostingEnabled">
         <div (click)="post()" class="btn btn-wrapper btn-default btn-round" style="width:100%">Post</div>
-    </div>
-    <br>
+        <div  [hidden]="PostIsEncrypted">
+            <br>
+            <div (click)="ConfirmEncryption()" class="btn btn-wrapper btn-default btn-round" style="width:100%">
+                Post Encrypted
+            </div>
+        </div>
+        <br>
+        <div>
+            <ul class="list-inline text-center" [hidden]="!PostIsEncrypted">                
+                    <li><i class="fa fa-lock"></i></li> 
+            </ul>
+        </div>
+    </div>    
     <div [hidden]="!PostingEnabled">
         <div (click)="togglePostingForm()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Close</div>
     </div>
@@ -61,6 +72,12 @@
                         </div>
                         <div class="progress-item-container"  (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
                             Last: {{  thread.LastCommentTime | date:'medium' }}
+                        </div>
+                        <div class="progress-item-container-encrypted" *ngIf="thread.IndImmChanPostModelParent.Enc" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
+                                <ul class="list-inline text-center">                
+                                        <li><i class="fa fa-lock lockfont"></i></li> 
+                                </ul>    
+                            Encrypted Thread. Open thread and enter key to decrypt.
                         </div>
                      <!--   <div (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)" class="btn btn-wrapper btn-default btn-round" style="width:100%">Open</div>
                     -->

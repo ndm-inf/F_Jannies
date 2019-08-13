@@ -6,6 +6,8 @@ import { IndImmChanPost } from './ind-imm-chan-post';
 import { IndImmChanPostModel } from './ind-imm-chan-post-model';
 import { IndImmChanThread } from './ind-imm-chan-thread';
 import { IndImmConfigService } from './ind-imm-config.service';
+import { PostKey } from './post-key';
+import { ChunkingUtility } from './chunking-utility';
 
 
 @Injectable({
@@ -20,8 +22,7 @@ export class IndImmChanPostManagerService {
     this.Config = config;
   }
 
-  public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string) {
-
+  public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
     post.Title = title;
@@ -43,15 +44,17 @@ export class IndImmChanPostManagerService {
       post.IPFSHash = '';        
     }
 
+    if(key) {
+      const cu: ChunkingUtility = new ChunkingUtility();
+      post.Msg = await cu.EncryptMessage(post.Msg, key.Key, key.IVAsUint8);
+      post.Title = await cu.EncryptMessage(post.Title, key.Key, key.IVAsUint8);
+      post.Enc= true;
+      if(fileToUpload) {
+        post.IPFSHash = await cu.EncryptMessage(post.IPFSHash, key.Key, key.IVAsUint8);
+      }
+    }
     const minLedger = await this.IndImmChanPostService.rippleService.earliestLedgerVersion;
     const txResult  = await this.IndImmChanPostService.postToRipple(post, board, postMemoType);
-
-    /*
-    const ripResults = await this.IndImmChanPostService.GetTxFromRipple(txResult, minLedger);
-    console.log(ripResults);
-    const ipfsResult = await this.IndImmChanPostService.getFromIPFS(ripResults.IPFSHash);      
-    this.createImageFromBlob(ipfsResult);     
-    */
     return txResult;
   }
 
@@ -94,10 +97,11 @@ export class IndImmChanPostManagerService {
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
+          postModel.Enc = post.Enc;
           if(post.IPFSHash && post.IPFSHash.length > 0) {
             imageCounter++;
             postModel.HasImage = true;
-            if(this.Config.ShowImages) {
+            if(this.Config.ShowImages && !post.Enc) {
               // postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
               // postModel.CreateImageFromBlob();
               postModel.ImageLoading = true;
@@ -177,10 +181,11 @@ export class IndImmChanPostManagerService {
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
+          postModel.Enc = post.Enc;
           if(post.IPFSHash && post.IPFSHash.length > 0) {
             postModel.HasImage = true;
               if(!postModel.Parent || postModel.Parent.length === 0) {
-                if(this.Config.ShowImages) {
+                if(this.Config.ShowImages && !post.Enc) {
                   // postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
                   // postModel.CreateImageFromBlob();
                   postModel.ImageLoading = true;

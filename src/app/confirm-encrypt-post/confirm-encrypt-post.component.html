@@ -1,0 +1,23 @@
+<div class="main-conter">
+    <h2 mat-dialog-title>Confirm Encrypt Post</h2>
+    <div mat-dialog-content class="sub-container">
+      <p>Generate AES Key and Confirm you want to post message as encrypted
+      </p>
+        <div mat-dialog-actions class="content-container">
+          <button mat-button (click)="GenerateKeys()" cdkFocusInitial class="btn btn-wrapper btn-default btn-round btnmod">Generate Keys</button>
+          <hr>
+          <div *ngIf="GeneratedKey ">
+            <div class="keyHeader txtSpace">
+            Save this key and IV (initilization vector), they must be used to view the post in the future. For anyone else to view this post, they will need the key:
+            </div>
+            <div class="txtSpace">
+              Key:  {{GeneratedKey.Key}}
+            </div>
+            <div class="txtSpace">
+                IV:  {{GeneratedKey.IV}}
+              </div>
+            <button mat-button [mat-dialog-close]="GeneratedKey" cdkFocusInitial class="btn btn-wrapper btn-default btn-round btnmod">Ok</button>
+          </div>
+        </div>
+    </div>
+  </div>

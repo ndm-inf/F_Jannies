@@ -11,6 +11,12 @@
     padding:10px;
     margin:10px;
  }
+ .upload-container-enc{
+   background-color:rgb(124, 13, 13);
+   border-radius: 12px;
+   padding:10px;
+   margin:10px;
+ }
  .upload-btn-container{
     border-radius: 12px;
     padding:10px;
@@ -21,7 +27,16 @@
     padding:10px;
     margin:10px;
     white-space: pre-wrap;
+    word-wrap: break-word
+
  }
+ .progress-item-container-expanded img {
+   max-height: 100%;
+   width: 100%;
+   display: block;
+   margin: auto;
+   }
+ 
  .sub-cont{
     margin-left:15px;
     padding-left:15px;
@@ -38,9 +53,7 @@ h2{
    text-align: center;
    cursor: pointer;
 }
- h4{
-     color:white;
- }
+
  h3{
     color:white;
 }

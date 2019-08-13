@@ -13,6 +13,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ChunkingUtility } from '../chunking-utility';
 import { IndImmConfigService } from '../ind-imm-config.service';
 import { GlobalEventService } from '../global-event.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ConfirmEncryptPostComponent } from '../confirm-encrypt-post/confirm-encrypt-post.component';
+import { PostKey } from '../post-key';
+
 
 @Component({
   selector: 'app-catalog',
@@ -42,10 +47,14 @@ export class CatalogComponent implements OnInit {
   PostingEnabled = true;
   PostingSecondsLeftCounter = 0;
   ShowPostingForm = false;
+  PostIsEncrypted = false;
+  EncryptedKey:PostKey;
+  Dialog: MatDialog;
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
-    route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService
-    ) {
+    route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
+    dialog: MatDialog) {
+      this.Dialog = dialog;
       this.Config = config;
       this.Route = route;
       this.IndImmChanPostManagerService = indImmChanPostManagerService;
@@ -64,6 +73,35 @@ export class CatalogComponent implements OnInit {
   
     }
   
+
+  async ConfirmEncryption() {
+    const dialogRef = this.Dialog.open(ConfirmEncryptPostComponent, {
+      width: '650px',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.EncryptedKey = result;
+        this.PostIsEncrypted = true;
+
+        const cu:ChunkingUtility = new ChunkingUtility();
+
+        const origValue = 'test';
+        console.log('origValue: ' + origValue);
+
+        const enc = await cu.EncryptMessage(origValue, this.EncryptedKey.Key,this.EncryptedKey.IVAsUint8);
+        console.log('Enc: ' + enc);
+
+        const dec = await await cu.DecryptMessage(enc,this.EncryptedKey.Key, this.EncryptedKey.IV);
+        console.log('dec: ' + dec);
+
+      } else {
+        this.PostIsEncrypted = false;
+      }
+    });
+  } 
+
   async showImagesFromToggle() {
     for (let i = 0; i < this.threads.length; i++) {
       this.IndImmChanPostManagerService.ManualOverRideShowImage(this.threads[i].IndImmChanPostModelParent).then(result=>{
@@ -152,7 +190,8 @@ export class CatalogComponent implements OnInit {
 
     try {
       this.blockPosting();
-      const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload, this.postBoard, this.parentTx);
+      const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
+        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey);
       this.PostingError = false;
       this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
       // this.refresh();

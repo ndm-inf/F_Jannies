@@ -18,7 +18,22 @@
             </div>
         </div>
     </div>   
-    <div class="row uk-text-center upload-container" [hidden]="ShowPostingForm">
+    <div class="row uk-text-center upload-container-enc" *ngIf="thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted">
+        <h3>Post must be decrypted to view and post, enter key and IV below.</h3>
+        <div class="row uk-text-center upload-container">
+            <div>
+                Key: <input type="text" [(ngModel)]="Key" style="width:100%"> 
+            </div>
+            <div>
+                IV: <input type="text" [(ngModel)]="IV" style="width:100%"> 
+            </div>
+        </div>
+        <div>
+            <div (click)="decrypt()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Decrypt</div>
+        </div>
+    </div>   
+    <div class="row uk-text-center upload-container" [hidden]="ShowPostingForm ||
+        (thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted)">
         <div (click)="togglePostingForm()" class="btn btn-wrapper btn-default btn-round" style="width:100%">+ New Comment On This Post</div>
     </div>
     <div class="text-center" [hidden]="!Posting">
@@ -70,11 +85,16 @@
                         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
                     </div>
                     <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
-                        <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="200px"  [hidden]="thread.IndImmChanPostModelParent.ShowFullSizeFile">
-                        <img [src]="thread.IndImmChanPostModelParent.Base64Image" [hidden]="!thread.IndImmChanPostModelParent.ShowFullSizeFile">
+                        <span *ngIf="!thread.IndImmChanPostModelParent.ShowFullSizeFile">
+                            <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="200px">
+                        </span>
+                        <span class="progress-item-container-expanded" *ngIf="thread.IndImmChanPostModelParent.ShowFullSizeFile">
+                            <img [src]="thread.IndImmChanPostModelParent.Base64Image">
+                        </span>
                     </div>
                     <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
-                        && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages && !thread.IndImmChanPostModelParent.ImageLoading">
+                        && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages
+                        && !thread.IndImmChanPostModelParent.ImageLoading && !thread.IndImmChanPostModelParent.Enc">
                         <div (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
                     </div>
                     <div class="progress-item-container">
@@ -118,11 +138,15 @@
                                 <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
                             </div>
                             <div class="progress-item-container" *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
-                                <img [src]="post.Base64Image" width="200px"  [hidden]="post.ShowFullSizeFile">
-                                <img [src]="post.Base64Image" [hidden]="!post.ShowFullSizeFile">
+                                <span *ngIf="!post.ShowFullSizeFile">
+                                    <img [src]="post.Base64Image" width="200px">
+                                </span>
+                                <span class="progress-item-container-expanded" *ngIf="post.ShowFullSizeFile">
+                                    <img [src]="post.Base64Image">
+                                </span>
                             </div>
                             <div class="progress-item-container" (click)="ManualOverRideShowImage(post)" *ngIf="!post.ShowImageOverride
-                                && post.HasImage && !this.Config.ShowImages && !post.ImageLoading">
+                                && post.HasImage && !this.Config.ShowImages && !post.ImageLoading && !thread.IndImmChanPostModelParent.Enc">
                                 <div (click)="ToggleFullSizeFile(post)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
                             </div>
                             <div class="progress-item-container">

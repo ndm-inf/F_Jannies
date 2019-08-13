@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { ChunkingUtility } from '../chunking-utility';
 import { IndImmConfigService } from '../ind-imm-config.service';
 import { GlobalEventService } from '../global-event.service';
+import { PostKey } from '../post-key';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -45,7 +46,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Config: IndImmConfigService;
   ShowPostingForm = false;
   GlobalEventService: GlobalEventService
-  
+  EncryptedKey: PostKey
+  Key = '';
+  IV = '';
+  PostDecrypted = false;
+
   public async blockPosting() {
     this.PostingEnabled = false;
     this.PostingSecondsLeftCounter = 60;
@@ -63,6 +68,56 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.ShowPostingForm = !this.ShowPostingForm;
   }
   
+  async decrypt() {
+    try {
+      const cu: ChunkingUtility = new ChunkingUtility();
+
+      this.decryptPost(this.thread.IndImmChanPostModelParent, true).then(result=>{
+        this.thread.IndImmChanPostModelParent = result;
+      }).catch(error=>{
+        this.ToastrService.error('Error Decrypting Post, plese try again.', 'Decrypt Error');
+      });
+
+      for(let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
+        this.decryptPost(this.thread.IndImmChanPostModelChildren[i], false).then(result=>{
+          this.thread.IndImmChanPostModelChildren[i] = result;
+        });
+      }
+
+      const ivAsUint8 = cu.Base64ToUint8(this.IV);      
+      this.EncryptedKey = new PostKey()
+      this.EncryptedKey.Key = this.Key
+      this.EncryptedKey.IVAsUint8 = ivAsUint8;
+      this.EncryptedKey.IV = this.IV;
+    } catch (error) {
+      this.ToastrService.error('Error Decrypting Post, plese try again.', 'Decrypt Error');
+    }
+  }
+
+  async decryptPost(post: IndImmChanPostModel, isParent: boolean) {
+    const origPost = post;
+    try {
+      const cu: ChunkingUtility = new ChunkingUtility();
+
+      post.Title = await cu.DecryptMessage(post.Title, this.Key, this.IV);
+      post.Msg = await cu.DecryptMessage(post.Msg, this.Key, this.IV);
+      if(post.IPFSHash && post.IPFSHash.length > 0) {
+        post.IPFSHash = await cu.DecryptMessage(post.IPFSHash, this.Key, this.IV);
+        post = await this.IndImmChanPostManagerService.ManualOverRideShowImage(post);
+      }
+      if(isParent){
+        this.PostDecrypted = true;
+      }
+      return post; 
+    } catch (error) {
+      if(isParent){
+        this.ToastrService.error('Error Decrypting Post, plese try again.', 'Decrypt Error');
+        this.PostDecrypted = false;
+      }
+      return origPost;
+    }
+  }
+
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
     globalEventService: GlobalEventService) {
@@ -87,12 +142,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async showImagesFromToggle() {
-    this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent).then(result=>{
-      this.thread.IndImmChanPostModelParent = result;
-    });
-
+    
+    if(this.PostDecrypted || !this.thread.IndImmChanPostModelParent.Enc){
+      this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelParent).then(result=>{
+        this.thread.IndImmChanPostModelParent = result;
+      });
+    }
     for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
-      if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0) {
+      if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0
+        && (this.PostDecrypted || !this.thread.IndImmChanPostModelParent.Enc)) {
         this.IndImmChanPostManagerService.ManualOverRideShowImage(this.thread.IndImmChanPostModelChildren[i]).then(result=> {
           this.thread.IndImmChanPostModelChildren[i] = result;
         });
@@ -145,7 +203,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Posting = true;
     try {
       this.blockPosting();
-      await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload, this.postBoard, this.parentTx);
+      await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
+        this.postBoard, this.parentTx, this.EncryptedKey);
       this.PostingError = false;
       this.refresh();
     } catch (error) {
@@ -166,6 +225,10 @@ export class IndImmChanPostViewerComponent implements OnInit {
     threadResult.Prep();
     this.thread = threadResult;
     this.PostLoading = false;
+
+    if (this.PostDecrypted) {
+      this.decrypt(); 
+    }
   }
 
   async ToggleFullSizeFile(post: IndImmChanPostModel) {

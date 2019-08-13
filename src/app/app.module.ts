@@ -23,6 +23,7 @@ import { IndImmChanPostViewerComponent } from './ind-imm-chan-post-viewer/ind-im
 import { CatalogComponent } from './catalog/catalog.component';
 import { BoardsComponent } from './boards/boards.component';
 import { SafePipe } from './safe.pipe';
+import { ConfirmEncryptPostComponent } from './confirm-encrypt-post/confirm-encrypt-post.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SafePipe } from './safe.pipe';
     IndImmChanPostViewerComponent,
     CatalogComponent,
     BoardsComponent,
-    SafePipe
+    SafePipe,
+    ConfirmEncryptPostComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,7 @@ import { SafePipe } from './safe.pipe';
     AngularFileViewerModule,
     HttpClientModule
   ],
-  entryComponents: [ConfirmDialogComponent],
+  entryComponents: [ConfirmDialogComponent, ConfirmEncryptPostComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
