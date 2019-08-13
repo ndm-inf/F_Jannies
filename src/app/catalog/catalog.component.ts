@@ -104,9 +104,11 @@ export class CatalogComponent implements OnInit {
 
   async showImagesFromToggle() {
     for (let i = 0; i < this.threads.length; i++) {
-      this.IndImmChanPostManagerService.ManualOverRideShowImage(this.threads[i].IndImmChanPostModelParent).then(result=>{
-        this.threads[i].IndImmChanPostModelParent = result;
-      });
+      if(!this.threads[i].IndImmChanPostModelParent.Enc) {
+        this.IndImmChanPostManagerService.ManualOverRideShowImage(this.threads[i].IndImmChanPostModelParent).then(result=>{
+          this.threads[i].IndImmChanPostModelParent = result;
+        });
+    }
     }
   }
 
