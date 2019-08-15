@@ -50,6 +50,7 @@ export class CatalogComponent implements OnInit {
   PostIsEncrypted = false;
   EncryptedKey:PostKey;
   Dialog: MatDialog;
+  EthTipAddress = '';
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
@@ -193,7 +194,7 @@ export class CatalogComponent implements OnInit {
     try {
       this.blockPosting();
       const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
-        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey);
+        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress);
       this.PostingError = false;
       this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
       // this.refresh();

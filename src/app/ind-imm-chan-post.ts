@@ -7,4 +7,5 @@ export class IndImmChanPost {
     IPFSHash = '';
     Name = '';
     Enc = false;
+    ETH = '';
 }

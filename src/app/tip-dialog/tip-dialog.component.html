@@ -1,0 +1,18 @@
+<div class="main-conter">
+        <h2 mat-dialog-title>Tip Post with ETH</h2>
+        <div mat-dialog-content class="sub-container">
+          <div class="sub-container schs">
+            BlockChan currently only supports ETH, tokens and other currencies coming soon.
+            <div mat-dialog-actions class="content-container">
+              <div>
+                <mat-form-field>
+                   Amount: &nbsp; <input matInput [(ngModel)]="amount" class="confirmText" style="background:white; color:black; width:100%">
+                </mat-form-field>   
+              </div>
+  
+          </div>
+          <div class="spacerm">
+              <button mat-button [mat-dialog-close]="amount" cdkFocusInitial class="btn btn-wrapper btn-default btn-round btnmod">Tip</button>
+            </div>
+        </div>
+      </div>

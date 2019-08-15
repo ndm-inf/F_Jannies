@@ -22,13 +22,14 @@ export class IndImmChanPostManagerService {
     this.Config = config;
   }
 
-  public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey) {
+  public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey,
+    ethTipAddress: string) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
     post.Title = title;
     post.Msg = message;
     post.Parent = parent;
-
+    post.ETH = ethTipAddress;
     let postMemoType = '';
 
     if(!parent || parent.length == 0) {
@@ -97,6 +98,7 @@ export class IndImmChanPostManagerService {
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
+          postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
           if(post.IPFSHash && post.IPFSHash.length > 0) {
             imageCounter++;
@@ -182,6 +184,7 @@ export class IndImmChanPostManagerService {
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
           postModel.Enc = post.Enc;
+          postModel.ETH = post.ETH;
           if(post.IPFSHash && post.IPFSHash.length > 0) {
             postModel.HasImage = true;
               if(!postModel.Parent || postModel.Parent.length === 0) {

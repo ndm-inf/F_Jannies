@@ -2,9 +2,14 @@
     <div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
         <input type="file"
         id="file"
-        (change)="handleFileInput($event.target.files)">
+        (change)="handleFileInput($event.target.files)"> 
         <textarea [(ngModel)] = "postMessage" rows="4" style="width:100%"></textarea>
         <div>{{ postMessage.length }}/420</div>
+
+        <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">
+        Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
+        </div>
+
         <div [hidden]="!PostingEnabled">
             <div (click)="post()" class="btn btn-wrapper btn-default btn-round" style="width:100%">Post</div>
         </div>
@@ -58,7 +63,13 @@
                 <div class="col-lg-3">
                     <span class="comment-time post-header">{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                        <div style="color:gold; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+                        thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
+                            Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                        </div>
+                </div>
+                <div class="col-lg-2">
                 </div>
                 <div class="col-lg-2" #elem [id]="thread.IndImmChanPostModelParent.Tx">
                     <div style="float:right; text-align:right; margin-right:7px; padding-right:7px">
@@ -98,8 +109,8 @@
                         <div (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)" class="btn btn-wrapper btn-default btn-round" style="width:24%">Image Hidden by Default, Click to show.</div>
                     </div>
                     <div class="progress-item-container">
-                        <span [innerHTML]="thread.IndImmChanPostModelParent.Msg"></span>
-                    </div>
+                        <div [innerHTML]="thread.IndImmChanPostModelParent.Msg"></div>
+                    </div>                  
                 </div>
             </div>
         </div>
@@ -114,7 +125,13 @@
                         <div class="col-lg-3">
                             <span class="comment-time post-header">{{  post.Timestamp | date:'medium'}}</span>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
+                                <div style="color:gold; margin-right:10px; text-align: center" *ngIf="post.ETH && post.ETH.length > 0" (click)="Tip(post)"> 
+                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                </div>
+                        </div>
+                        <div class="col-lg-2">
+
                         </div>
                         <div class="col-lg-2" #elem [id]="post.Tx">
                             <div style="float:right; text-align:right; margin-right:7px; padding-right:7px">

@@ -8,6 +8,9 @@
     <div>{{ postTitle.length }}/80</div>
     Message: <textarea [(ngModel)] = "postMessage" rows="4" style="width:100%"></textarea>
     <div>{{ postMessage.length }}/420</div>
+    <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">
+    Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
+    </div>
     <div [hidden]="!PostingEnabled">
         <div (click)="post()" class="btn btn-wrapper btn-default btn-round" style="width:100%">Post</div>
         <div  [hidden]="PostIsEncrypted">

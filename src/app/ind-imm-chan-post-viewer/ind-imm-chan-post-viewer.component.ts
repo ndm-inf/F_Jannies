@@ -3,6 +3,8 @@ import {Buffer} from 'buffer';
 import { IndImmChanPostService } from '../ind-imm-chan-post.service';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { IndImmChanPost } from '../ind-imm-chan-post';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
 import { IndImmChanPostManagerService } from '../ind-imm-chan-post-manager.service';
 import { IndImmChanAddressManagerService } from '../ind-imm-chan-address-manager.service';
 import { IndImmChanPostModel } from '../ind-imm-chan-post-model';
@@ -15,6 +17,8 @@ import { ChunkingUtility } from '../chunking-utility';
 import { IndImmConfigService } from '../ind-imm-config.service';
 import { GlobalEventService } from '../global-event.service';
 import { PostKey } from '../post-key';
+import { ETHTipService } from '../ethtip.service';
+import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -28,6 +32,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Route: ActivatedRoute;
   Router: Router;
   ToastrService: ToastrService;
+  Dialog: MatDialog;
 
   postTitle = '';
   postMessage = '';
@@ -50,6 +55,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Key = '';
   IV = '';
   PostDecrypted = false;
+  EthTipService:ETHTipService
+  EthTipAddress = '';
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -118,9 +125,31 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
   }
 
+  async Tip(post:IndImmChanPostModel){
+    const dialogRef = this.Dialog.open(TipDialogComponent, {
+      width: '325px',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (<number>result) {
+        console.log('sending eth');
+        this.SendEth(post, result)
+      } else {
+        
+      }
+    });
+  }
+
+  async SendEth(post:IndImmChanPostModel, amount:number) {
+    let testEthToSend = 0.00055;
+    await this.EthTipService.send(post.ETH, amount);
+  }
+
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
-    globalEventService: GlobalEventService) {
+    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog) {
+    this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
     this.Route = route;
@@ -130,6 +159,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.PostingEnabled = true;
     this.Config = config; 
     this.GlobalEventService = globalEventService;
+    this.EthTipService = ethTipService;
     this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
 
       if(state) {
@@ -204,7 +234,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     try {
       this.blockPosting();
       await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
-        this.postBoard, this.parentTx, this.EncryptedKey);
+        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress);
       this.PostingError = false;
       this.refresh();
     } catch (error) {
