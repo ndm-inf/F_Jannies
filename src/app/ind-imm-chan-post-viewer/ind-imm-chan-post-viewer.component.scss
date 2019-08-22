@@ -30,6 +30,10 @@
     word-wrap: break-word
 
  }
+ .msg{
+   white-space: pre-wrap;
+   word-wrap: break-word
+ }
  .progress-item-container-expanded img {
    max-height: 100%;
    width: 100%;

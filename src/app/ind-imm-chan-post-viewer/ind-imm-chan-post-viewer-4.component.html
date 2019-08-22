@@ -1,0 +1,297 @@
+<div class="container">
+    <div class="row">
+        <span class="openBoard" (click)="OpenPolitics()">[ pol /</span>
+        <span class="openBoard" (click)="OpenBusiness()">biz</span>
+        <span class="openBoard" (click)="OpenRandom()">/ b]</span>
+    </div>
+    <div class="row">
+        <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
+    </div>    
+    <div class="row">
+        <hr class="belowBoard">
+    </div>
+    <div class="row " *ngIf="thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted">
+        <div class="col-lg-1"></div>
+            <div class="col-lg-10">                
+            <div class="row ">
+                <span style="font-size: 34px; color:darkred">Post must be decrypted to view and post, enter key and IV below.
+                </span>
+                <div>
+                    Key: <input type="text" [(ngModel)]="Key" style="width:100%"> 
+                </div>
+                <div>
+                    IV: <input type="text" [(ngModel)]="IV" style="width:100%"> 
+                </div>
+                <div (click)="decrypt()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Decrypt</div>
+            </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div> 
+    <div class="row" [hidden]="ShowPostingForm ||
+    (thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted)">
+        <div class="center-text">
+            <span class="center-text post-reply-btn" (click)="togglePostingForm()" style="cursor: pointer">
+                <span class="replybracket">[</span>
+                Post a Reply
+                <span class="replybracket">]</span>
+            </span>
+        </div>
+    </div>
+    <div class="row" [hidden]="!ShowPostingForm">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+        <table class="postForm hideMobile" id="postForm" style="display: table;">
+            <tbody>
+                <tr data-type="Name">
+                    <td>Name</td>
+                    <td>
+                        <input name="name" type="text" tabindex="1" placeholder="Anonymous" readonly>
+                    </td>
+                </tr>
+                <tr data-type="Options">
+                    <td>Options</td>
+                    <td>
+                        Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
+                        <span [hidden]="!PostingEnabled">
+                            <input type="submit" value="Post" tabindex="6" (click)="post()">
+                        </span>
+                        <span [hidden]="PostingEnabled">
+                                Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
+                        </span>
+                        
+                    </td>
+                </tr>
+                <tr data-type="Comment">
+                    <td>Comment</td>
+                    <td>
+                        <textarea name="com" cols="48" rows="4" wrap="soft" tabindex="4" [(ngModel)] = "postMessage"></textarea>
+                        {{ postMessage.length }}/420
+                    </td>
+                </tr>
+                <tr data-type="File">
+                    <td>File</td>
+                    <td>
+                        <input id="file" type="file" tabindex="7" (change)="handleFileInput($event.target.files)">
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <div id="postFormError"></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="text-center" [hidden]="!Posting">
+        <h3>Posting...</h3>
+        <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+    </div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">        
+            <hr>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+                <tbody id="blotter-msgs" class="blotter">
+                <tr>
+                    <td data-utc="1493903967" class="blotter-date">08/22/19</td>
+                    <td class="blotter-content">Updated UI for viewing post to be more like "chans". Catalogs will stay the same due to needs of future functionality.</td>
+                </tr>
+                <tr>
+                    <td data-utc="1493903967" class="blotter-date">08/16/19</td>
+                    <td class="blotter-content">Tipping with ETH is now available by clicking Tip Shekels</td>
+                </tr>
+                <tr>
+                    <td data-utc="1475592573" class="blotter-date">08/14/19</td>
+                    <td class="blotter-content">You can now Encrypt posts with a client generated key. To open post or comment in post, you must have the key</td>
+                </tr>
+                <tr><td data-utc="1466421827" class="blotter-date">08/13/19</td>
+                    <td class="blotter-content">Comment Linking and speed improvements added. UI Updates.</td>
+                </tr>
+            </tbody>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="row rowspacer2">     
+        <hr class="smallPadding"> 
+    </div>
+    <div class="row" *ngIf="thread !== null">
+        <div class="col-lg-4">
+                <span class="util"><span style="cursor: pointer" (click)="OpenCatalog()">[Catalog] </span><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span> <span style="cursor: pointer" (click)="refresh()"> [Update]</span></span>
+        </div>
+        <div class="col-lg-4">        
+            
+        </div>
+        <div class="col-lg-4">
+            <span class="util counters">
+                {{ thread.IndImmChanPostModelChildren.length }}/{{ thread.ImageReplies - 1 }}
+            </span>
+            </div>    
+    </div>    
+    <div class="row">
+        <hr class="smallPadding"> 
+    </div>
+    <div class="row">
+        <div class="board">
+            <div class="thread" id="t15343728" *ngIf="thread !== null">
+                <div class="postContainer opContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
+                    <div id="p15343728" class="post op">
+                        <div class="postInfoM mobile">
+                            <span class="nameBlock">
+                                <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
+                                <span class="posteruid id_FTh6OQUa">
+                                    &nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{  thread.IndImmChanPostModelParent.UID }}</span>)
+                                </span>
+                                <br>
+                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+                                thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
+                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                </span>
+                                <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
+                            </span>
+                            <span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}} 
+                                <span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
+                                    &nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
+                                </span>
+                                <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
+                            </span>
+                        </div>
+                        <div class="file">
+                    
+                            <a class="fileThumb" target="_blank">
+                                <span (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" 
+                                    *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
+                                    && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages
+                                    && !thread.IndImmChanPostModelParent.ImageLoading && !thread.IndImmChanPostModelParent.Enc">
+                                    <img src="../../assets/images/hidden.png">
+                                </span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.ImageLoading">
+                                    <mat-spinner ></mat-spinner>
+                                </span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
+                                    <span *ngIf="!thread.IndImmChanPostModelParent.ShowFullSizeFile">
+                                        <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="200px">
+                                    </span>
+                                    <span *ngIf="thread.IndImmChanPostModelParent.ShowFullSizeFile">
+                                        <img [src]="thread.IndImmChanPostModelParent.Base64Image">
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="postInfo desktop" id="pi15343728">
+                            <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+                            thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
+                                Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                            </span>
+                            <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
+                            <span class="nameBlock">
+                                <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
+                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{  thread.IndImmChanPostModelParent.UID }}</span>)
+                            </span>
+                            </span> 
+                            <span class="dateTime">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span> 
+                            <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">&nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...</span>
+                                <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
+                            </span>
+                        </div>
+                        <span class="msg"><span  [innerHtml]="thread.IndImmChanPostModelParent.Msg | safe: 'html'"></span></span>
+                    </div>
+                </div>
+                <div class="postContainer replyContainer" *ngFor="let post of thread.IndImmChanPostModelChildren" #elem [id]="post.Tx">
+                    <div class="sideArrows">&gt;&gt;</div>
+                    <div id="p15343737" class="post reply">
+                        <div class="postInfoM mobile" id="pim15343737"> 
+                            <span class="nameBlock">
+                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
+                                post.ETH.length > 0" (click)="Tip(post)"> 
+                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">&nbsp;{{ post.Name}}</span> 
+                                <span class="posteruid id_pvYJqWH6">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{ post.UID }}</span>)
+                                </span>
+                                <br>
+                            </span>
+                            <span class="dateTime postNum" data-utc="1566433365">&nbsp;{{  post.Timestamp | date:'medium'}}<span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">&nbsp;{{  post.Tx.substring(0, 10)}}...</span>
+                            <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
+                            </span>
+                        </div>
+                        <div class="file" *ngIf="post.HasImage">                    
+                                <a class="fileThumb" target="_blank">
+                                    <span (click)="ManualOverRideShowImage(post)" 
+                                        *ngIf="!post.ShowImageOverride
+                                        && post.HasImage && !this.Config.ShowImages
+                                        && !post.ImageLoading && !post.Enc">
+                                        <img src="../../assets/images/hidden.png">
+                                    </span>
+                                    <span *ngIf="post.ImageLoading">
+                                        <mat-spinner ></mat-spinner>
+                                    </span>
+                                    <span *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
+                                        <span *ngIf="!post.ShowFullSizeFile">
+                                            <img [src]="post.Base64Image" width="200px">
+                                        </span>
+                                        <span *ngIf="post.ShowFullSizeFile">
+                                            <img [src]="post.Base64Image">
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                        <div class="postInfo desktop" style="margin:3px; padding:3px">
+                            <span class="nameBlock" >
+                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
+                                post.ETH.length > 0" (click)="Tip(post)"> 
+                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">{{ post.Name}}</span> 
+                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">{{ post.UID }}</span>)
+                                </span>
+                            </span> 
+                            <span class="dateTime">&nbsp;{{  post.Timestamp | date:'medium'}}</span> 
+                            <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">{{  post.Tx.substring(0, 10)}}...</span>
+                                <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
+
+                            </span>
+                        </div>
+                            <span class="msg">
+                                <div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;" [innerHtml]="post.Msg | safe: 'html'"></div>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row rowspacer2">     
+        <hr class="smallPadding"> 
+    </div>
+    <div class="text-center" [hidden]="!PostLoading">
+        <h3>Loading...</h3>
+        <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+    </div>
+    
+    <div class="row" *ngIf="thread !== null">
+        <div class="col-lg-4">
+                <span class="util"><span style="cursor: pointer" (click)="OpenCatalog()">[Catalog] </span> <span  style="cursor: pointer" id="bottom" onclick="window.scrollTo(0,0);">[Top] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
+        </div>
+        <div class="col-lg-4">        
+            
+        </div>
+        <div class="col-lg-4">
+            <span class="util counters">
+                {{ thread.IndImmChanPostModelChildren.length }}/{{ thread.ImageReplies - 1 }}
+            </span>
+        </div>    
+    </div>
+    <div class="row rowspacer2">     
+        &nbsp;
+    </div>
+</div>
+    
+    

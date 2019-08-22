@@ -35,9 +35,6 @@
         </div>
     </div>
 </div>   
-<div class="row uk-text-center upload-container" [hidden]="ShowPostingForm">
-    <div (click)="togglePostingForm()" class="btn btn-wrapper btn-default btn-round" style="width:100%">+ New Post</div>
-</div> 
 <div class="text-center" [hidden]="!Posting">
         <h3>Posting...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
@@ -46,8 +43,73 @@
         <div class="btn btn-wrapper btn-round" style="width:100%">Error Posting</div>
     </div> 
 <br [hidden]="!ShowPostingForm">
-<div class="row board-container">
-        /{{ postBoard }}/
+<div class="row">
+    <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
+</div>   
+<div class="row">
+    <hr class="belowBoard">
+</div>
+<div class="row" [hidden]="ShowPostingForm">
+    <div class="center-text">
+        <span class="center-text post-reply-btn" (click)="togglePostingForm()" style="cursor: pointer">
+            <span class="replybracket">[</span>
+            Start a New Thread
+            <span class="replybracket">]</span>
+        </span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">        
+        <hr>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+<div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+            <tbody id="blotter-msgs" class="blotter">
+            <tr>
+                <td data-utc="1493903967" class="blotter-date">08/22/19</td>
+                <td class="blotter-content">Updated UI for viewing post to be more like "chans". Catalogs will stay the same due to needs of future functionality.</td>
+            </tr>
+            <tr>
+                <td data-utc="1493903967" class="blotter-date">08/16/19</td>
+                <td class="blotter-content">Tipping with ETH is now available by clicking Tip Shekels</td>
+            </tr>
+            <tr>
+                <td data-utc="1475592573" class="blotter-date">08/14/19</td>
+                <td class="blotter-content">You can now Encrypt posts with a client generated key. To open post or comment in post, you must have the key</td>
+            </tr>
+            <tr><td data-utc="1466421827" class="blotter-date">08/13/19</td>
+                <td class="blotter-content">Comment Linking and speed improvements added. UI Updates.</td>
+            </tr>
+        </tbody>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+<div class="row rowspacer2">     
+    <hr class="smallPadding"> 
+</div>
+<div class="text-center" [hidden]="!PostLoading">
+    <h3>Loading...</h3>
+    <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+</div>
+<div class="row" *ngIf="threads !== null">
+    <div class="col-lg-4">
+            <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
+    </div>
+    <div class="col-lg-4">        
+        
+    </div>
+    <div class="col-lg-4">
+        <span class="util counters">
+            {{ threads.length }} threads
+        </span>
+        </div>    
+</div>    
+<div class="row">
+    <hr class="smallPadding"> 
 </div>
 <div class="row uk-text-center upload-container">
     <div *ngFor="let row of threads; let i = index">
@@ -97,12 +159,21 @@
         </div>
     </div>
 </div>
-<div class="text-center" [hidden]="!PostLoading">
-    <h3>Loading...</h3>
-    <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+<div class="row rowspacer2">     
+    <hr class="smallPadding"> 
 </div>
-<div class="row">
-    <div (click)="refresh()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Refresh</div>
-</div>
+<div class="row" *ngIf="threads !== null">
+        <div class="col-lg-4">
+                <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,0);">[Top] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
+        </div>
+        <div class="col-lg-4">        
+            
+        </div>
+        <div class="col-lg-4">
+            <span class="util counters">
+                {{ threads.length }} threads
+            </span>
+            </div>    
+    </div>  
 </div>
 <!-- <div class="row" *ngIf="i%3===0">  -->

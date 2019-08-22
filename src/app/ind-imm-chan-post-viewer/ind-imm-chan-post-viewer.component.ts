@@ -22,8 +22,8 @@ import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
-  templateUrl: './ind-imm-chan-post-viewer.component.html',
-  styleUrls: ['./ind-imm-chan-post-viewer.component.scss']
+  templateUrl: './ind-imm-chan-post-viewer-4.component.html',
+  styleUrls: ['./ind-imm-chan-post-viewer-4.component.scss']
 })
 
 export class IndImmChanPostViewerComponent implements OnInit {
@@ -37,6 +37,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   postTitle = '';
   postMessage = '';
   postBoard  = '';
+  postBoardName = '';
   posterName = 'Anonymous';
   fileToUpload: File = null;
   resultImage: any = null;
@@ -108,13 +109,14 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
       post.Title = await cu.DecryptMessage(post.Title, this.Key, this.IV);
       post.Msg = await cu.DecryptMessage(post.Msg, this.Key, this.IV);
+      if(isParent){
+        this.PostDecrypted = true;
+      }
       if(post.IPFSHash && post.IPFSHash.length > 0) {
         post.IPFSHash = await cu.DecryptMessage(post.IPFSHash, this.Key, this.IV);
         post = await this.IndImmChanPostManagerService.ManualOverRideShowImage(post);
       }
-      if(isParent){
-        this.PostDecrypted = true;
-      }
+
       return post; 
     } catch (error) {
       if(isParent){
@@ -144,6 +146,19 @@ export class IndImmChanPostViewerComponent implements OnInit {
   async SendEth(post:IndImmChanPostModel, amount:number) {
     let testEthToSend = 0.00055;
     await this.EthTipService.send(post.ETH, amount);
+  }
+
+  OpenPolitics() {
+    this.Router.navigate(['/catalog/pol']);
+  }
+
+  OpenBusiness() {
+    this.Router.navigate(['/catalog/biz']);
+  }
+
+  OpenRandom() {
+    this.Router.navigate(['/catalog/b']);
+
   }
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
@@ -246,10 +261,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async refresh() {
+
     this.PostLoading = true;
     while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
+    await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(100);
+
+    window.scrollTo(0,document.body.scrollHeight);
+
     const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(this.AddressManagerService.GetBoardAddress(this.postBoard), 
       this.parentTx);
     threadResult.Prep();
@@ -269,7 +289,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
     const board = this.Route.snapshot.params['board'];
     const id = this.Route.snapshot.params['id'];
 
+    console.log('board: ' + board);
     this.postBoard=board;
+    if (board === 'pol') {
+      this.postBoardName = 'Politically Incorrect';
+    } else if (board === 'biz') {
+      this.postBoardName = 'Business';
+    } else if (board === 'b') {
+      this.postBoardName = 'Random';
+    }
     this.parentTx=id;
     this.refresh();
   }

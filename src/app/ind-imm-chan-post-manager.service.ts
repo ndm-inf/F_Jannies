@@ -100,7 +100,7 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
-          if(post.IPFSHash && post.IPFSHash.length > 0) {
+          if(post.IPFSHash && post.IPFSHash.length > 0 && (postModel.Tx === parent || postModel.Parent === parent)) {
             imageCounter++;
             postModel.HasImage = true;
             if(this.Config.ShowImages && !post.Enc) {

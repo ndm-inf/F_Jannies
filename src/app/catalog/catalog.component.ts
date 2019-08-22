@@ -32,6 +32,7 @@ export class CatalogComponent implements OnInit {
   ToastrService: ToastrService;
   Config: IndImmConfigService
 
+  postBoardName = '';
   postTitle = '';
   postMessage = '';
   postBoard  = '';
@@ -212,6 +213,14 @@ export class CatalogComponent implements OnInit {
   }
   ngOnInit() {
     this.postBoard = this.Route.snapshot.params['board'];
+
+    if (this.postBoard === 'pol') {
+      this.postBoardName = 'Politically Incorrect';
+    } else if (this.postBoard === 'biz') {
+      this.postBoardName = 'Business';
+    } else if (this.postBoard === 'b') {
+      this.postBoardName = 'Random';
+    }
     this.refresh();
   }
 

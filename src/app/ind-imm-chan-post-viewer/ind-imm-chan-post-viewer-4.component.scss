@@ -1,0 +1,787 @@
+.openBoard{
+   cursor: pointer;
+   margin:1px;
+   font-size:12px;
+}
+
+h2 {
+   color:white;
+   text-align: center;
+}
+
+.belowBoard {
+   width:85%;
+}
+.belowReply {
+   width: 25%;
+}
+.center-text{
+   text-align: center;
+}
+
+.post-reply-btn {
+   color:gray;
+   font-size: 22px;
+   font-weight: 700;
+   text-align: center;
+}
+
+h3 {
+   color: white;
+}
+
+.boardHeader{
+   font-family: Tahoma,sans-serif;
+   font-size: 28px;
+   font-weight: 700;
+   letter-spacing: -2px;
+   margin-top: 0;
+}
+
+.replybracket {
+   color:white;
+}
+
+
+.blotter-date{
+   width: 50px;
+   text-align: center;
+   font-family: arial,helvetica,sans-serif;
+}
+
+.blotter-content{
+   font-family: arial,helvetica,sans-serif;
+}
+
+.blotter{
+   width: 468px;
+   margin: auto;
+   font-size:10pt;
+}
+
+tbody {
+   display: table-row-group;
+    vertical-align: text-top;
+    border-color: inherit;
+}
+
+td {
+   margin-left:4px;
+   margin-right:4px;
+   padding-left:4px;
+   padding-right:4px;
+   vertical-align: text-top;
+
+}
+table {
+   border-spacing: 1px;
+   margin-left: auto;
+   margin-right: auto;
+   color: rgb(88, 83, 83);
+   font-family: arial,helvetica,sans-serif;
+   font-size: 10pt;
+   margin-left: 0;
+   margin-right: 0;
+   margin-top: 5px;
+   padding-left: 5px;
+   padding-right: 5px;
+   vertical-align: text-top;
+
+}
+
+.util {
+   font-family: arial,helvetica,sans-serif;
+   font-size: 10pt;
+}
+
+.smallPadding{
+   margin:  0px;
+   padding: 0px;
+}
+
+.counters{
+   text-align: right;
+   float: right;
+}
+.rowspacer2{
+   margin-top:3px;
+   padding-top:3px;
+}
+
+.board{
+   .center{display:block;margin:auto;}
+   div.backlink{font-size:0.8em!important;display:inline;padding:0;padding-left:5px;}
+   .backlink span{padding:0;}
+   .thread-stats{float:right;margin-right:5px;cursor:default;}
+   .postMenuBtn{margin-left:5px;text-decoration:none;line-height:1em;display:inline-block;-webkit-transition:-webkit-transform 0.1s;-moz-transition:-moz-transform 0.1s;transition:transform 0.1s;width:1em;height:1em;text-align:center;outline:none;opacity:0.8;}
+   .postMenuBtn:hover{opacity:1;}
+   .yotsuba_new .postMenuBtn{color:#000080;}
+   @media only screen and (max-width: 480px){
+   .thread-stats{float:none;text-align:center;}
+   .ts-replies:before{content:"Replies: ";}
+   .ts-images:before{content:"Images: ";}
+   div.post div.postInfoM span.nameBlock{clear:none;}
+   }
+   .posteruid .hand{padding:0 5px;border-radius:6px;font-size:0.8em;}
+}
+
+.thread {
+   /*! CSS Used from: Embedded */
+   div.backlink{font-size:0.8em!important;display:inline;padding:0;padding-left:5px;}
+   .backlink span{padding:0;}
+   .postMenuBtn{margin-left:5px;text-decoration:none;line-height:1em;display:inline-block;-webkit-transition:-webkit-transform 0.1s;-moz-transition:-moz-transform 0.1s;transition:transform 0.1s;width:1em;height:1em;text-align:center;outline:none;opacity:0.8;}
+   .postMenuBtn:hover{opacity:1;}
+   .yotsuba_new .postMenuBtn{color:#000080;}
+   @media only screen and (max-width: 480px){
+   div.post div.postInfoM span.nameBlock{clear:none;}
+   }
+   /*! CSS Used from: Embedded */
+   .posteruid .hand{padding:0 5px;border-radius:6px;font-size:0.8em;}
+}
+
+.opContainer {
+ /*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#34345c;text-decoration:none;}
+   a:hover{color:#d00!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfo span.subject{color:#0f0c5d;font-weight:700;}
+   div.post blockquote.postMessage{display:block;  color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:#d00!important;text-decoration:underline;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   .fileText a{text-decoration:underline;}
+   /*! CSS Used from: https://s.4cdn.org/css/yotsubanew.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#00e;text-decoration:none;}
+   a:hover{color:red!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:maroon;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:red!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfo span.subject{color:#cc1105;font-weight:700;}
+   div.post blockquote.postMessage{display:block;  color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:navy!important;text-decoration:underline;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   .fileText a{text-decoration:underline;}
+   /*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#34345c;text-decoration:none;}
+   a:hover{color:#d00!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfo span.subject{color:#0f0c5d;font-weight:700;}
+   div.post blockquote.postMessage{display:block;  color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:#d00!important;text-decoration:underline;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   .fileText a{text-decoration:underline;}
+   /*! CSS Used from: https://s.4cdn.org/css/futabanew.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#00e;}
+   a:hover{color:red!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:maroon;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:red!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfo span.subject{color:#cc1105;font-weight:700;}
+   div.post blockquote.postMessage{display:block; color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:navy!important;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   /*! CSS Used from: https://s.4cdn.org/css/burichannew.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#34345c;}
+   a:hover{color:#d00;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfo span.subject{color:#0f0c5d;font-weight:700;}
+   div.post blockquote.postMessage{display:block; color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:#d00!important;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   /*! CSS Used from: https://s.4cdn.org/css/photon.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#f60!important;text-decoration:none;}
+   a:hover{color:#f30!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum>a{text-decoration:none;color:#333!important;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#f30!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#004a99;font-weight:700;}
+   div.post div.postInfo span.subject{color:#111;font-weight:700;}
+   div.post blockquote.postMessage{display:block; color:white}
+   blockquote>span.quote{color:#789922;}
+   .quotelink{color:#f60!important;text-decoration:underline;}
+   a.quotelink:hover{color:#f30!important;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   .fileText a{text-decoration:underline;}
+   /*! CSS Used from: https://s.4cdn.org/css/tomorrow.688.css */
+   input:-moz-placeholder{color:gray!important;}
+   .mobile{display:none!important;}
+   a,a:visited{color:#81a2be!important;text-decoration:none;}
+   a:hover{color:#5f89ac!important;}
+   img{border:none;}
+   .mobile{display:none;}
+   div.opContainer{display:inline;}
+   div.post{margin:4px 0;overflow:hidden;}
+   div.op{display:inline;}
+   div.post div.postInfo{display:block;width:100%;}
+   .fileText{max-width:600px;white-space:nowrap;}
+   div.post div.postInfo span.postNum>a{text-decoration:none;color:#c5c8c6!important;}
+   div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#5f89ac!important;}
+   div.post div.postInfo span.nameBlock{display:inline-block;}
+   div.post div.postInfo span.nameBlock span.name{color:#c5c8c6;font-weight:700;}
+   div.post div.postInfo span.subject{color:#b294bb;font-weight:700;}
+   div.post blockquote.postMessage{display:block; color:white}
+   blockquote>span.quote{color:#b5bd68;}
+   .quotelink{color:#5f89ac!important;text-decoration:underline;}
+   a.quotelink:hover{color:#81a2be!important;}
+   div.post div.file{display:block;}
+   div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   .hand{cursor:pointer;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   .fileText a{text-decoration:underline;}
+   /*! CSS Used from: https://s.4cdn.org/css/yotsubluemobile.688.css */
+   @media only screen and (max-width:480px){
+   a{color:#34345c!important;}
+   a:hover,a.quotelink:hover{color:#d00!important;}
+   .posteruid .hand:hover{color:#d00!important;}
+   img{border:none;}
+   .mobile{display:block!important;clear:left!important;}
+   .desktop{display:none!important;}
+   div.post div.file .fileThumb img{max-width:100px;max-height:100px;object-fit:scale-down;}
+   div.post div.file .fileThumb{margin-left:5px!important;margin-right:10px!important;text-decoration:none;}
+   div.post div.file div.fileText{display:none;}
+   div.opContainer{padding:5px;display:block;overflow:hidden;background-color:#d6daf0;border:1px solid #b7c5d9!important;}
+   blockquote{margin:10px!important;}
+   blockquote.postMessage{font-size:11pt; color:white}
+   div.opContainer div.postInfo{display:none!important;}
+   div.post div.postInfoM{overflow:hidden;border-bottom:1px solid #b7c5d9;background-color:#c9cde8;padding:5px;margin:-5px -6px 5px -5px;}
+   div.post div.postInfoM span.postNum,div.postInfo span.postNum{float:left;}
+   div.post div.postInfoM span.postNum a,div.postInfo span.postNum a{text-decoration:none;color:#000!important;}
+   div.post div.postInfoM span.postNum a:hover{color:red;}
+   div.post div.postInfoM span.nameBlock,div.postInfo span.nameBlock{display:inline;float:left;clear:left;}
+   div.post div.postInfoM span.nameBlock span.name,div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+   div.post div.postInfoM span.dateTime{float:right;text-align:right;color:#000!important;}
+   div.post div.postInfoM span.subject{color:#0f0c5d;font-weight:700;}
+   div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+   div.post div.file .fileThumb img{border:none;float:left;}
+   span.subject{display:block;}
+   input:focus{border:1px solid #98e!important;}
+   a:hover,.posteruid .hand:hover{color:#d00!important;}
+   .mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+   }
+   /*! CSS Used from: Embedded */
+   @media only screen and (max-width: 480px){
+   div.post div.postInfoM span.nameBlock{clear:none;}
+   }
+}
+
+.replyContainer {
+/*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#34345c;text-decoration:none;}
+a:hover{color:#d00!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{color:#b7c5d9;float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#d6daf0;border:1px solid #b7c5d9;border-left:none;border-top:none;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:#d00!important;text-decoration:underline;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#d6bad0!important;border:1px solid #ba9dbf!important;border-left:none!important;border-top:none!important;padding:2px;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+.fileText a{text-decoration:underline;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubanew.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#00e;text-decoration:none;}
+a:hover{color:red!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{color:#e0bfb7;float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#f0e0d6;border:1px solid #d9bfb7;border-left:none;border-top:none;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:maroon;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:red!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:navy!important;text-decoration:underline;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#f0c0b0!important;border:1px solid #d99f91!important;border-left:none!important;border-top:none!important;padding:2px;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+.fileText a{text-decoration:underline;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#34345c;text-decoration:none;}
+a:hover{color:#d00!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{color:#b7c5d9;float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#d6daf0;border:1px solid #b7c5d9;border-left:none;border-top:none;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:#d00!important;text-decoration:underline;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#d6bad0!important;border:1px solid #ba9dbf!important;border-left:none!important;border-top:none!important;padding:2px;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+.fileText a{text-decoration:underline;}
+/*! CSS Used from: https://s.4cdn.org/css/futabanew.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#00e;}
+a:hover{color:red!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#f0e0d6;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:maroon;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:red!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:navy!important;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#f0c0b0!important;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+/*! CSS Used from: https://s.4cdn.org/css/burichannew.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#34345c;}
+a:hover{color:#d00;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#d6daf0;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#d00!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:#d00!important;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#d6bad0!important;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+/*! CSS Used from: https://s.4cdn.org/css/photon.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#f60!important;text-decoration:none;}
+a:hover{color:#f30!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{color:#333;float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#ddd;border:1px solid #ccc;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum>a{text-decoration:none;color:#333!important;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#f30!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#004a99;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:#f60!important;text-decoration:underline;}
+a.quotelink:hover{color:#f30!important;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.reply:target{background:#ccc!important;border:1px solid #ccc!important;padding:2px;}
+.hand{cursor:pointer;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+.fileText a{text-decoration:underline;}
+/*! CSS Used from: https://s.4cdn.org/css/tomorrow.688.css */
+input:-moz-placeholder{color:gray!important;}
+.mobile{display:none!important;}
+a,a:visited{color:#81a2be!important;text-decoration:none;}
+a:hover{color:#5f89ac!important;}
+img{border:none;}
+.mobile{display:none;}
+div.sideArrows{color:#c5c8c6;float:left;margin-right:2px;margin-top:0;margin-left:2px;}
+div.post{margin:4px 0;overflow:hidden;}
+div.reply{background-color:#282a2e;border:1px solid #282a2e;display:table;padding:2px;}
+div.reply input{float:none;}
+div.post div.postInfo{display:block;width:100%;}
+.fileText{max-width:600px;white-space:nowrap;}
+div.post div.postInfo span.postNum>a{text-decoration:none;color:#c5c8c6!important;}
+div.post div.postInfo span.postNum a:hover,.posteruid .hand:hover{color:#5f89ac!important;}
+div.post div.postInfo span.nameBlock{display:inline-block;}
+div.post div.postInfo span.nameBlock span.name{color:#c5c8c6;font-weight:700;}
+div.post blockquote.postMessage{display:block;}
+.quotelink{color:#5f89ac!important;text-decoration:underline;}
+a.quotelink:hover{color:#81a2be!important;}
+div.post div.file{display:block;}
+div.post div.file .fileThumb{float:left;margin-left:20px;margin-right:20px;margin-top:3px;margin-bottom:5px;}
+div.post div.file .fileThumb img{border:none;float:left;}
+.hand{cursor:pointer;}
+.reply:target{background:#1d1d21!important;border:1px solid #111!important;padding:2px;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+.fileText a{text-decoration:underline;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubluemobile.688.css */
+@media only screen and (max-width:480px){
+a{color:#34345c!important;}
+a:hover,a.quotelink:hover{color:#d00!important;}
+.posteruid .hand:hover{color:#d00!important;}
+img{border:none;}
+.mobile{display:block!important;clear:left!important;}
+.desktop{display:none!important;}
+div.post div.file .fileThumb img{max-width:100px;max-height:100px;object-fit:scale-down;}
+div.post div.file .fileThumb{margin-left:5px!important;margin-right:10px!important;text-decoration:none;}
+div.post div.file div.fileText{display:none;}
+div.sideArrows{display:none;}
+div.reply{padding:2px;background-color:#d6daf0;margin:0;border:1px solid #b7c5d9;}
+div.replyContainer{background-color:#d6daf0;margin:5px 5px 0;padding-left:0;}
+blockquote{margin:10px!important;}
+blockquote.postMessage{font-size:11pt;}
+div.post div.postInfoM{overflow:hidden;border-bottom:1px solid #b7c5d9;background-color:#c9cde8;padding:5px;margin:-5px -6px 5px -5px;}
+div.replyContainer div.postInfoM{margin:0;}
+div.post div.postInfoM span.postNum,div.postInfo span.postNum{float:left;}
+div.post div.postInfoM span.postNum a,div.postInfo span.postNum a{text-decoration:none;color:#000!important;}
+div.post div.postInfoM span.postNum a:hover{color:red;}
+div.post div.postInfoM span.nameBlock,div.postInfo span.nameBlock{display:inline;float:left;clear:left;}
+div.post div.postInfoM span.nameBlock span.name,div.postInfo span.nameBlock span.name{color:#117743;font-weight:700;}
+div.post div.postInfoM span.dateTime{float:right;text-align:right;color:#000!important;}
+div.replyContainer div.reply{width:100%;padding:0!important;}
+div.replyContainer div.post div.postInfo{overflow:hidden;border-bottom:1px solid #b7c5d9;background-color:#c9cde8;padding:3px;margin:0;}
+div.replyContainer div.post div.postInfo input[type=checkbox]{display:none;}
+div.replyContainer div.post div.postInfo span.postNum{font-style:italic;}
+div.replyContainer div.post div.postInfo span.postNum a:first-child:after{content:" ";}
+div.replyContainer div.post div.postInfo span.dateTime{float:right;text-align:right;padding-right:10px;font-style:italic;}
+div.replyContainer div.post div.file{padding:5px;}
+div.post div.postInfo span.postNum a{text-decoration:none;color:#000;}
+div.post div.file .fileThumb img{border:none;float:left;}
+input:focus{border:1px solid #98e!important;}
+a:hover,.posteruid .hand:hover{color:#d00!important;}
+.reply:target,.reply:focus{border:1px solid #b7c5d9!important;background:#d6bad0!important;}
+.mFileInfo{padding-top:5px;text-align:center;color:#707070!important;font-size:9pt!important;text-decoration:none!important;}
+}
+/*! CSS Used from: Embedded */
+@media only screen and (max-width: 480px){
+div.post div.postInfoM span.nameBlock{clear:none;}
+}
+}
+
+.postForm {
+   /*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#34345c;text-decoration:none;}
+a:hover{color:#d00!important;}
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table{border-spacing:1px;margin-left:auto;margin-right:auto;}
+table.postForm>tbody>tr>td:first-child{background-color:#98e;color:#000;font-weight:700;border:1px solid #000;padding:0 5px;font-size:10pt;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+td{margin:0;padding:0;font-size:10pt;}
+input[type=text],table.postForm>tbody textarea{margin:0;margin-right:2px;padding:2px 4px 3px;border:1px solid #aaa;outline:none;font-family:arial,helvetica,sans-serif;font-size:10pt;}
+input[type=text]:focus,textarea:focus{border:1px solid #98e!important;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;width:292px;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+#postForm textarea{width:292px;}
+#postForm{width:468px;display:none;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubanew.688.css */
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#00e;text-decoration:none;}
+a:hover{color:red!important;}
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table{border-spacing:1px;margin-left:auto;margin-right:auto;}
+table.postForm>tbody>tr>td:first-child{background-color:#ea8;color:#800;font-weight:700;border:1px solid #800;padding:0 5px;font-size:10pt;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+td{margin:0;padding:0;font-size:10pt;}
+input[type=text],table.postForm>tbody textarea{margin:0;margin-right:2px;padding:2px 4px 3px;border:1px solid #aaa;outline:none;font-family:arial,helvetica,sans-serif;font-size:10pt;}
+input[type=text]:focus,textarea:focus{border:1px solid #ea8!important;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;width:292px;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+#postForm textarea{width:292px;}
+#postForm{width:468px;display:none;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#34345c;text-decoration:none;}
+a:hover{color:#d00!important;}
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table{border-spacing:1px;margin-left:auto;margin-right:auto;}
+table.postForm>tbody>tr>td:first-child{background-color:#98e;color:#000;font-weight:700;border:1px solid #000;padding:0 5px;font-size:10pt;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+td{margin:0;padding:0;font-size:10pt;}
+input[type=text],table.postForm>tbody textarea{margin:0;margin-right:2px;padding:2px 4px 3px;border:1px solid #aaa;outline:none;font-family:arial,helvetica,sans-serif;font-size:10pt;}
+input[type=text]:focus,textarea:focus{border:1px solid #98e!important;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;width:292px;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+#postForm textarea{width:292px;}
+#postForm{width:468px;display:none;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/futabanew.688.css */
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#00e;}
+a:hover{color:red!important;}
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table#postForm{border-spacing:1px;margin-left:auto;margin-right:auto;}
+#postForm{display:none;}
+table.postForm>tbody>tr>td:first-child{background-color:#ea8;color:#800;font-weight:700;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+table#postForm td{margin:0;padding:0;}
+table.postForm>tbody>tr>td>input[type=text]{width:260px;}
+table.postForm input[type=submit]{margin-left:5px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+textarea[name=com]{width:296px;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+#postForm{width:468px;}
+#postForm textarea{width:292px;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/burichannew.688.css */
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#34345c;}
+a:hover{color:#d00;}
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table#postForm{border-spacing:1px;margin-left:auto;margin-right:auto;}
+#postForm{display:none;}
+table.postForm>tbody>tr>td:first-child{background-color:#98e;color:#000;font-weight:700;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+table#postForm td{margin:0;padding:0;}
+table.postForm>tbody>tr>td>input[type=text]{width:260px;}
+table.postForm input[type=submit]{margin-left:5px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+textarea[name=com]{width:296px;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+#postForm{width:468px;}
+#postForm textarea{width:292px;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/photon.688.css */
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#f60!important;text-decoration:none;}
+a:hover{color:#f30!important;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table{border-spacing:1px;margin-left:auto;margin-right:auto;}
+table.postForm>tbody>tr>td:first-child{background-color:#ddd;color:#333;font-weight:700;border:1px solid #ccc;padding:0 5px;font-size:10pt;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+td{margin:0;padding:0;font-size:10pt;}
+input[type=text],table.postForm>tbody textarea{margin:0;margin-right:2px;padding:2px 4px 3px;border:1px solid #aaa;outline:none;font-family:arial,helvetica,sans-serif;font-size:10pt;}
+input[type=text]:focus,textarea:focus{border:1px solid #ea8!important;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;width:292px;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+#postForm textarea{width:292px;}
+#postForm{width:468px;display:none;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/tomorrow.688.css */
+#postFormError{background-color:#e62020;color:#fff;font-family:monospace;font-size:13px;font-weight:700;padding:3px 5px;text-shadow:0 1px rgba(0,0,0,.2);display:none;margin-top:3px;}
+#g-recaptcha{height:78px;}
+input:-moz-placeholder{color:gray!important;}
+a,a:visited{color:#81a2be!important;text-decoration:none;}
+a:hover{color:#5f89ac!important;}
+ul.rules{margin:0;padding:0;margin-top:5px;}
+ul.rules>li{list-style:none;font-size:11px;}
+.rules>li:before{content:"\2022 \20";}
+table{border-spacing:1px;margin-left:auto;margin-right:auto;}
+table.postForm>tbody>tr>td:first-child{background-color:#282a2e;color:#c5c8c6;font-weight:700;border:1px solid #111;padding:0 5px;font-size:10pt;}
+tr.rules td{border:0!important;background-color:transparent!important;font-weight:400!important;}
+td{margin:0;padding:0;font-size:10pt;}
+input[type=text],table.postForm>tbody textarea{margin:0;margin-right:2px;padding:2px 4px 3px;border:1px solid #aaa;outline:none;font-family:arial,helvetica,sans-serif;font-size:10pt;}
+input[type=text]:focus,textarea:focus{border:1px solid #000!important;}
+table.postForm>tbody>tr>td>input[type=text]{width:244px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+tbody textarea{margin-bottom:-3px!important;width:292px;}
+}
+.passNotice{font-size:smaller;padding-left:6px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+#postForm textarea{width:292px;}
+#postForm{width:468px;display:none;}
+#postFile{margin-right:10px;width:200px;}
+/*! CSS Used from: https://s.4cdn.org/css/yotsubluemobile.688.css */
+@media only screen and (max-width:480px){
+a{color:#34345c!important;}
+a:hover{color:#d00!important;}
+ul.rules{display:none;}
+.desktop{display:none!important;}
+.hideMobile{display:none!important;}
+.passNotice{font-size:smaller;padding-left:3px;}
+td>input[type=text],td>textarea{width:220px!important;margin-right:0!important;}
+#captchaFormPart>td>div{width:310px!important;overflow:hidden;margin:0 auto;}
+#postForm{width:auto;}
+#postForm input[type=submit]{width:60px;padding:2px 4px 3px;margin:0;}
+td>input{margin-left:1px;}
+#captchaFormPart>td>div{margin-left:8px;}
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;}
+input:focus,textarea:focus{border:1px solid #98e!important;}
+a:hover{color:#d00!important;}
+}
+}
+
+.msg{
+   white-space: pre-wrap;
+   word-wrap: break-word;
+ }
+
+ .postreply {
+   width: 50%;
+   margin: 0 auto;
+ }

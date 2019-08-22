@@ -79,18 +79,22 @@ export class IndImmChanThread {
                 if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelChildren[i].Tx)) {
                     const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
                         + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
-                        this.IndImmChanPostModelChildren[i].HeaderLinks = this.IndImmChanPostModelChildren[i].HeaderLinks + headerLink + ' ';                    
+                        this.IndImmChanPostModelChildren[i].HeaderLinks = this.IndImmChanPostModelChildren[i].HeaderLinks +'<u>' + headerLink + '</u> ';                    
                 }
             }
+            this.IndImmChanPostModelChildren[i].HeaderLinks = '&nbsp;' + this.IndImmChanPostModelChildren[i].HeaderLinks;
         }
-
+        
         for (let j = 0; j < this.IndImmChanPostModelChildren.length; j++) {
             if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelParent.Tx)) {
                 const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
                     + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
-                    this.IndImmChanPostModelParent.HeaderLinks = this.IndImmChanPostModelParent.HeaderLinks + headerLink + ' ';      
+                    this.IndImmChanPostModelParent.HeaderLinks = this.IndImmChanPostModelParent.HeaderLinks + '<u>' + headerLink + '</u> ';      
             }
+
+            // this.IndImmChanPostModelChildren[j].Msg = '<span style="margin:25px; padding:25px">' + this.IndImmChanPostModelChildren[j].Msg + '</span>'
         }        
+        this.IndImmChanPostModelParent.HeaderLinks = '&nbsp;' + this.IndImmChanPostModelParent.HeaderLinks;
     }
     
     compare( a: IndImmChanPostModel, b:IndImmChanPostModel ) {
