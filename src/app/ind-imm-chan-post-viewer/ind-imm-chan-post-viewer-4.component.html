@@ -202,7 +202,7 @@
                                 <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
                             </span>
                         </div>
-                        <span class="msg"><span  [innerHtml]="thread.IndImmChanPostModelParent.Msg | safe: 'html'"></span></span>
+                        <span class="msg"><div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;"   [innerHtml]="thread.IndImmChanPostModelParent.Msg | safe: 'html'"></div></span>
                     </div>
                 </div>
                 <div class="postContainer replyContainer" *ngFor="let post of thread.IndImmChanPostModelChildren" #elem [id]="post.Tx">
