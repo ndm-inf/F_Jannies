@@ -310,6 +310,9 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   quoteMessage(tx) {
     this.postMessage = '>>' + tx + '\n' + this.postMessage;
+    this.ShowPostingForm = true;
+    window.scrollTo(0,0);
+
   }
   OpenCatalog() {
     this.Router.navigate(['/catalog/' + this.postBoard]);
