@@ -1,4 +1,9 @@
 <div class="container">
+    <div class="row">
+        <span class="openBoard" (click)="OpenPolitics()">[ pol /</span>
+        <span class="openBoard" (click)="OpenBusiness()">biz</span>
+        <span class="openBoard" (click)="OpenRandom()">/ b]</span>
+    </div>
 <div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
 
     <input type="file"
@@ -123,6 +128,7 @@
         
                 <div class="col-lg-2" >
                     <div class="progress-container"> 
+                        <span style="float:right; margin-top:-8px; margin-right:3px; cursor:pointer" (click)="OpenPostInNewWindows(thread)" title="Open in New Window">⇗</span>
                         <div class="progress-item-container" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
                         {{  thread.IndImmChanPostModelParent.Title | slice:0:140 }}
                         </div>

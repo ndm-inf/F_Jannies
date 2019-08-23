@@ -208,7 +208,11 @@ table {
 .replybracket {
    color:white;
 }
-
+.openBoard{
+   cursor: pointer;
+   margin:1px;
+   font-size:12px;
+}
 .post-reply-btn {
    color:gray;
    font-size: 22px;

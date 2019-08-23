@@ -74,7 +74,22 @@ export class CatalogComponent implements OnInit {
       });
   
     }
+
+    OpenPostInNewWindows(thread:IndImmChanThread) {
+      window.open('/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx, '_blank');
+    }
   
+    OpenPolitics() {
+      this.selfInit('pol');
+    }
+  
+    OpenBusiness() {
+      this.selfInit('biz');
+    }
+  
+    OpenRandom() {
+      this.selfInit('b');
+    }
 
   async ConfirmEncryption() {
     const dialogRef = this.Dialog.open(ConfirmEncryptPostComponent, {
@@ -224,6 +239,18 @@ export class CatalogComponent implements OnInit {
     this.refresh();
   }
 
+  selfInit(board) {
+    this.postBoard = board;
+
+    if (this.postBoard === 'pol') {
+      this.postBoardName = 'Politically Incorrect';
+    } else if (this.postBoard === 'biz') {
+      this.postBoardName = 'Business';
+    } else if (this.postBoard === 'b') {
+      this.postBoardName = 'Random';
+    }
+    this.refresh();
+  }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
     post.ShowFullSizeFile = false;
     await this.IndImmChanPostManagerService.ManualOverRideShowImage(post);
