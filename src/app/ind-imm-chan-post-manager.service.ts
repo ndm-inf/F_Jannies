@@ -17,6 +17,23 @@ export class IndImmChanPostManagerService {
   IndImmChanPostService: IndImmChanPostService;
   Config: IndImmConfigService
 
+  UID = '';
+
+  public GetUID(): string {
+    if (this.UID.length == 0) {
+      return this.SetUID();
+    } else {
+      return localStorage.getItem('UID');
+    }
+  }
+
+  public SetUID(): string {
+    const cu: ChunkingUtility = new ChunkingUtility();
+    this.UID = cu.GetFingerPrint();
+    localStorage.setItem('UID', this.UID);
+    return this.UID;
+  }
+
   constructor(indImmChanPostService: IndImmChanPostService, config: IndImmConfigService) {
     this.IndImmChanPostService = indImmChanPostService;
     this.Config = config;
@@ -30,6 +47,7 @@ export class IndImmChanPostManagerService {
     post.Msg = message;
     post.Parent = parent;
     post.ETH = ethTipAddress;
+    post.UID = this.GetUID();
     let postMemoType = '';
 
     if(!parent || parent.length == 0) {
@@ -100,6 +118,16 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
+          if(!post.UID || post.UID.length == 0) {
+            postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
+            postModel.BackgroundColor = '#cc0000';
+            postModel.FontColor = '#ffffff';
+          } else {
+            postModel.UID = post.UID
+            const cu: ChunkingUtility = new ChunkingUtility()
+            postModel.BackgroundColor = '#' +  cu.GetColorCodeFingerPrint(postModel.UID);
+            postModel.FontColor = cu.InvertColor(postModel.BackgroundColor);
+          }
           if(post.IPFSHash && post.IPFSHash.length > 0 && (postModel.Tx === parent || postModel.Parent === parent)) {
             imageCounter++;
             postModel.HasImage = true;

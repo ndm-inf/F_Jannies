@@ -358,6 +358,20 @@ table {
    }
 }
 
+.idhover:hover {
+   background-color: rgba(27, 36, 73, 0.75);
+   border-radius: 4px;
+   margin:2px;
+   padding:2px;
+
+   -webkit-box-shadow: -5px 8px 20px -5px rgba(52, 58, 64, 0.6);
+   -moz-box-shadow: -5px 8px 20px -5px rgba(52, 58, 64, 0.6);
+   box-shadow: -5px 8px 20px -5px rgba(52, 58, 64, 0.6);
+   -webkit-transition-duration: 0.3s;
+   -moz-transition-duration: 0.3s;
+   -webkit-transform: translate(1px, -1px);
+   -moz-transform: translate(1px, -1px);
+}
 .replyContainer {
 /*! CSS Used from: https://s.4cdn.org/css/yotsubluenew.688.css */
 input:-moz-placeholder{color:gray!important;}

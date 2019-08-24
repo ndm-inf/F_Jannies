@@ -73,6 +73,7 @@ export class CatalogComponent implements OnInit {
         }
       });
   
+      const cu: ChunkingUtility = new ChunkingUtility();
     }
 
     OpenPostInNewWindows(thread:IndImmChanThread) {

@@ -14,7 +14,8 @@ export class IndImmChanPostModel extends IndImmChanPost{
     ImageLoading = false;
     HeaderLinks = '';
     EncDemo:boolean = false;
-    UID = 'Coming Soon';
+    BackgroundColor: string;
+    FontColor: string;
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {

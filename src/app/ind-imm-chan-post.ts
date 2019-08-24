@@ -8,4 +8,5 @@ export class IndImmChanPost {
     Name = '';
     Enc = false;
     ETH = '';
+    UID = '';
 }

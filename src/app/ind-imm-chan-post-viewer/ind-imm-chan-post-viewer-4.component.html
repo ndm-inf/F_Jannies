@@ -152,7 +152,11 @@
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
                                 <span class="posteruid id_FTh6OQUa">
-                                    &nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{  thread.IndImmChanPostModelParent.UID }}</span>)
+                                    &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
+                                        <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
+                                                &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
+                                        </span>
+                                    </span>)
                                 </span>
                                 <br>
                                 <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
@@ -198,7 +202,12 @@
                             <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
-                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{  thread.IndImmChanPostModelParent.UID }}</span>)
+                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" 
+                                     [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
+                                     <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" >
+                                         &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
+                                     </span>
+                                    </span>)
                             </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span> 
@@ -219,7 +228,10 @@
                                     Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
                                 <span class="name">&nbsp;{{ post.Name}}</span> 
-                                <span class="posteruid id_pvYJqWH6">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">&nbsp;{{ post.UID }}</span>)
+                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
+                                        <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
+
+                                </span>)
                                 </span>
                                 <br>
                             </span>
@@ -255,7 +267,9 @@
                                     Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
-                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID">{{ post.UID }}</span>)
+                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
+                                    <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
+                                </span>)
                                 </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  post.Timestamp | date:'medium'}}</span> 

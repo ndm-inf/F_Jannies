@@ -176,7 +176,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.GlobalEventService = globalEventService;
     this.EthTipService = ethTipService;
     this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
-
+    
+      const cu: ChunkingUtility = new ChunkingUtility();
       if(state) {
         this.showImagesFromToggle()
       } else {

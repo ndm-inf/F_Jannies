@@ -1,5 +1,6 @@
 import * as sjcl from 'sjcl';
 import { PostKey } from './post-key';
+import {Buffer} from 'buffer';
 
 export class ChunkingUtility {
 
@@ -266,4 +267,42 @@ export class ChunkingUtility {
     
         return out;
     }
+
+    public GetFingerPrint() {
+        const fingerPrint = this.getFingerPrint(window, screen, navigator);
+        console.log('fingerPrint: ' + fingerPrint);     
+        return fingerPrint;
+    }
+
+    public GetColorCodeFingerPrint(fingerPrint) {
+        var hexString = Buffer.from(fingerPrint, 'base64').toString('hex')
+        return hexString.substring(0, 6);
+    }
+
+    private getFingerPrint(window, screen, navigator) {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        }).substring(0, 7);
+    }
+
+    public InvertColor(hexColor) {
+        const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
+
+        hexColor = hexColor.replace(/^\#/, '');
+
+        var r = parseInt(hexColor.substr(0, 2), 16);
+        var g = parseInt(hexColor.substr(2, 2), 16);
+        var b = parseInt(hexColor.substr(4, 2), 16);
+    
+        var averageBrightness = arrAvg([r, g, b]);
+    
+        if (averageBrightness > 128) {
+            return "#000000";
+        }
+        else {
+            return "#FFFFFF";
+        }
+    }
+
 }
