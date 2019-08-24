@@ -77,7 +77,7 @@ export class CatalogComponent implements OnInit {
     }
 
     OpenPostInNewWindows(thread:IndImmChanThread) {
-      const url = this.Router.createUrlTree(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
+      const url = this.Router.createUrlTree(['BlockChan/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
       window.open(url.toString(), '_blank');
     }
