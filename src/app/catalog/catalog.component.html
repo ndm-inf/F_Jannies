@@ -129,12 +129,6 @@
                 <div class="col-lg-2" >
                     <div class="progress-container"> 
                         <span style="float:right; margin-top:-8px; margin-right:3px; cursor:pointer" (click)="OpenPostInNewWindows(thread)" title="Open in New Window">⇗</span>
-                        <div class="progress-item-container" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
-                        {{  thread.IndImmChanPostModelParent.Title | slice:0:140 }}
-                        </div>
-                        <div class="progress-item-container" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
-                            Images: {{  thread.ImageReplies }} |&nbsp; Replies: {{  thread.TotalReplies }}
-                        </div>
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.ImageLoading" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
                             <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
                         </div>
@@ -144,6 +138,12 @@
                         <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">
                             <div class="btn btn-wrapper btn-primary btn-round click-show">Show Image Preview</div>
+                        </div>                        
+                        <div class="progress-item-container" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
+                        <b>{{  thread.IndImmChanPostModelParent.Title | slice:0:140 }}</b>
+                        </div>
+                        <div class="progress-item-container" (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
+                            Images: {{  thread.ImageReplies }} |&nbsp; Replies: {{  thread.TotalReplies }}
                         </div>
                         <div class="progress-item-container"  (click)="OpenThread(thread.IndImmChanPostModelParent.Tx)">
                             Last: {{  thread.LastCommentTime | date:'medium' }}
