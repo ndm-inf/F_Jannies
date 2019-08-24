@@ -36,6 +36,7 @@ h3 {
    font-weight: 700;
    letter-spacing: -2px;
    margin-top: 0;
+
 }
 
 .replybracket {
@@ -109,6 +110,8 @@ table {
 }
 
 .board{
+   margin-left:3px;
+   padding-left:3px;
    .center{display:block;margin:auto;}
    div.backlink{font-size:0.8em!important;display:inline;padding:0;padding-left:5px;}
    .backlink span{padding:0;}
