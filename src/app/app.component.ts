@@ -17,7 +17,18 @@ export class AppComponent {
   toaster: ToastrService;
   Config: IndImmConfigService;
   GlobalEventService: GlobalEventService;
+  Hidden = true;
 
+  hideMenu() {
+    this.Hidden = true;
+    console.log('hide menu');
+
+  }
+
+  showMenu() {
+    this.Hidden = false;
+    console.log('show menu');
+  }
   constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService, globalEventService: GlobalEventService) {
     this.router = rtr;
     this.toaster = tstr;

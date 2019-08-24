@@ -2055,6 +2055,9 @@ RESPONSIVE
     .mobile-menu {
         display: block;
     }
+    .hide-for-mobile {
+        display: none;
+    }
     .vertical-header {
         display: none;
     }
@@ -2080,6 +2083,14 @@ RESPONSIVE
     body.left-menu #wrapper {
         padding-left: 260px;
     }
+    .hide-for-mobile {
+        display: block;
+    }
+}
+
+.wrapper {
+    padding-left: 260px;
+
 }
 
 @media(max-width:1198px) {

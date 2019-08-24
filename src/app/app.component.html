@@ -1,3 +1,5 @@
+<div class="hide-for-mobile" (click)="showMenu()" [hidden]="!Hidden" style="width:35px; font-size:24px; margin-left:2px; cursor: pointer;"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+
 <div class="menu-wrapper">
         <div class="mobile-menu">
             <nav class="navbar navbar-inverse">
@@ -36,8 +38,9 @@
             </nav>
         </div><!-- end mobile-menu -->
     
-        <header class="vertical-header">
+        <header class="vertical-header" [hidden]="Hidden">
             <div class="vertical-header-wrapper">
+                    <span style="float:right; margin-right:5px; font-size:24px; width:35px; cursor:pointer" (click)="hideMenu()"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
                 <nav class="nav-menu">
                     <div class="logo">
                         <a href="index.html"><img src="assets/images/logo.png" alt=""></a>
@@ -98,8 +101,8 @@
             </div><!-- end vertical-header-wrapper -->
         </header><!-- end header -->
     </div><!-- end menu-wrapper -->
-    
-    <div id="wrapper">
+
+    <div  [class.wrapper]="!Hidden">
         <div id="home" class="video-section js-height-full">
        
             <router-outlet></router-outlet>
