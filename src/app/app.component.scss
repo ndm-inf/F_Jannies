@@ -13,14 +13,14 @@ i {
 }
 
 .secure-highlight {
-    color: red;
+    color: #00ff00;
 }
 
 .gab {
     vertical-align: -7px; 
 }
 .beta {
-    color: rgb(163, 163, 7);
+    color: rgba(110, 110, 110, 1);
 }
 
 .toggle-container{
@@ -28,4 +28,8 @@ i {
     border-radius: 12px;
     padding:10px;
     margin:10px;
+}
+
+.navbar-logo {
+    width: 88px;
 }
