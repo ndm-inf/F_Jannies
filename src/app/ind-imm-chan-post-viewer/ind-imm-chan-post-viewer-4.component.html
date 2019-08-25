@@ -42,10 +42,25 @@
         <div class="col-lg-4">
         <table class="postForm hideMobile" id="postForm" style="display: table;">
             <tbody>
-                <tr data-type="Name">
-                    <td>Name</td>
-                    <td>
-                        <input name="name" type="text" tabindex="1" placeholder="Anonymous" readonly>
+                <tr data-type="Options">
+                    <td>Trip Code</td>
+                    <td [hidden]="ShowTripEntry">
+                        <input type="submit" value="Add Trip Code" tabindex="6" (click)="AddTrip()">
+
+                        
+                    </td>
+                    <td [hidden]="!ShowTripEntry">
+                        Trip Code (Requires attaching your Ripple Wallet. Trip is generated from your signed post w/ your credentials below):
+                        <br>
+                        <a href="https://jatchili.github.io/minimalist-ripple-client/">Generte wallet here</a> by clicking generate identity. Your new address is is displayed
+                        <br> above the button "show/hide secret", click that button to show your secret. SAVE BOTH of these. For wallet to be usable/active, you must send 20 XRP or more to it. 
+                        <br>
+                        Instructions for obtaining XRP is <a href="https://cointelegraph.com/ripple-101/ripple-xrp-wallets-for-beginners">here</a>
+                        <br>
+                        <br>
+                        XRP Addresss: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
+                        XRP Key: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
+                        Poster Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">                    
                     </td>
                 </tr>
                 <tr data-type="Options">
@@ -155,6 +170,7 @@
                         <div class="postInfoM mobile">
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span class="posteruid id_FTh6OQUa">
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
                                         <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
@@ -206,6 +222,7 @@
                             <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
+                                <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" 
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                      <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" >
@@ -232,6 +249,7 @@
                                     Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
                                 <span class="name">&nbsp;{{ post.Name}}</span> 
+                                <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
                                         <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
 
@@ -271,6 +289,7 @@
                                     Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
+                                <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                     <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
                                 </span>)

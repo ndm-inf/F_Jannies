@@ -40,7 +40,7 @@ export class IndImmChanPostManagerService {
   }
 
   public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey,
-    ethTipAddress: string) {
+    ethTipAddress: string, useTrip: boolean) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
     post.Title = title;
@@ -48,6 +48,7 @@ export class IndImmChanPostManagerService {
     post.Parent = parent;
     post.ETH = ethTipAddress;
     post.UID = this.GetUID();
+    post.T = useTrip;
     let postMemoType = '';
 
     if(!parent || parent.length == 0) {
@@ -110,6 +111,16 @@ export class IndImmChanPostManagerService {
           }
 
           const postModel: IndImmChanPostModel = new IndImmChanPostModel();
+          
+          postModel.SendingAddress = unfilteredResults[i].address;
+          const cu: ChunkingUtility = new ChunkingUtility();
+
+          if(post.T) {
+            debugger;
+           postModel.TripCode = cu.GetMd5(postModel.SendingAddress).toString();
+           postModel.T = true;
+          }
+
           postModel.IPFSHash = post.IPFSHash;
           postModel.Tx = unfilteredResults[i].id;
           postModel.Msg = post.Msg;

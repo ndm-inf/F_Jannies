@@ -1,6 +1,7 @@
 import * as sjcl from 'sjcl';
 import { PostKey } from './post-key';
 import {Buffer} from 'buffer';
+import {Md5} from 'ts-md5/dist/md5';
 
 export class ChunkingUtility {
 
@@ -304,5 +305,9 @@ export class ChunkingUtility {
             return "#FFFFFF";
         }
     }
-
+    
+    public GetMd5(str) {
+        const md5 = new Md5();
+        return md5.appendStr(str).end();
+    }
 }

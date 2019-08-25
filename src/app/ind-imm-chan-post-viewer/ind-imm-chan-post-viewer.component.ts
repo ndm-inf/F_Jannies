@@ -58,6 +58,10 @@ export class IndImmChanPostViewerComponent implements OnInit {
   PostDecrypted = false;
   EthTipService:ETHTipService
   EthTipAddress = '';
+  ShowTripEntry = false;
+  TripAddress = '';
+  TripSecret = '';
+  TripName = '';
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -75,7 +79,9 @@ export class IndImmChanPostViewerComponent implements OnInit {
   togglePostingForm() {
     this.ShowPostingForm = !this.ShowPostingForm;
   }
-  
+  AddTrip() {
+    this.ShowTripEntry = true;
+  }
   async decrypt() {
     try {
       const cu: ChunkingUtility = new ChunkingUtility();
@@ -245,12 +251,35 @@ export class IndImmChanPostViewerComponent implements OnInit {
           this.ToastrService.error('File must be of type Jpeg, Gif, or PNG; Webm coming soon', 'Posting Error');
           return;
       }
-  }
+    }
+    let useTrip = false;
+
+    if(this.TripAddress.length > 0 || this.TripSecret.length > 0) {
+      const tripValid = await this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.IsSenderSecretValid(this.TripAddress, this.TripSecret);
+      if (tripValid) {
+        useTrip = true;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripKey = this.TripAddress;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripSecret = this.TripSecret;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripValid = true;
+      } else {
+        this.ToastrService.error('Invalid secret/key', 'Error');
+        return;
+      }
+    }  else {
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripKey = '';
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripSecret = '';
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripValid = false;
+    }
+    
+    if(!this.ShowTripEntry) {
+      this.posterName = 'Anonymous';
+    }
+
     this.Posting = true;
     try {
       this.blockPosting();
       await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
-        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress);
+        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
       this.PostingError = false;
       this.refresh();
     } catch (error) {

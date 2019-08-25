@@ -9,4 +9,5 @@ export class IndImmChanPost {
     Enc = false;
     ETH = '';
     UID = '';
+    T = false;
 }

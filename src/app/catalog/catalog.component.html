@@ -13,6 +13,39 @@
     <div>{{ postTitle.length }}/80</div>
     Message: <textarea [(ngModel)] = "postMessage" rows="4" style="width:100%"></textarea>
     <div>{{ postMessage.length }}/420</div>
+
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div [hidden]="ShowTripEntry">
+                <div (click)="AddTrip()" class="btn btn-wrapper btn-default btn-round" style="width:100%">
+                    Add Trip Codee
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;" [hidden]="!ShowTripEntry">
+                    <b>Trip Code</b> (Requires attaching your Ripple Wallet. Trip is generated from your signed post w/ your credentials below):
+                    <br>
+                    <br>
+                    <a href="https://jatchili.github.io/minimalist-ripple-client/">Generte wallet here</a> by clicking generate identity. Your new address is is displayed
+                    <br> above the button "show/hide secret", click that button to show your secret. SAVE BOTH of these. For wallet to be usable/active, you must send 20 XRP or more to it. 
+                    <br>
+                    Instructions for obtaining XRP is <a href="https://cointelegraph.com/ripple-101/ripple-xrp-wallets-for-beginners">here</a>
+                    <br>
+                    <br>                <br>
+                XRP Addresss: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
+                XRP Key: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
+                Poster Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+
     <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">
     Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
     </div>

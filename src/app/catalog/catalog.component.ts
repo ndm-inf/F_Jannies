@@ -52,6 +52,10 @@ export class CatalogComponent implements OnInit {
   EncryptedKey:PostKey;
   Dialog: MatDialog;
   EthTipAddress = '';
+  TripAddress = '';
+  TripSecret = '';
+  TripName = '';
+  ShowTripEntry = false;
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
@@ -76,6 +80,9 @@ export class CatalogComponent implements OnInit {
       const cu: ChunkingUtility = new ChunkingUtility();
     }
 
+    AddTrip() {
+      this.ShowTripEntry = true;
+    }
     OpenPostInNewWindows(thread:IndImmChanThread) {
       const url = this.Router.createUrlTree(['BlockChan/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
@@ -208,12 +215,35 @@ export class CatalogComponent implements OnInit {
       return;
     }
 
+    let useTrip = false;
+
+    if(this.TripAddress.length > 0 || this.TripSecret.length > 0) {
+      const tripValid = await this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.IsSenderSecretValid(this.TripAddress, this.TripSecret);
+      if (tripValid) {
+        useTrip = true;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripKey = this.TripAddress;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripSecret = this.TripSecret;
+        this.IndImmChanPostManagerService.IndImmChanPostService.TripValid = true;
+      } else {
+        this.ToastrService.error('Invalid secret/key', 'Error');
+        return;
+      }
+    } else {
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripKey = '';
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripSecret = '';
+      this.IndImmChanPostManagerService.IndImmChanPostService.TripValid = false;
+    }
+    
+    if(!this.ShowTripEntry) {
+      this.posterName = 'Anonymous';
+    }
+    
     this.Posting = true;
 
     try {
       this.blockPosting();
       const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
-        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress);
+        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
       this.PostingError = false;
       this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
       // this.refresh();

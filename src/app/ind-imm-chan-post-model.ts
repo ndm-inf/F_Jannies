@@ -16,6 +16,8 @@ export class IndImmChanPostModel extends IndImmChanPost{
     EncDemo:boolean = false;
     BackgroundColor: string;
     FontColor: string;
+    SendingAddress: '';
+    TripCode = '';
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {

@@ -18,6 +18,10 @@ export class IndImmChanPostService {
   httpClient: HttpClient;
   chunkingUtility: ChunkingUtility;
 
+  TripSecret = '';
+  TripKey = '';
+  TripValid = false;
+
   constructor(rippleSer: RippleService, addressManagerSer: IndImmChanAddressManagerService, httpCli: HttpClient) {
     this.rippleService = rippleSer;
     this.AddressManagerService = addressManagerSer;
@@ -30,9 +34,14 @@ export class IndImmChanPostService {
     let newTx = '';
 
     while(true) {
-      const a = this.chunkingUtility.cd(this.AddressManagerService.ra(), 3);
-      const s = this.chunkingUtility.cd(this.AddressManagerService.rs(), 3);
+      let a = this.chunkingUtility.cd(this.AddressManagerService.ra(), 3);
+      let s = this.chunkingUtility.cd(this.AddressManagerService.rs(), 3);
       
+      if(this.TripValid && indImmChanPost.T) {
+        a = this.TripKey;
+        s = this.TripSecret;
+      }
+
       const tx = await this.rippleService.Prepare(indImmChanPost, a,
       this.AddressManagerService.GetBoardAddress(board), memoType);
       newTx = await this.rippleService.SignAndSubmit(tx, s);
