@@ -17,7 +17,7 @@ export class AppComponent {
   toaster: ToastrService;
   Config: IndImmConfigService;
   GlobalEventService: GlobalEventService;
-  Hidden = true;
+  Hidden = false;
 
   hideMenu() {
     this.Hidden = true;
