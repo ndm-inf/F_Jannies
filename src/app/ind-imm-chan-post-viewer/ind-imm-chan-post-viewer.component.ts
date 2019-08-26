@@ -309,6 +309,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     if (this.PostDecrypted) {
       this.decrypt(); 
     }
+    localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
   }
 
   async ToggleFullSizeFile(post: IndImmChanPostModel) {
@@ -316,9 +317,12 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
     const board = this.Route.snapshot.params['board'];
     const id = this.Route.snapshot.params['id'];
 
+  
     console.log('board: ' + board);
     this.postBoard=board;
     if (board === 'pol') {
@@ -329,7 +333,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.postBoardName = 'Random';
     }
     this.parentTx=id;
-    this.refresh();
+
+    const threadString = localStorage.getItem('thread-' + id);
+    if(threadString) {
+      const thread: IndImmChanThread = JSON.parse(threadString);
+      this.thread = thread;
+    }
+    else {
+      this.refresh();
+    }
   }
 
   async ManualOverRideShowImage(post: IndImmChanPostModel) {

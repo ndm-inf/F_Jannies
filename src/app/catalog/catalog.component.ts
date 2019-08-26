@@ -255,8 +255,9 @@ export class CatalogComponent implements OnInit {
     this.Posting = false;
   }
   
-  async OpenThread(tx: string){
-    this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
+  async OpenThread(thread: IndImmChanThread){
+    localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }
   ngOnInit() {
