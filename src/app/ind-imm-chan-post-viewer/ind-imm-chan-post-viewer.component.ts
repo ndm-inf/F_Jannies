@@ -310,10 +310,16 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.decrypt(); 
     }
     localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
+    this.loadCatalogAsync();
   }
 
   async ToggleFullSizeFile(post: IndImmChanPostModel) {
     post.ShowFullSizeFile = !post.ShowFullSizeFile;
+  }
+
+  async loadCatalogAsync() {
+    const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
+    localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
   }
 
   ngOnInit() {

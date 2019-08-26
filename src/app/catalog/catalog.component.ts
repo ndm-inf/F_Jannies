@@ -164,8 +164,12 @@ export class CatalogComponent implements OnInit {
     this.PostingEnabled = true;
   }
 
-  async refresh() {
-    this.PostLoading = true;
+  async refresh(silent: boolean) {
+
+    if(!silent) {
+      this.PostLoading = true;
+    }
+
     while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
@@ -177,6 +181,7 @@ export class CatalogComponent implements OnInit {
     threads.sort(this.compare);
     this.threads = threads;
     this.PostLoading = false;
+    localStorage.setItem(this.postBoard, JSON.stringify(this.threads));
   }
   
   public handleFileInput(files: FileList) {
@@ -270,7 +275,16 @@ export class CatalogComponent implements OnInit {
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
     }
-    this.refresh();
+    
+    const boardString = localStorage.getItem(this.postBoard);
+    if(boardString) {
+      const threadsFromCache: IndImmChanThread[] = JSON.parse(boardString);
+      this.threads = threadsFromCache;
+      this.refresh(true);
+    }
+    else {
+      this.refresh(false);
+    }
   }
 
   selfInit(board) {
@@ -283,7 +297,7 @@ export class CatalogComponent implements OnInit {
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
     }
-    this.refresh();
+    this.refresh(false);
   }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
     post.ShowFullSizeFile = false;
