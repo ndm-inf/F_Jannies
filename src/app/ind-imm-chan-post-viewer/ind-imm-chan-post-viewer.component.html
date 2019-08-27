@@ -87,7 +87,7 @@
                     </div>  
                 </div>
             </div>
-            <div class="row"> 
+            <div class="row" [attr.id]="thread.IndImmChanPostModelParent.Tx"> 
                 <div class="col-lg-12">
                     <div class="progress-item-container red">
                         {{  thread.IndImmChanPostModelParent.Title }}
@@ -117,7 +117,7 @@
    
         <div *ngIf="thread !== null && thread.IndImmChanPostModelChildren !== null && thread.IndImmChanPostModelChildren.length > 0">
             <div class="row uk-text-center upload-container sub-cont" *ngFor="let post of thread.IndImmChanPostModelChildren">
-                <div class="progress-container">
+                <div class="progress-container" [attr.id]="post.Tx">
                     <div class="row"> 
                         <div class="col-lg-1">
                             <span class="comment-name post-header green">{{ post.Name }}</span>
@@ -133,7 +133,7 @@
                         <div class="col-lg-2">
 
                         </div>
-                        <div class="col-lg-2" #elem [id]="post.Tx">
+                        <div class="col-lg-2" #elem id="post.Tx">
                             <div style="float:right; text-align:right; margin-right:7px; padding-right:7px">
                                 <span class="comment-time post-header white"><b>Post Id:</b>&nbsp;
                                 </span>

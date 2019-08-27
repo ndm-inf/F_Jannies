@@ -2086,12 +2086,12 @@ RESPONSIVE
     .hide-for-mobile {
         display: block;
     }
+    .wrapper {
+        padding-left: 260px;
+    }
 }
 
-.wrapper {
-    padding-left: 260px;
 
-}
 
 @media(max-width:1198px) {
     .absolute-widget {

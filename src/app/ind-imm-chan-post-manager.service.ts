@@ -116,7 +116,6 @@ export class IndImmChanPostManagerService {
           const cu: ChunkingUtility = new ChunkingUtility();
 
           if(post.T) {
-            debugger;
            postModel.TripCode = cu.GetMd5(postModel.SendingAddress).toString();
            postModel.T = true;
           }
@@ -223,6 +222,17 @@ export class IndImmChanPostManagerService {
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
           postModel.Enc = post.Enc;
+          if(!post.UID || post.UID.length == 0) {
+            postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
+            postModel.BackgroundColor = '#cc0000';
+            postModel.FontColor = '#ffffff';
+          } else {
+            postModel.UID = post.UID
+            const cu: ChunkingUtility = new ChunkingUtility()
+            postModel.BackgroundColor = '#' +  cu.GetColorCodeFingerPrint(postModel.UID);
+            postModel.FontColor = cu.InvertColor(postModel.BackgroundColor);
+          }
+          
           postModel.ETH = post.ETH;
           if(post.IPFSHash && post.IPFSHash.length > 0) {
             postModel.HasImage = true;
@@ -280,6 +290,20 @@ export class IndImmChanPostManagerService {
 
   public async ManualOverRideShowImage(post: IndImmChanPostModel): Promise<IndImmChanPostModel> {
     if (post && !post.ShowImageOverride) {
+      post.ImageLoading = true;
+      const blob = await this.IndImmChanPostService.getFromIPFS(post.IPFSHash);    
+      post.Image = blob;
+      post.CreateImageFromBlob();
+      post.ShowImageOverride = true;
+      post.ImageLoading = false;
+      return post; 
+    } else {
+      return post;
+    }
+  }
+
+  public async ManualOverRideShowImageFromRefresh(post: IndImmChanPostModel): Promise<IndImmChanPostModel> {
+    if (post) {
       post.ImageLoading = true;
       const blob = await this.IndImmChanPostService.getFromIPFS(post.IPFSHash);    
       post.Image = blob;

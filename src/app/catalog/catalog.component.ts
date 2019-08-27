@@ -85,6 +85,7 @@ export class CatalogComponent implements OnInit {
     }
     OpenPostInNewWindows(thread:IndImmChanThread) {
       const url = this.Router.createUrlTree(['BlockChan/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
+      localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
 
       window.open(url.toString(), '_blank');
     }
@@ -164,8 +165,12 @@ export class CatalogComponent implements OnInit {
     this.PostingEnabled = true;
   }
 
-  async refresh() {
-    this.PostLoading = true;
+  async refresh(silent: boolean) {
+
+    if(!silent) {
+      this.PostLoading = true;
+    }
+
     while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
@@ -177,6 +182,7 @@ export class CatalogComponent implements OnInit {
     threads.sort(this.compare);
     this.threads = threads;
     this.PostLoading = false;
+    localStorage.setItem(this.postBoard, JSON.stringify(this.threads));
   }
   
   public handleFileInput(files: FileList) {
@@ -255,8 +261,9 @@ export class CatalogComponent implements OnInit {
     this.Posting = false;
   }
   
-  async OpenThread(tx: string){
-    this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
+  async OpenThread(thread: IndImmChanThread){
+    localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }
   ngOnInit() {
@@ -269,8 +276,80 @@ export class CatalogComponent implements OnInit {
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
     }
-    this.refresh();
+    
+    const cu: ChunkingUtility = new ChunkingUtility();
+
+    const boardString = localStorage.getItem(this.postBoard);
+    if(boardString) {
+      const threadsFromCache: IndImmChanThread[] = JSON.parse(boardString);
+
+      const populatedThreads: IndImmChanThread[] = [];
+
+      for (let j = 0; j < threadsFromCache.length; j++) {
+        const threadBare: IndImmChanThread = threadsFromCache[j];
+        const children: IndImmChanPostModel[] = [];
+
+        const parent: IndImmChanPostModel = cu.HydratePostModel(threadBare.IndImmChanPostModelParent);
+
+        let imageCounter = 1;
+
+        for (let i = 0; i < threadBare.IndImmChanPostModelChildren.length; i++) {
+          if(threadBare.IndImmChanPostModelChildren[i].HasImage)
+          {
+            imageCounter++;
+          }
+          children.push(cu.HydratePostModel(threadBare.IndImmChanPostModelChildren[i]));
+        }
+
+        const thread: IndImmChanThread = new IndImmChanThread();
+        thread.IndImmChanPostModelParent = parent;
+        thread.IndImmChanPostModelChildren = children;
+
+        const newThread:IndImmChanThread = new IndImmChanThread();
+        newThread.IndImmChanPostModelChildren = children;
+        newThread.IndImmChanPostModelParent = parent;
+        newThread.ImageReplies = imageCounter;
+        newThread.TotalReplies = children.length;
+        populatedThreads.push(newThread);
+      }
+
+      for (let i = 0; i < populatedThreads.length; i++) {
+        populatedThreads[i].Prep();
+      }
+      populatedThreads.sort(this.compare);
+
+      this.threads = populatedThreads;
+     
+      if(this.Config.ShowImages) {
+      this.reloadImages();
+      } else {
+        this.hideImagesFromToggle();
+      }
+      
+      
+      //this.refresh(true);
+    }
+    else {
+      this.refresh(false);
+    }
   }
+
+  
+  async reloadImages() {
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].IndImmChanPostModelParent.IPFSHash && this.threads[i].IndImmChanPostModelParent.IPFSHash.length > 0
+          && (!this.threads[i].IndImmChanPostModelParent.Enc)) {
+            if(!this.threads[i].IndImmChanPostModelParent.Base64Image) {
+              this.threads[i].IndImmChanPostModelParent.ImageLoading = true;
+              this.IndImmChanPostManagerService.ManualOverRideShowImageFromRefresh(this.threads[i].IndImmChanPostModelParent).then(result=> {
+                this.threads[i].IndImmChanPostModelParent = result;
+                this.threads[i].IndImmChanPostModelParent.ImageLoading = false;
+            });
+          }
+        }
+      }
+    }
+  
 
   selfInit(board) {
     this.postBoard = board;
@@ -282,7 +361,7 @@ export class CatalogComponent implements OnInit {
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
     }
-    this.refresh();
+    this.refresh(false);
   }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
     post.ShowFullSizeFile = false;
