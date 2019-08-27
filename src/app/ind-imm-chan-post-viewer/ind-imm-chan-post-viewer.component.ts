@@ -193,6 +193,33 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   }
 
+  async reloadImages() {
+    if(this.Config.ShowImages) {
+      if(this.PostDecrypted || !this.thread.IndImmChanPostModelParent.Enc){
+        if(!this.thread.IndImmChanPostModelParent.Base64Image) {
+          this.thread.IndImmChanPostModelParent.ImageLoading = true;
+          this.IndImmChanPostManagerService.ManualOverRideShowImageFromRefresh(this.thread.IndImmChanPostModelParent).then(result=>{          
+            this.thread.IndImmChanPostModelParent = result;
+            this.thread.IndImmChanPostModelParent.ImageLoading = false;
+          });
+        }
+      }
+
+      for (let i = 0; i < this.thread.IndImmChanPostModelChildren.length; i++) {
+        if (this.thread.IndImmChanPostModelChildren[i].IPFSHash && this.thread.IndImmChanPostModelChildren[i].IPFSHash.length > 0
+          && (this.PostDecrypted || !this.thread.IndImmChanPostModelParent.Enc)) {
+            if(!this.thread.IndImmChanPostModelChildren[i].Base64Image) {
+              this.thread.IndImmChanPostModelChildren[i].ImageLoading = true;
+              this.IndImmChanPostManagerService.ManualOverRideShowImageFromRefresh(this.thread.IndImmChanPostModelChildren[i]).then(result=> {
+              this.thread.IndImmChanPostModelChildren[i] = result;
+              this.thread.IndImmChanPostModelChildren[i].ImageLoading = false;
+            });
+          }
+        }
+      }
+    }
+  }
+
   async showImagesFromToggle() {
     
     if(this.PostDecrypted || !this.thread.IndImmChanPostModelParent.Enc){
@@ -281,7 +308,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
       await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
         this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
       this.PostingError = false;
-      this.refresh();
+       this.refresh(false);
     } catch (error) {
       console.log(error);
       this.PostingError = true;
@@ -290,9 +317,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Posting = false;
   }
 
-  async refresh() {
+  async refresh(silent: boolean) {
 
-    this.PostLoading = true;
+    if(!silent) {
+      this.PostLoading = true;
+    }
     while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
@@ -344,9 +373,12 @@ export class IndImmChanPostViewerComponent implements OnInit {
     if(threadString) {
       const thread: IndImmChanThread = JSON.parse(threadString);
       this.thread = thread;
+      //this.refresh(true);
+      this.reloadImages();
+
     }
     else {
-      this.refresh();
+      this.refresh(false);
     }
   }
 
