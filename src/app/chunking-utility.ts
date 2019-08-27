@@ -2,6 +2,7 @@ import * as sjcl from 'sjcl';
 import { PostKey } from './post-key';
 import {Buffer} from 'buffer';
 import {Md5} from 'ts-md5/dist/md5';
+import { IndImmChanPostModel } from './ind-imm-chan-post-model';
 
 export class ChunkingUtility {
 
@@ -309,5 +310,39 @@ export class ChunkingUtility {
     public GetMd5(str) {
         const md5 = new Md5();
         return md5.appendStr(str).end();
+    }
+
+    public HydratePostModel(post: IndImmChanPostModel) {
+        
+    // goofy as fuck but object is not keeping it's function attached
+        const newPost: IndImmChanPostModel = new IndImmChanPostModel();
+        newPost.Timestamp = post.Timestamp;
+        newPost.Image = post.Image;
+        newPost.HasImage = post.HasImage;
+        newPost.ShowImageOverride = post.ShowImageOverride;
+        newPost.Base64Image = post.Base64Image;
+        newPost.Tx = post.Tx;
+        newPost.IsOrganized = post.IsOrganized;
+        newPost.ShowFullSizeFile = post.ShowFullSizeFile;
+        newPost.MsgSafeHtml = post.MsgSafeHtml;
+        newPost.ImageLoading = post.ImageLoading;
+        newPost.HeaderLinks = post.HeaderLinks;
+        newPost.EncDemo = post.EncDemo;
+        newPost.BackgroundColor = post.BackgroundColor;
+        newPost.FontColor = post.FontColor;
+        newPost.SendingAddress = post.SendingAddress;
+        newPost.TripCode = post.TripCode;
+
+        newPost.Parent = post.Parent;
+        newPost.Title  = post.Title;
+        newPost.Msg = post.Msg;
+        newPost.IPFSHash  = post.IPFSHash;
+        newPost.Name = post.Name;
+        newPost.Enc  = post.Enc;
+        newPost.ETH = post.ETH;
+        newPost.UID  = post.UID;
+        newPost.T = post.T;
+
+        return newPost;
     }
 }

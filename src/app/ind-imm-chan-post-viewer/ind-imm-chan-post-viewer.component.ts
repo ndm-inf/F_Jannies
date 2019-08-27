@@ -371,7 +371,25 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
     const threadString = localStorage.getItem('thread-' + id);
     if(threadString) {
-      const thread: IndImmChanThread = JSON.parse(threadString);
+      const cu: ChunkingUtility = new ChunkingUtility();
+
+      const threadBare: IndImmChanThread = JSON.parse(threadString);
+      const children: IndImmChanPostModel[] = [];
+
+      const parent: IndImmChanPostModel = cu.HydratePostModel(threadBare.IndImmChanPostModelParent);
+      let imageCounter = 1;
+      for (let i = 0; i < threadBare.IndImmChanPostModelChildren.length; i++) {
+        children.push(cu.HydratePostModel(threadBare.IndImmChanPostModelChildren[i]));
+        if (threadBare.IndImmChanPostModelChildren[i].HasImage){
+          imageCounter++;
+        }
+      }
+
+      const thread: IndImmChanThread = new IndImmChanThread();
+      thread.IndImmChanPostModelParent = parent;
+      thread.IndImmChanPostModelChildren = children;
+      thread.TotalReplies = children.length;
+      thread.ImageReplies = imageCounter;
       this.thread = thread;
       this.reloadImages();
       // this.refresh(true);

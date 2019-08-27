@@ -277,16 +277,73 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Random';
     }
     
+    const cu: ChunkingUtility = new ChunkingUtility();
+
     const boardString = localStorage.getItem(this.postBoard);
     if(boardString) {
       const threadsFromCache: IndImmChanThread[] = JSON.parse(boardString);
-      this.threads = threadsFromCache;
-      this.refresh(true);
+
+      const populatedThreads: IndImmChanThread[] = [];
+
+      for (let j = 0; j < threadsFromCache.length; j++) {
+        const threadBare: IndImmChanThread = threadsFromCache[j];
+        const children: IndImmChanPostModel[] = [];
+
+        const parent: IndImmChanPostModel = cu.HydratePostModel(threadBare.IndImmChanPostModelParent);
+
+        let imageCounter = 1;
+
+        for (let i = 0; i < threadBare.IndImmChanPostModelChildren.length; i++) {
+          if(threadBare.IndImmChanPostModelChildren[i].HasImage)
+          {
+            imageCounter++;
+          }
+          children.push(cu.HydratePostModel(threadBare.IndImmChanPostModelChildren[i]));
+        }
+
+        const thread: IndImmChanThread = new IndImmChanThread();
+        thread.IndImmChanPostModelParent = parent;
+        thread.IndImmChanPostModelChildren = children;
+
+        const newThread:IndImmChanThread = new IndImmChanThread();
+        newThread.IndImmChanPostModelChildren = children;
+        newThread.IndImmChanPostModelParent = parent;
+        newThread.ImageReplies = imageCounter;
+        newThread.TotalReplies = children.length;
+        populatedThreads.push(newThread);
+      }
+
+      populatedThreads.sort(this.compare);
+      for (let i = 0; i < populatedThreads.length; i++) {
+        populatedThreads[i].Prep();
+      }
+
+      this.threads = populatedThreads;
+     
+      this.reloadImages();
+      //this.refresh(true);
     }
     else {
       this.refresh(false);
     }
   }
+
+  
+  async reloadImages() {
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].IndImmChanPostModelParent.IPFSHash && this.threads[i].IndImmChanPostModelParent.IPFSHash.length > 0
+          && (!this.threads[i].IndImmChanPostModelParent.Enc)) {
+            if(!this.threads[i].IndImmChanPostModelParent.Base64Image) {
+              this.threads[i].IndImmChanPostModelParent.ImageLoading = true;
+              this.IndImmChanPostManagerService.ManualOverRideShowImageFromRefresh(this.threads[i].IndImmChanPostModelParent).then(result=> {
+                this.threads[i].IndImmChanPostModelParent = result;
+                this.threads[i].IndImmChanPostModelParent.ImageLoading = false;
+            });
+          }
+        }
+      }
+    }
+  
 
   selfInit(board) {
     this.postBoard = board;
