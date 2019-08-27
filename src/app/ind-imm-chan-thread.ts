@@ -69,7 +69,7 @@ export class IndImmChanThread {
             for (let j = 0; j < ids.length; j++) {
                 if(this.IndImmChanPostModelChildren[i].Msg.includes(ids[j])) {
                     this.IndImmChanPostModelChildren[i].Msg =  this.IndImmChanPostModelChildren[i].Msg.replace('>>' + ids[j],
-                        '<a title="' + ids[j] + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'+ ids[j]  +'\'">>>' + ids[j].substring(0, 10) + '...</a>');
+                        '<a onmouseenter="hoverdiv(event, \'' +   ids[j] + ' \');" onmouseleave="hideHoverDiv();" title="' + ids[j] + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'+ ids[j]  +'\'">>>' + ids[j].substring(0, 10) + '...</a>');
                 }
             }
         }
@@ -77,7 +77,7 @@ export class IndImmChanThread {
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             for (let j = 0; j < this.IndImmChanPostModelChildren.length; j++) {
                 if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelChildren[i].Tx)) {
-                    const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
+                    const headerLink ='<a onmouseenter="hoverdiv(event, \'' +   this.IndImmChanPostModelChildren[j].Tx + ' \');" onmouseleave="hideHoverDiv();" title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
                         + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
                         this.IndImmChanPostModelChildren[i].HeaderLinks = this.IndImmChanPostModelChildren[i].HeaderLinks +'<u>' + headerLink + '</u> ';                    
                 }
@@ -87,7 +87,7 @@ export class IndImmChanThread {
         
         for (let j = 0; j < this.IndImmChanPostModelChildren.length; j++) {
             if(this.IndImmChanPostModelChildren[j].Msg.includes(this.IndImmChanPostModelParent.Tx)) {
-                const headerLink ='<a title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
+                const headerLink ='<a onmouseenter="hoverdiv(event, \'' +   this.IndImmChanPostModelChildren[j].Tx + ' \');" onmouseleave="hideHoverDiv();" title="' + this.IndImmChanPostModelChildren[j].Tx + '" style="color:aqua; cursor: pointer" onClick="window.location.hash=\'#'
                     + this.IndImmChanPostModelChildren[j].Tx   +'\'">>>' + this.IndImmChanPostModelChildren[j].Tx.substring(0, 10)  + '...</a>';
                     this.IndImmChanPostModelParent.HeaderLinks = this.IndImmChanPostModelParent.HeaderLinks + '<u>' + headerLink + '</u> ';      
             }
