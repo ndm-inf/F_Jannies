@@ -348,7 +348,18 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   async loadCatalogAsync() {
     const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
+    boardCatalog.sort(this.threadCompare)
     localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
+  }
+
+  threadCompare( a: IndImmChanThread, b:IndImmChanThread ) {
+    if ( a.LastCommentTime < b.LastCommentTime ){
+      return 1;
+    }
+    if ( a.LastCommentTime > b.LastCommentTime ){
+      return -1;
+    }
+    return 0;
   }
 
   ngOnInit() {

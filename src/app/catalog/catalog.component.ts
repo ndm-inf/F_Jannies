@@ -313,10 +313,10 @@ export class CatalogComponent implements OnInit {
         populatedThreads.push(newThread);
       }
 
-      populatedThreads.sort(this.compare);
       for (let i = 0; i < populatedThreads.length; i++) {
         populatedThreads[i].Prep();
       }
+      populatedThreads.sort(this.compare);
 
       this.threads = populatedThreads;
      
