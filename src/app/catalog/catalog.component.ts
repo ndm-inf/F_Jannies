@@ -320,7 +320,13 @@ export class CatalogComponent implements OnInit {
 
       this.threads = populatedThreads;
      
+      if(this.Config.ShowImages) {
       this.reloadImages();
+      } else {
+        this.hideImagesFromToggle();
+      }
+      
+      
       //this.refresh(true);
     }
     else {

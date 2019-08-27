@@ -1,5 +1,6 @@
 import { Injectable} from '@angular/core';
 import {ConfigEnvironment} from './config-environment.enum';
+import { GlobalEventService } from './global-event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,15 @@ export class IndImmConfigService {
   public IsDev = false;
   public ShowImages = false;
 
-  constructor() {
+  GlobalEventService: GlobalEventService;
+  
+  constructor(globalEventService: GlobalEventService) {
+    this.GlobalEventService = globalEventService;
+    this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
+      this.ShowImages = state;
+    });
   }
+  
 
   public GetEnvironmentName(): string {
     if (!this.IsDev) {
