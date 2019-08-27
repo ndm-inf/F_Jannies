@@ -374,7 +374,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
       const thread: IndImmChanThread = JSON.parse(threadString);
       this.thread = thread;
       this.reloadImages();
-      this.refresh(true);
+      // this.refresh(true);
     }
     else {
       this.refresh(false);
