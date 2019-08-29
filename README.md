@@ -13,7 +13,7 @@
     Navigate to `http://localhost:4200/`
 
 ## How does IndImm work
-    IndImm Chan works buy storing content and references on the Ripple blockchain while storing actual images on IPFS referenced via hash. More detailed explanation and docs coming soon.
+    IndImm Chan works by storing content and references on the Ripple blockchain while storing actual images on IPFS referenced via hash. More detailed explanation and docs coming soon.
 
 ## Donate
 
