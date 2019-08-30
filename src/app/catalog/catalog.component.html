@@ -168,10 +168,10 @@
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image && !thread.IndImmChanPostModelParent.IsWebm" (click)="OpenThread(thread)">
                             <img [src]=" thread.IndImmChanPostModelParent.Base64Image" width="150px">
                         </div>
-                        <div *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
-                            <span style="margin-left:5px; padding-left:5px;"><video width="215" controls>
+                        <div class="webmContainer" *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
+                            <video width="215" controls>
                                 <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
-                            </video></span>
+                            </video>
                         </div>
                         <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">
