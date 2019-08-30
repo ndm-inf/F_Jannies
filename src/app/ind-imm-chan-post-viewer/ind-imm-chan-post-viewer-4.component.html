@@ -166,13 +166,13 @@
         <div class="board">
             <div id="hover-preview-container" style="position:absolute; z-index:1000; width:50%"></div>
             <div class="thread" id="t15343728" *ngIf="thread !== null">
-                <div class="postContainer opContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
-                    <div id="p15343728" class="post op">
+                <div class="postContainer replyContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
+                    <div id="p15343728" class="post reply">
                         <div class="postInfoM mobile">
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
-                                <span class="posteruid id_FTh6OQUa">
+                                <span class="posteruid">
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
                                         <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                                 &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
