@@ -1,8 +1,9 @@
 <div class="container">
     <div class="row">
-        <span class="openBoard" (click)="OpenPolitics()">[ pol /</span>
-        <span class="openBoard" (click)="OpenBusiness()">biz</span>
-        <span class="openBoard" (click)="OpenRandom()">/ b]</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
+        <span class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
 <div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
 
@@ -19,7 +20,7 @@
         <div class="col-lg-6">
             <div [hidden]="ShowTripEntry">
                 <div (click)="AddTrip()" class="btn btn-wrapper btn-default btn-round" style="width:100%">
-                    Add Trip Codee
+                    Add Trip Code
                 </div>
             </div>
         </div>
@@ -139,7 +140,7 @@
 </div>
 <div class="row" *ngIf="threads !== null">
     <div class="col-lg-4">
-            <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
+            <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span>&nbsp;<span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
     </div>
     <div class="col-lg-4">        
         
@@ -172,13 +173,13 @@
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">
                             <div class="btn btn-wrapper btn-primary btn-round click-show">Show Image Preview</div>
                         </div>                        
-                        <div class="progress-item-container" (click)="OpenThread(thread)">
+                        <div class="progress-item-container title" (click)="OpenThread(thread)">
                         <b>{{  thread.IndImmChanPostModelParent.Title | slice:0:140 }}</b>
                         </div>
-                        <div class="progress-item-container" (click)="OpenThread(thread)">
+                        <div class="progress-item-container small" (click)="OpenThread(thread)">
                             Images: {{  thread.ImageReplies }} |&nbsp; Replies: {{  thread.TotalReplies }}
                         </div>
-                        <div class="progress-item-container"  (click)="OpenThread(thread)">
+                        <div class="progress-item-container tiny"  (click)="OpenThread(thread)">
                             Last: {{  thread.LastCommentTime | date:'medium' }}
                         </div>
                         <div class="progress-item-container-encrypted" *ngIf="thread.IndImmChanPostModelParent.Enc" (click)="OpenThread(thread)">

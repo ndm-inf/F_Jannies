@@ -210,6 +210,12 @@ table {
 .replybracket {
    color:white;
 }
+.title {
+	color: #b294bb;
+}
+.tiny {
+	font-size: 65%;
+}
 .openBoard{
    cursor: pointer;
    margin:1px;
@@ -220,6 +226,7 @@ table {
    font-size: 22px;
    font-weight: 700;
    text-align: center;
+   color: #00ff00;
 }
 .rowspacer2{
    margin-top:3px;
