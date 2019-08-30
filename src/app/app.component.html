@@ -32,7 +32,19 @@
                                 Download Images
                                 </mat-slide-toggle>
                             </div>
-                        </div>  
+                        </div> 
+                        <div class="">          
+                            <div  class="toggle-container">
+                                <mat-slide-toggle
+                                class=""
+                                color="green"
+                                [(ngModel)]="this.Config.ModerationOn"
+                                (change)="toggleMod()"
+                                >
+                                Use Moderated Mode
+                                </mat-slide-toggle>
+                            </div>
+                        </div>   
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
@@ -66,7 +78,19 @@
                             Download Images
                             </mat-slide-toggle>
                         </div>
-                    </div>     
+                    </div>
+                    <div class="">          
+                        <div  class="toggle-container">
+                            <mat-slide-toggle
+                            class=""
+                            color="green"
+                            [(ngModel)]="this.Config.ModerationOn"
+                            (change)="toggleMod()"
+                            >
+                            Use Moderated Mode
+                            </mat-slide-toggle>
+                        </div>
+                        </div>       
                     <div class="margin-block"></div>
                     <div class="menu-social">
                       <ul class="list-inline text-center">

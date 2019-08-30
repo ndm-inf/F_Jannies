@@ -176,7 +176,7 @@
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
                                         <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                                 &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
-                                        </span>
+                                        </span>                                        
                                     </span>)
                                 </span>
                                 <br>
@@ -186,6 +186,7 @@
                                 </span>
                                 <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             </span>
+                            &nbsp;<i class="fa fa-warning " (click)="Flag(thread.IndImmChanPostModelParent)"></i>
                             <span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}} 
                                 <span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
                                     &nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
@@ -228,11 +229,12 @@
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                      <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" >
                                          &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
-                                     </span>
+                                     </span>                                     
                                     </span>)
                             </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span> 
+                            &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)" ></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">&nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...</span>
                                 <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
                             </span>
@@ -259,6 +261,7 @@
                                 <br>
                             </span>
                             <span class="dateTime postNum" data-utc="1566433365">&nbsp;{{  post.Timestamp | date:'medium'}}<span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">&nbsp;{{  post.Tx.substring(0, 10)}}...</span>
+                            &nbsp;<i class="fa fa-warning" (click)="Flag(post)" ></i>
                             <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
                             </span>
                         </div>
@@ -297,6 +300,7 @@
                                 </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  post.Timestamp | date:'medium'}}</span> 
+                            &nbsp;<i class="fa fa-warning " (click)="Flag(post)"></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">{{  post.Tx.substring(0, 10)}}...</span>
                                 <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
 

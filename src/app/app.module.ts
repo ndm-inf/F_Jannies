@@ -25,6 +25,7 @@ import { BoardsComponent } from './boards/boards.component';
 import { SafePipe } from './safe.pipe';
 import { ConfirmEncryptPostComponent } from './confirm-encrypt-post/confirm-encrypt-post.component';
 import { TipDialogComponent } from './tip-dialog/tip-dialog.component';
+import { ModeratorDialogComponent } from './moderator-dialog/moderator-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { TipDialogComponent } from './tip-dialog/tip-dialog.component';
     BoardsComponent,
     SafePipe,
     ConfirmEncryptPostComponent,
-    TipDialogComponent
+    TipDialogComponent,
+    ModeratorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,7 @@ import { TipDialogComponent } from './tip-dialog/tip-dialog.component';
     AngularFileViewerModule,
     HttpClientModule
   ],
-  entryComponents: [ConfirmDialogComponent, ConfirmEncryptPostComponent, TipDialogComponent],
+  entryComponents: [ConfirmDialogComponent, ConfirmEncryptPostComponent, TipDialogComponent, ModeratorDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

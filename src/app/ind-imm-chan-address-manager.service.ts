@@ -27,6 +27,15 @@ export class IndImmChanAddressManagerService {
     return '6368696c64';
   }
 
+  public GetWarningsAddress() {
+    if(!this.IndImmConfigService.IsDev) {
+      return 'rHJKTrXF8mux8TgfThVD7GqPE9nyYJM8w2';
+    }
+    else {
+      return 'rDvCyfVU8JGYMrRkcGmYGMKff9hG73ohZ4';
+    }
+  }
+
   public GetBoardAddress(board: string) {
     if (board==='pol'){
       if(!this.IndImmConfigService.IsDev) {
@@ -46,6 +55,14 @@ export class IndImmChanAddressManagerService {
       } else {
         return 'rfsBWpRjwHucY8j6r1AtoqbvogNXcThNbQ';
       }    
+    }
+  }
+
+  public wa() {
+    if(!this.IndImmConfigService.IsDev) {
+      return 'r3VKdSsHd3koFNpszpmbtUMvUJwnEcXYXu';
+    } else {
+      return 'uqnz\\GHXOtDQ5WwUuK\\9Wr<;KH4vwM88wr';
     }
   }
 

@@ -68,6 +68,10 @@ export class CatalogComponent implements OnInit {
       this.Router = router;
       this.ToastrService = toasterService;
       this.GlobalEventService = globalEventService;
+      this.GlobalEventService.EnableModeration.subscribe(state => {
+        this.refresh(false);
+      });
+      
       this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
 
         if(state) {

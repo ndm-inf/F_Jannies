@@ -19,6 +19,9 @@ import { GlobalEventService } from '../global-event.service';
 import { PostKey } from '../post-key';
 import { ETHTipService } from '../ethtip.service';
 import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
+import { ModeratorDialogComponent } from '../moderator-dialog/moderator-dialog.component';
+import { PostModFlagModel } from '../post-mod-flag-model';
+import { PostModFlag } from '../post-mod-flag';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -133,6 +136,33 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
   }
 
+  async Flag(post:IndImmChanPostModel){
+    const dialogRef = this.Dialog.open(ModeratorDialogComponent, {
+      width: '525px',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (<PostModFlagModel>result) {
+        result.Tx = post.Tx;
+
+        const modValid = await this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.IsSenderSecretValid(result.Address, result.Key);
+
+        if(!modValid){
+          this.ToastrService.error('Invalid key', 'Error');
+        } else {
+          const warning: PostModFlag = new PostModFlag();
+          warning.Tx = post.Tx;
+          warning.Type = result.Type;
+          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key);
+          this.ToastrService.success('Post will no longer show in moderated client', 'Post flagged');
+        }
+      } else {
+        
+      }
+    });
+  }
+
   async Tip(post:IndImmChanPostModel){
     const dialogRef = this.Dialog.open(TipDialogComponent, {
       width: '325px',
@@ -181,6 +211,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Config = config; 
     this.GlobalEventService = globalEventService;
     this.EthTipService = ethTipService;
+
+    this.GlobalEventService.EnableModeration.subscribe(state => {
+      this.refresh(false);
+    });
+
     this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
     
       const cu: ChunkingUtility = new ChunkingUtility();

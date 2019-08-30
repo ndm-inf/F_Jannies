@@ -8,6 +8,7 @@ import { IndImmChanThread } from './ind-imm-chan-thread';
 import { IndImmConfigService } from './ind-imm-config.service';
 import { PostKey } from './post-key';
 import { ChunkingUtility } from './chunking-utility';
+import { PostModFlag } from './post-mod-flag';
 
 
 @Injectable({
@@ -78,6 +79,47 @@ export class IndImmChanPostManagerService {
     return txResult;
   }
 
+  public async RemoveFlaggedPost(posts: any[]) {
+    if (!this.Config.ModerationOn) {
+      return posts;
+    }
+    const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;
+    const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    const moddedPosts: any[] = 
+      await this.IndImmChanPostService.rippleService.api.getTransactions(this.IndImmChanPostService.AddressManagerService.GetWarningsAddress(),
+      {minLedgerVersion: minLedger, maxLedgerVersion: max});
+
+
+    const filteredPosts = [];
+    for (let i = 0; i < posts.length; i++) {
+      let isModded = false;
+      for (let j = 0; j < moddedPosts.length; j++) {
+        if ('memos' in moddedPosts[j].specification) {
+          let flag: PostModFlag  = null;
+
+          try {
+            const dataToParse = moddedPosts[j].specification.memos[0].data;
+            flag  = JSON.parse(dataToParse);
+
+            if (flag.Tx === posts[i].id) {
+              const modCheck = this.IndImmChanPostService.AddressManagerService.wa();
+              if(moddedPosts[j].address === modCheck) {
+                isModded = true;
+              }
+            }
+          } catch (error) {
+            console.log(error);
+            continue;
+          }
+        }
+      }
+      if(!isModded) {
+        filteredPosts.push(posts[i]);
+      }
+    }
+    return filteredPosts;
+  }
+
   public async GetPostsForPostViewer(boardAddress: string, parent: string): Promise<IndImmChanThread> {
     await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
     while (!this.IndImmChanPostService.rippleService.Connected) {
@@ -87,9 +129,10 @@ export class IndImmChanPostManagerService {
     const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
     let imageCounter = 1;
 
-    const unfilteredResults: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+    const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
       {minLedgerVersion: minLedger, maxLedgerVersion: max});
 
+      const unfilteredResults = await this.RemoveFlaggedPost(unfilteredResultsUnModded);
       const postSet: IndImmChanPostModel[] = [];
       const retSet: IndImmChanThread[] = [];
       const childSet: IndImmChanPostModel[] = [];
@@ -193,8 +236,10 @@ export class IndImmChanPostManagerService {
     const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;
     const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
 
-    const unfilteredResults: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+    const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
       {minLedgerVersion: minLedger, maxLedgerVersion: max});
+
+      const unfilteredResults = await this.RemoveFlaggedPost(unfilteredResultsUnModded);
 
       const postSet: IndImmChanPostModel[] = [];
       const retSet: IndImmChanThread[] = [];
