@@ -206,13 +206,18 @@
                                 <span *ngIf="thread.IndImmChanPostModelParent.ImageLoading">
                                     <mat-spinner ></mat-spinner>
                                 </span>
-                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
+                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && !thread.IndImmChanPostModelParent.IsWebm" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
                                     <span *ngIf="!thread.IndImmChanPostModelParent.ShowFullSizeFile">
                                         <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="200px">
                                     </span>
                                     <span *ngIf="thread.IndImmChanPostModelParent.ShowFullSizeFile">
                                         <img [src]="thread.IndImmChanPostModelParent.Base64Image">
                                     </span>
+                                </span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
+                                    <video width="250" controls>
+                                        <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
+                                    </video>
                                 </span>
                             </a>
                         </div>
@@ -276,13 +281,18 @@
                                     <span *ngIf="post.ImageLoading">
                                         <mat-spinner ></mat-spinner>
                                     </span>
-                                    <span *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
+                                    <span *ngIf="post.Base64Image && !post.IsWebm" (click)="ToggleFullSizeFile(post)">
                                         <span *ngIf="!post.ShowFullSizeFile">
                                             <img [src]="post.Base64Image" width="200px">
                                         </span>
                                         <span *ngIf="post.ShowFullSizeFile">
                                             <img [src]="post.Base64Image">
                                         </span>
+                                    </span>
+                                    <span *ngIf="post.Base64Image && post.IsWebm">
+                                        <video width="250" controls>
+                                            <source [src]="post.Base64Image" type="video/webm">
+                                        </video>
                                     </span>
                                 </a>
                             </div>

@@ -204,8 +204,9 @@ export class CatalogComponent implements OnInit {
     }
     if (!(this.fileToUpload.type === 'image/jpeg' ||
       this.fileToUpload.type === 'image/gif' ||
+      this.fileToUpload.type === 'video/webm' ||
       this.fileToUpload.type === 'image/png')) {
-        this.ToastrService.error('File must be of type Jpeg, Gif, or PNG; Webm coming soon', 'Posting Error');
+        this.ToastrService.error('File must be of type Jpeg, Gif, PNG, or Webm', 'Posting Error');
         return;
     }
     if (this.postMessage.length > 420) {

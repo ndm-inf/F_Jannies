@@ -18,12 +18,16 @@ export class IndImmChanPostModel extends IndImmChanPost{
     FontColor: string;
     SendingAddress: '';
     TripCode = '';
+    IsWebm = false;
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {
           this.Base64Image = reader.result;
         }, false);
         if (this.Image) {
+          if(this.Image.type === 'video/webm') {
+            this.IsWebm = true;
+          }
           reader.readAsDataURL(this.Image);
         }
       }
