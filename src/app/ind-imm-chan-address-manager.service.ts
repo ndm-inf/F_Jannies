@@ -55,6 +55,30 @@ export class IndImmChanAddressManagerService {
       } else {
         return 'rfsBWpRjwHucY8j6r1AtoqbvogNXcThNbQ';
       }    
+    } else if (board==='g'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rhH1W3YgBvVBzKJArdioCjV2TXhuHsrKBL';
+      } else {
+        return '';
+      }    
+    } else if (board==='m'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rKCVDtR2uAqDNxz7wcoZF4GzUReR7g7amB';
+      } else {
+        return '';
+      }    
+    } else if (board==='k'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rMmoXvAohZPjeeDRW5999FCNgcFGuNTPWP';
+      } else {
+        return '';
+      }    
+    } else if (board==='a'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rBTjhx2niB8q3G8HRDb9NWU3RfGdrAMWRH';
+      } else {
+        return '';
+      }    
     }
   }
 

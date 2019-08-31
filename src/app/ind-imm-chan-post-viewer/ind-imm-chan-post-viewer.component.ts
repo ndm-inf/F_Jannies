@@ -194,8 +194,24 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   OpenRandom() {
     this.Router.navigate(['/catalog/b']);
-
   }
+
+  OpenMeta() {
+    this.Router.navigate(['/catalog/m']);
+  }
+
+  OpenTechnology() {
+    this.Router.navigate(['/catalog/g']);
+  }
+
+  OpenWeapons() {
+    this.Router.navigate(['/catalog/k']);
+  }
+
+  OpenAnime() {
+    this.Router.navigate(['/catalog/a']);
+  }
+
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
@@ -413,7 +429,16 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (board === 'b') {
       this.postBoardName = 'Random';
+    } else if (board === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (board === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (board === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (board === 'g') {
+      this.postBoardName = 'Technology';
     }
+    
     this.parentTx=id;
 
     const threadString = localStorage.getItem('thread-' + id);

@@ -165,6 +165,22 @@ export class CatalogComponent implements OnInit {
       this.selfInit('b');
     }
 
+    OpenMeta() {
+      this.selfInit('m');
+    }
+
+    OpenTechnology() {
+      this.selfInit('g');
+    }
+
+    OpenWeapons() {
+      this.selfInit('k');
+    }
+
+    OpenAnime() {
+      this.selfInit('a');
+    }
+
   async ConfirmEncryption() {
     const dialogRef = this.Dialog.open(ConfirmEncryptPostComponent, {
       width: '650px',
@@ -341,6 +357,14 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
+    } else if (this.postBoard === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (this.postBoard === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (this.postBoard === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (this.postBoard === 'g') {
+      this.postBoardName = 'Technology';
     }
     
     const cu: ChunkingUtility = new ChunkingUtility();
@@ -427,7 +451,18 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
+    } else if (board === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (board === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (board === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (board === 'g') {
+      this.postBoardName = 'Technology';
     }
+
+    this.Router.navigate(['/catalog/' + this.postBoard]);
+
     this.refresh(false);
   }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {

@@ -28,4 +28,21 @@ export class BoardsComponent implements OnInit {
     this.Router.navigate(['/catalog/b']);
 
   }
+  
+  OpenMeta() {
+    this.Router.navigate(['/catalog/m']);
+  }
+
+  OpenTechnology() {
+    this.Router.navigate(['/catalog/g']);
+  }
+
+  OpenWeapons() {
+    this.Router.navigate(['/catalog/k']);
+  }
+
+  OpenAnime() {
+    this.Router.navigate(['/catalog/a']);
+  }
+
 }
