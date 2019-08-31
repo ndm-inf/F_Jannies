@@ -38,6 +38,8 @@ export class AppComponent {
     if(configFromMemory) {
       this.Config.ShowImages = configFromMemory.ShowImages;
       this.Config.ModerationOn = configFromMemory.ModerationOn;
+      this.Config.Sort = configFromMemory.Sort;
+      this.Config.LastUpdateTime = configFromMemory.LastUpdateTime;
     }
 
   }

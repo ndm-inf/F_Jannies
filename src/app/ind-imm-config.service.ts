@@ -11,6 +11,8 @@ export class IndImmConfigService {
   public IsDev = false;
   public ShowImages = false;
   public ModerationOn = false;
+  public Sort = 'LastReply';
+  public LastUpdateTime: Date;
   //GlobalEventService: GlobalEventService;
   
   /*

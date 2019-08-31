@@ -110,6 +110,39 @@ export class CatalogComponent implements OnInit {
         }
       }
     }
+
+    sortThreadsFromConfig() {
+      let configFromMemory = JSON.parse(localStorage.getItem('Config'));
+      if(configFromMemory) {
+        this.Config.Sort = configFromMemory.Sort;
+        console.log('config sort1: ' + this.Config.Sort);
+
+      }
+      if (this.threads && this.threads.length > 0) {
+        if (!this.Config.Sort || this.Config.Sort === '') {
+          console.log('null sort');
+          this.sortThreads('LastReply');
+        } else {
+        this.sortThreads(this.Config.Sort);
+        console.log('config sort: ' + this.Config.Sort);
+        }
+      } else {
+        console.log('no threads');
+      }
+    }
+
+    sortThreads(sort) {
+      if (sort === 'LastReply') {
+        this.threads.sort(this.sortLastReply);
+      } else if  (sort === 'CreateDate') {
+        this.threads.sort(this.sortCreationDate);
+      } else if  (sort === 'ReplyCount') {
+        this.threads.sort(this.sortReplies);
+      }
+      this.Config.Sort = sort;
+      localStorage.setItem('Config', JSON.stringify(this.Config));
+    }
+
     AddTrip() {
       this.ShowTripEntry = true;
     }
@@ -209,8 +242,10 @@ export class CatalogComponent implements OnInit {
       threads[i].Prep();
     }
 
-    threads.sort(this.compare);
+    // threads.sort(this.sortLastReply);
     this.threads = threads;
+    this.sortThreadsFromConfig();
+
     this.PostLoading = false;
     localStorage.setItem(this.postBoard, JSON.stringify(this.threads));
   }
@@ -347,10 +382,11 @@ export class CatalogComponent implements OnInit {
       for (let i = 0; i < populatedThreads.length; i++) {
         populatedThreads[i].Prep();
       }
-      populatedThreads.sort(this.compare);
+      // populatedThreads.sort(this.sortLastReply);
 
       this.threads = populatedThreads;
-     
+      this.sortThreadsFromConfig();
+
       if(this.Config.ShowImages) {
       this.reloadImages();
       } else {
@@ -400,7 +436,7 @@ export class CatalogComponent implements OnInit {
   }
 
 
-  compare( a: IndImmChanThread, b:IndImmChanThread ) {
+  sortLastReply( a: IndImmChanThread, b:IndImmChanThread ) {
     if ( a.LastCommentTime < b.LastCommentTime ){
       return 1;
     }
@@ -409,4 +445,26 @@ export class CatalogComponent implements OnInit {
     }
     return 0;
   }
+
+  sortCreationDate(a: IndImmChanThread, b:IndImmChanThread) {
+    if ( a.IndImmChanPostModelParent.Timestamp < b.IndImmChanPostModelParent.Timestamp ){
+      return 1;
+    }
+    if ( a.IndImmChanPostModelParent.Timestamp > b.IndImmChanPostModelParent.Timestamp ){
+      return -1;
+    }
+    return 0;
+  }
+  
+  sortReplies(a: IndImmChanThread, b:IndImmChanThread) {
+    if ( a.TotalReplies< b.TotalReplies ){
+      return 1;
+    }
+    if ( a.TotalReplies > b.TotalReplies ){
+      return -1;
+    }
+    return 0;
+  }
+  
+
 }

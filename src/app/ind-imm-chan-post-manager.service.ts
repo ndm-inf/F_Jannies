@@ -338,6 +338,7 @@ export class IndImmChanPostManagerService {
         }
       }
   
+      this.Config.LastUpdateTime = new Date();
       return retSet;
   }
 

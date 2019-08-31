@@ -138,20 +138,35 @@
     <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
 </div>
 <div class="row" *ngIf="threads !== null">
-    <div class="col-lg-4">
-            <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
-    </div>
-    <div class="col-lg-2">        
-        
+    <div class="col-lg-1">
+            <span class="util">
+                <span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span>
+                <span style="cursor: pointer" (click)="refresh()">[Update]</span>
+            </span>
     </div>
     <div class="col-lg-3">
-    
+        <span class="util" style="float:left; margin-top:1px; padding-top:1px;">
+            sort:        
+            <select id="order-ctrl" size="1" (change)="sortThreads($event.target.value)" [(ngModel)]="Config.Sort">
+                <option value="LastReply">Last reply</option> 
+                <option value="CreateDate">Creation date</option> 
+                <option value="ReplyCount">Reply count</option> 
+            </select>     
+        </span>   
+        &nbsp; 
+        <span *ngIf="Config.LastUpdateTime" class="util" >Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
+
+    </div>
+    <div class="col-lg-2">        
+        </div>
+    <div class="col-lg-3">
+
     </div>    
     <div class="col-lg-3">   
         <span class="util counters" style="float:right;">
                 {{ threads.length }} threads
-        </span>     
-        <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)"></span>
+        </span>
+        <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)" style="font-size:10px;"></span>
         <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"> x </span>
         <span class="util" [hidden]="ShowSearch" style="cursor:pointer; float:right" (click)="ToggleShowSearch()">[Search] &nbsp;</span>
     </div>
