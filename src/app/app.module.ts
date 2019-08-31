@@ -26,6 +26,7 @@ import { SafePipe } from './safe.pipe';
 import { ConfirmEncryptPostComponent } from './confirm-encrypt-post/confirm-encrypt-post.component';
 import { TipDialogComponent } from './tip-dialog/tip-dialog.component';
 import { ModeratorDialogComponent } from './moderator-dialog/moderator-dialog.component';
+import { ThreadFilterPipe } from './thread-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ModeratorDialogComponent } from './moderator-dialog/moderator-dialog.co
     SafePipe,
     ConfirmEncryptPostComponent,
     TipDialogComponent,
-    ModeratorDialogComponent
+    ModeratorDialogComponent,
+    ThreadFilterPipe
   ],
   imports: [
     BrowserModule,

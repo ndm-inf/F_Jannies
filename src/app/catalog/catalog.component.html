@@ -141,14 +141,20 @@
     <div class="col-lg-4">
             <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span> <span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
     </div>
-    <div class="col-lg-4">        
+    <div class="col-lg-2">        
         
     </div>
-    <div class="col-lg-4">
-        <span class="util counters">
-            {{ threads.length }} threads
-        </span>
-        </div>    
+    <div class="col-lg-3">
+    
+    </div>    
+    <div class="col-lg-3">   
+        <span class="util counters" style="float:right;">
+                {{ threads.length }} threads
+        </span>     
+        <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)"></span>
+        <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"> x </span>
+        <span class="util" [hidden]="ShowSearch" style="cursor:pointer; float:right" (click)="ToggleShowSearch()">[Search] &nbsp;</span>
+    </div>
 </div>    
 <div class="row">
     <hr class="smallPadding"> 
@@ -156,11 +162,9 @@
 <div class="row uk-text-center upload-container">
     <div *ngFor="let row of threads; let i = index">
         <div *ngIf=" i % 6 === 0 " class="row">
-            <div *ngFor="let thread of threads.slice(i,i+6)"> 
-
-        
+            <div *ngFor="let thread of threads.slice(i,i+6)">         
                 <div class="col-lg-2" >
-                    <div class="progress-container"> 
+                    <div class="progress-container" *ngIf="!thread.FilteredBySearch"> 
                         <span style="float:right; margin-top:-8px; margin-right:3px; cursor:pointer" (click)="OpenPostInNewWindows(thread)" title="Open in New Window">⇗</span>
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.ImageLoading" (click)="OpenThread(thread)">
                             <span style="display:inline-block"><mat-spinner ></mat-spinner></span>

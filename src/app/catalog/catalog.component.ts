@@ -56,6 +56,15 @@ export class CatalogComponent implements OnInit {
   TripSecret = '';
   TripName = '';
   ShowTripEntry = false;
+  search = '';
+  ShowSearch = false;
+
+  ToggleShowSearch() {
+    this.ShowSearch = true;
+  }
+  ToggleHideSearch() {
+    this.ShowSearch = false;
+  }
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
@@ -84,6 +93,23 @@ export class CatalogComponent implements OnInit {
       const cu: ChunkingUtility = new ChunkingUtility();
     }
 
+    filterCatalog(event) {
+      console.log(event);
+      for (let i = 0; i < this.threads.length; i++) {
+        if (event === '') {
+          this.threads[i].FilteredBySearch = false;
+        } else {
+          if(this.threads[i].IndImmChanPostModelParent.Title.toLowerCase().includes(event.toLowerCase())) {
+            this.threads[i].FilteredBySearch = false;       
+          } else if (this.threads[i].IndImmChanPostModelParent.Msg.toLowerCase().includes(event.toLowerCase())) {
+            this.threads[i].FilteredBySearch = false;            
+          }
+          else {
+            this.threads[i].FilteredBySearch = true;
+          }
+        }
+      }
+    }
     AddTrip() {
       this.ShowTripEntry = true;
     }
