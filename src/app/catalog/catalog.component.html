@@ -152,7 +152,7 @@
                 <span style="cursor: pointer" (click)="refresh()">[Update]</span>
             </span>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-4">
         <span class="util" style="float:left; margin-top:1px; padding-top:1px;">
             sort:        
             <select id="order-ctrl" size="1" (change)="sortThreads($event.target.value)" [(ngModel)]="Config.Sort">
@@ -165,7 +165,7 @@
         <span *ngIf="Config.LastUpdateTime" class="util" >Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
 
     </div>
-    <div class="col-lg-2">        
+    <div class="col-lg-1">        
         </div>
     <div class="col-lg-3">
 
