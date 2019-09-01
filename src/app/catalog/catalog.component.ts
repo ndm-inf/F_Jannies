@@ -140,7 +140,11 @@ export class CatalogComponent implements OnInit {
         this.threads.sort(this.sortReplies);
       }
       this.Config.Sort = sort;
-      localStorage.setItem('Config', JSON.stringify(this.Config));
+      try{ 
+        localStorage.setItem('Config', JSON.stringify(this.Config));
+      } catch (error) {
+        console.log('Storage out of space more than likely, work around coming');
+      }
     }
 
     AddTrip() {
@@ -148,7 +152,12 @@ export class CatalogComponent implements OnInit {
     }
     OpenPostInNewWindows(thread:IndImmChanThread) {
       const url = this.Router.createUrlTree(['BlockChan/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
-      localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+      
+      try {
+        localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+      } catch (error) {
+        console.log('Storage out of space more than likely, work around coming');
+      }
 
       window.open(url.toString(), '_blank');
     }
@@ -263,7 +272,12 @@ export class CatalogComponent implements OnInit {
     this.sortThreadsFromConfig();
 
     this.PostLoading = false;
-    localStorage.setItem(this.postBoard, JSON.stringify(this.threads));
+    try {
+         localStorage.setItem(this.postBoard, JSON.stringify(this.threads)); 
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
+
   }
   
   public handleFileInput(files: FileList) {
@@ -344,7 +358,11 @@ export class CatalogComponent implements OnInit {
   }
   
   async OpenThread(thread: IndImmChanThread){
-    localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    try {
+      localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
     this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }

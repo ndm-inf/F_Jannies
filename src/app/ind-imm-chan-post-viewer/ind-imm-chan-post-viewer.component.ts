@@ -390,7 +390,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
     if (this.PostDecrypted) {
       this.decrypt(); 
     }
-    localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
+    try {
+          localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
     this.loadCatalogAsync();
   }
 
@@ -401,7 +405,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
   async loadCatalogAsync() {
     const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
     boardCatalog.sort(this.threadCompare)
-    localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
+    try {
+      localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
   }
 
   threadCompare( a: IndImmChanThread, b:IndImmChanThread ) {
