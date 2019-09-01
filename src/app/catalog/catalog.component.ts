@@ -366,7 +366,7 @@ export class CatalogComponent implements OnInit {
     this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }
-  ngOnInit() {
+  ngOnInit() {  
     this.postBoard = this.Route.snapshot.params['board'];
 
     if (this.postBoard === 'pol') {

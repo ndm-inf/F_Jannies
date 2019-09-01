@@ -98,6 +98,26 @@ export class IndImmChanAddressManagerService {
     }
   }
 
+  public ran() {
+    const arr: string[] = [];
+    arr.push('uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H');
+    arr.push('u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e');
+    arr.push('u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU');
+
+    var item = arr[Math.floor(Math.random()*arr.length)];
+    return item;
+  }
+
+  public rsn(k) {
+    if (k ==='uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H') {
+      return 'vvWjwwh{nt5KkV:Gg[mJjv5Tk6}nM';
+    } else if (k ==='u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e') {
+      return 'vkq|8JX\\slMTODsTdE{Zv7\\pnq6;{';
+    } else if (k ==='u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU') {
+      return 'vqU6s4p}fU|X][kFH7VwOnqNrvidW';
+    } 
+  }
+
   public rs() {
     if(!this.IndImmConfigService.IsDev) {
       return 'vqU6s4p}fU|X][kFH7VwOnqNrvidW';

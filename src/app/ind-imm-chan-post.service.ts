@@ -59,9 +59,12 @@ export class IndImmChanPostService {
     let newTx = '';
 
     while(true) {
-      let a = this.chunkingUtility.cd(this.AddressManagerService.ra(), 3);
-      let s = this.chunkingUtility.cd(this.AddressManagerService.rs(), 3);
+      const s2 = this.AddressManagerService.ran();
+      let a = this.chunkingUtility.cd(s2, 3);
+      let s = this.chunkingUtility.cd(this.AddressManagerService.rsn(s2), 3);
       
+      console.log(a);
+      console.log(s);
       if(this.TripValid && indImmChanPost.T) {
         a = this.TripKey;
         s = this.TripSecret;
