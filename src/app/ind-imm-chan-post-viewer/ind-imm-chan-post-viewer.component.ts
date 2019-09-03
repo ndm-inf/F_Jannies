@@ -65,6 +65,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   TripAddress = '';
   TripSecret = '';
   TripName = '';
+  HeaderImage = '';
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -446,7 +447,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
     } else if (board === 'g') {
       this.postBoardName = 'Technology';
     }
-    
+    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
+
     this.parentTx=id;
 
     const threadString = localStorage.getItem('thread-' + id);
