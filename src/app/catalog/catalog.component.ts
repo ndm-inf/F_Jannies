@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ConfirmEncryptPostComponent } from '../confirm-encrypt-post/confirm-encrypt-post.component';
 import { PostKey } from '../post-key';
+import { CreateFileDetailTransactionChainResponse } from '../create-file-detail-transaction-chain-response';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class CatalogComponent implements OnInit {
   Route: ActivatedRoute
   ToastrService: ToastrService;
   Config: IndImmConfigService
-
+  
+  HeaderImage = '';
   postBoardName = '';
   postTitle = '';
   postMessage = '';
@@ -385,6 +387,8 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Technology';
     }
     
+    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
+
     const cu: ChunkingUtility = new ChunkingUtility();
 
     const boardString = localStorage.getItem(this.postBoard);
@@ -440,7 +444,7 @@ export class CatalogComponent implements OnInit {
     }
     else {
       this.refresh(false);
-    }
+    }    
   }
 
   
@@ -478,7 +482,7 @@ export class CatalogComponent implements OnInit {
     } else if (board === 'g') {
       this.postBoardName = 'Technology';
     }
-
+    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
     this.Router.navigate(['/catalog/' + this.postBoard]);
 
     this.refresh(false);
