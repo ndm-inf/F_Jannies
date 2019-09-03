@@ -337,7 +337,6 @@ table {
    img{border:none;}
    .mobile{display:block!important;clear:left!important;}
    .desktop{display:none!important;}
-   div.post div.file .fileThumb img{max-width:100px;max-height:100px;object-fit:scale-down;}
    div.post div.file .fileThumb{margin-left:5px!important;margin-right:10px!important;text-decoration:none;}
    div.post div.file div.fileText{display:none;}
    div.opContainer{padding:5px;display:block;overflow:hidden;background-color:#d6daf0;border:1px solid #b7c5d9!important;}
@@ -570,7 +569,6 @@ a:hover,a.quotelink:hover{color:#d00!important;}
 img{border:none;}
 .mobile{display:block!important;clear:left!important;}
 .desktop{display:none!important;}
-div.post div.file .fileThumb img{max-width:100px;max-height:100px;object-fit:scale-down;}
 div.post div.file .fileThumb{margin-left:5px!important;margin-right:10px!important;text-decoration:none;}
 div.post div.file div.fileText{display:none;}
 div.sideArrows{display:none;}
