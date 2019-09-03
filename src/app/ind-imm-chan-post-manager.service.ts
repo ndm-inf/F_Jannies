@@ -9,6 +9,7 @@ import { IndImmConfigService } from './ind-imm-config.service';
 import { PostKey } from './post-key';
 import { ChunkingUtility } from './chunking-utility';
 import { PostModFlag } from './post-mod-flag';
+import { SubPost } from './sub-post';
 
 
 @Injectable({
@@ -75,8 +76,13 @@ export class IndImmChanPostManagerService {
       }
     }
     const minLedger = await this.IndImmChanPostService.rippleService.earliestLedgerVersion;
-    const txResult  = await this.IndImmChanPostService.postToRipple(post, board, postMemoType);
-    return txResult;
+    if(post.Msg.length <= 420) {
+      const txResult  = await this.IndImmChanPostService.postToRipple(post, board, postMemoType);
+      return txResult;
+    } else {
+      const txResult  = await this.IndImmChanPostService.postToRippleWithSubMessage(post, board, postMemoType);
+      return txResult;
+    }
   }
 
   public async RemoveFlaggedPost(posts: any[]) {
@@ -136,9 +142,22 @@ export class IndImmChanPostManagerService {
       const postSet: IndImmChanPostModel[] = [];
       const retSet: IndImmChanThread[] = [];
       const childSet: IndImmChanPostModel[] = [];
+      const subPosts: SubPost[] = [];
 
       for (let i = 0; i < unfilteredResults.length; i++) {
         if ('memos' in unfilteredResults[i].specification) {
+          try {
+            if(unfilteredResults[i].specification.memos[0].type === 'submsg') {
+              const subPostToParse = unfilteredResults[i].specification.memos[0].data;
+              let subPost: SubPost  = JSON.parse(subPostToParse);
+              subPost.Tx = unfilteredResults[i].id;
+              subPosts.push(subPost);
+              continue;
+            }
+          } catch(error) {
+            console.log(error);
+            continue;
+          }
           let post: IndImmChanPost  = null;
 
           try {
@@ -171,6 +190,7 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
+          postModel.SubpostTx = post.SubpostTx;
           if(!post.UID || post.UID.length == 0) {
             postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
             postModel.BackgroundColor = '#cc0000';
@@ -205,6 +225,15 @@ export class IndImmChanPostManagerService {
 
       for (let i = 0; i < postSet.length; i++) {
         const curPost = postSet[i];
+
+        if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
+          for (let j = 0; j < subPosts.length; j++) {
+            if (curPost.SubpostTx === subPosts[j].Tx) {
+              curPost.Msg = curPost.Msg + subPosts[j].Msg;
+            }
+          }
+        }
+
         if(!curPost.Parent || curPost.Parent.length === 0) {
           const newThread: IndImmChanThread = new IndImmChanThread();
           newThread.IndImmChanPostModelParent = curPost;
@@ -244,9 +273,22 @@ export class IndImmChanPostManagerService {
       const postSet: IndImmChanPostModel[] = [];
       const retSet: IndImmChanThread[] = [];
       const childSet: IndImmChanPostModel[] = [];
+      const subPosts: SubPost[] = [];
 
       for (let i = 0; i < unfilteredResults.length; i++) {
         if ('memos' in unfilteredResults[i].specification) {
+          try {
+            if(unfilteredResults[i].specification.memos[0].type === 'submsg') {
+              const subPostToParse = unfilteredResults[i].specification.memos[0].data;
+              let subPost: SubPost  = JSON.parse(subPostToParse);
+              subPost.Tx = unfilteredResults[i].id;
+              subPosts.push(subPost);
+              continue;
+            }
+          } catch(error) {
+            console.log(error);
+            continue;
+          }
           let post: IndImmChanPost = null;
           try {
             const dataToParse = unfilteredResults[i].specification.memos[0].data;
@@ -268,6 +310,7 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.Enc = post.Enc;
           postModel.T = post.T;
+          postModel.SubpostTx = post.SubpostTx;
           postModel.SendingAddress = unfilteredResults[i].address;
 
           if(post.T) {
@@ -309,6 +352,15 @@ export class IndImmChanPostManagerService {
 
       for (let i = 0; i < postSet.length; i++) {
         const curPost = postSet[i];
+
+        if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
+          for (let j = 0; j < subPosts.length; j++) {
+            if (curPost.SubpostTx === subPosts[j].Tx) {
+              curPost.Msg = curPost.Msg + subPosts[j].Msg;
+            }
+          }
+        }
+
         if(!curPost.Parent || curPost.Parent.length === 0) {
           const newThread: IndImmChanThread = new IndImmChanThread();
           if(curPost.Tx ==='7F9444A0342349AF997EEC992F1121462190242A532773C244B6BB80B0B4EA27') {
