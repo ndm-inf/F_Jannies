@@ -3,6 +3,7 @@ import { IndImmChanPostModel } from './ind-imm-chan-post-model';
 export class IndImmChanThread {
     IndImmChanPostModelParent: IndImmChanPostModel;
     IndImmChanPostModelChildren: IndImmChanPostModel[] = [];
+    FilteredBySearch = false;
     constructor() {
         this.IndImmChanPostModelChildren = [];
     }

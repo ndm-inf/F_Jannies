@@ -3,6 +3,10 @@
      &nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
         <span class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
         <span class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenAnime()">a</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenWeapons()">k</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenMeta()">m</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
         <span class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
     <div class="row">
@@ -118,12 +122,12 @@
         <div class="col-lg-4">
                 <tbody id="blotter-msgs" class="blotter">
                 <tr>
-                    <td data-utc="1493903967" class="blotter-date" style="color:green">08/24/19</td>
-                    <td class="blotter-content">Trip code functionality added</td>
+                    <td data-utc="1493903967" class="blotter-date" style="color:green">08/31/19</td>
+                    <td class="blotter-content">Moderation mode added to not download/show content from flagged posts/threads (unmoderated version is never touched). Searching and sorting added. New boards added (anime, weapons, technology, meta). Trello added to view future progress: <a href="https://trello.com/b/C7wVrMd3/blockchan">https://trello.com/b/C7wVrMd3/blockchan</a></td>
                 </tr>
                 <tr>
-                    <td data-utc="1493903967" class="blotter-date">08/23/19</td>
-                    <td class="blotter-content">UID's added to posts</td>
+                    <td data-utc="1493903967" class="blotter-date">08/24/19</td>
+                    <td class="blotter-content">Trip code functionality added</td>
                 </tr>
                 <tr>
                     <td data-utc="1493903967" class="blotter-date">08/22/19</td>
@@ -167,17 +171,17 @@
         <div class="board">
             <div id="hover-preview-container" style="position:absolute; z-index:1000; width:50%"></div>
             <div class="thread" id="t15343728" *ngIf="thread !== null">
-                <div class="postContainer opContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
-                    <div id="p15343728" class="post op">
+                <div class="postContainer replyContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
+                    <div id="p15343728" class="post reply">
                         <div class="postInfoM mobile">
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
-                                <span class="posteruid id_FTh6OQUa">
+                                <span class="posteruid">
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
                                         <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                                 &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
-                                        </span>
+                                        </span>                                        
                                     </span>)
                                 </span>
                                 <br>
@@ -187,6 +191,7 @@
                                 </span>
                                 <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             </span>
+                            &nbsp;<i class="fa fa-warning " (click)="Flag(thread.IndImmChanPostModelParent)"></i>
                             <span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}} 
                                 <span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
                                     &nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
@@ -206,13 +211,18 @@
                                 <span *ngIf="thread.IndImmChanPostModelParent.ImageLoading">
                                     <mat-spinner ></mat-spinner>
                                 </span>
-                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
+                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && !thread.IndImmChanPostModelParent.IsWebm" (click)="ToggleFullSizeFile(thread.IndImmChanPostModelParent)">
                                     <span *ngIf="!thread.IndImmChanPostModelParent.ShowFullSizeFile">
                                         <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="200px">
                                     </span>
                                     <span *ngIf="thread.IndImmChanPostModelParent.ShowFullSizeFile">
                                         <img [src]="thread.IndImmChanPostModelParent.Base64Image">
                                     </span>
+                                </span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
+                                    <video width="250" controls>
+                                        <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
+                                    </video>
                                 </span>
                             </a>
                         </div>
@@ -229,11 +239,12 @@
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                      <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" >
                                          &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
-                                     </span>
+                                     </span>                                     
                                     </span>)
                             </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span> 
+                            &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)" ></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">&nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...</span>
                                 <span [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
                             </span>
@@ -260,6 +271,7 @@
                                 <br>
                             </span>
                             <span class="dateTime postNum" data-utc="1566433365">&nbsp;{{  post.Timestamp | date:'medium'}}<span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">&nbsp;{{  post.Tx.substring(0, 10)}}...</span>
+                            &nbsp;<i class="fa fa-warning" (click)="Flag(post)" ></i>
                             <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
                             </span>
                         </div>
@@ -274,13 +286,18 @@
                                     <span *ngIf="post.ImageLoading">
                                         <mat-spinner ></mat-spinner>
                                     </span>
-                                    <span *ngIf="post.Base64Image" (click)="ToggleFullSizeFile(post)">
+                                    <span *ngIf="post.Base64Image && !post.IsWebm" (click)="ToggleFullSizeFile(post)">
                                         <span *ngIf="!post.ShowFullSizeFile">
                                             <img [src]="post.Base64Image" width="200px">
                                         </span>
                                         <span *ngIf="post.ShowFullSizeFile">
                                             <img [src]="post.Base64Image">
                                         </span>
+                                    </span>
+                                    <span *ngIf="post.Base64Image && post.IsWebm">
+                                        <video width="250" controls>
+                                            <source [src]="post.Base64Image" type="video/webm">
+                                        </video>
                                     </span>
                                 </a>
                             </div>
@@ -298,6 +315,7 @@
                                 </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  post.Timestamp | date:'medium'}}</span> 
+                            &nbsp;<i class="fa fa-warning " (click)="Flag(post)"></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">{{  post.Tx.substring(0, 10)}}...</span>
                                 <span [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
 

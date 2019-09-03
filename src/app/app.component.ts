@@ -37,8 +37,17 @@ export class AppComponent {
     let configFromMemory = JSON.parse(localStorage.getItem('Config'));
     if(configFromMemory) {
       this.Config.ShowImages = configFromMemory.ShowImages;
+      this.Config.ModerationOn = configFromMemory.ModerationOn;
+      this.Config.Sort = configFromMemory.Sort;
+      this.Config.LastUpdateTime = configFromMemory.LastUpdateTime;
     }
 
+  }
+
+  toggleMod() { 
+    const isModded = this.Config.ModerationOn;
+    this.GlobalEventService.ToggleEnableModeration(isModded);
+    localStorage.setItem('Config', JSON.stringify(this.Config));
   }
 
   toggle() {

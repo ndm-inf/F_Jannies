@@ -10,16 +10,19 @@ export class IndImmConfigService {
   public Environment: ConfigEnvironment;
   public IsDev = false;
   public ShowImages = false;
-
-  GlobalEventService: GlobalEventService;
+  public ModerationOn = false;
+  public Sort = 'LastReply';
+  public LastUpdateTime: Date;
+  //GlobalEventService: GlobalEventService;
   
+  /*
   constructor(globalEventService: GlobalEventService) {
     this.GlobalEventService = globalEventService;
     this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
       this.ShowImages = state;
     });
   }
-  
+  */
 
   public GetEnvironmentName(): string {
     if (!this.IsDev) {

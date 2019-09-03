@@ -19,6 +19,9 @@ import { GlobalEventService } from '../global-event.service';
 import { PostKey } from '../post-key';
 import { ETHTipService } from '../ethtip.service';
 import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
+import { ModeratorDialogComponent } from '../moderator-dialog/moderator-dialog.component';
+import { PostModFlagModel } from '../post-mod-flag-model';
+import { PostModFlag } from '../post-mod-flag';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -133,6 +136,33 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
   }
 
+  async Flag(post:IndImmChanPostModel){
+    const dialogRef = this.Dialog.open(ModeratorDialogComponent, {
+      width: '525px',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (<PostModFlagModel>result) {
+        result.Tx = post.Tx;
+
+        const modValid = await this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.IsSenderSecretValid(result.Address, result.Key);
+
+        if(!modValid){
+          this.ToastrService.error('Invalid key', 'Error');
+        } else {
+          const warning: PostModFlag = new PostModFlag();
+          warning.Tx = post.Tx;
+          warning.Type = result.Type;
+          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key);
+          this.ToastrService.success('Post will no longer show in moderated client', 'Post flagged');
+        }
+      } else {
+        
+      }
+    });
+  }
+
   async Tip(post:IndImmChanPostModel){
     const dialogRef = this.Dialog.open(TipDialogComponent, {
       width: '325px',
@@ -164,8 +194,24 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   OpenRandom() {
     this.Router.navigate(['/catalog/b']);
-
   }
+
+  OpenMeta() {
+    this.Router.navigate(['/catalog/m']);
+  }
+
+  OpenTechnology() {
+    this.Router.navigate(['/catalog/g']);
+  }
+
+  OpenWeapons() {
+    this.Router.navigate(['/catalog/k']);
+  }
+
+  OpenAnime() {
+    this.Router.navigate(['/catalog/a']);
+  }
+
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
@@ -181,6 +227,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Config = config; 
     this.GlobalEventService = globalEventService;
     this.EthTipService = ethTipService;
+
+    this.GlobalEventService.EnableModeration.subscribe(state => {
+      this.refresh(false);
+    });
+
     this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
     
       const cu: ChunkingUtility = new ChunkingUtility();
@@ -274,8 +325,9 @@ export class IndImmChanPostViewerComponent implements OnInit {
       }
       if (!(this.fileToUpload.type === 'image/jpeg' ||
         this.fileToUpload.type === 'image/gif' ||
+        this.fileToUpload.type === 'video/webm' ||
         this.fileToUpload.type === 'image/png')) {
-          this.ToastrService.error('File must be of type Jpeg, Gif, or PNG; Webm coming soon', 'Posting Error');
+          this.ToastrService.error('File must be of type Jpeg, Gif, PNG or Webm', 'Posting Error');
           return;
       }
     }
@@ -338,7 +390,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
     if (this.PostDecrypted) {
       this.decrypt(); 
     }
-    localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
+    try {
+          localStorage.setItem('thread-' + this.thread.IndImmChanPostModelParent.Tx, JSON.stringify(this.thread));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
     this.loadCatalogAsync();
   }
 
@@ -349,7 +405,11 @@ export class IndImmChanPostViewerComponent implements OnInit {
   async loadCatalogAsync() {
     const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
     boardCatalog.sort(this.threadCompare)
-    localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
+    try {
+      localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
   }
 
   threadCompare( a: IndImmChanThread, b:IndImmChanThread ) {
@@ -377,7 +437,16 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (board === 'b') {
       this.postBoardName = 'Random';
+    } else if (board === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (board === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (board === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (board === 'g') {
+      this.postBoardName = 'Technology';
     }
+    
     this.parentTx=id;
 
     const threadString = localStorage.getItem('thread-' + id);

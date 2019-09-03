@@ -1,0 +1,30 @@
+<div class="main-conter">
+    <h2 mat-dialog-title>Flag post to be hidden</h2>
+    <div mat-dialog-content class="sub-container">
+      <div class="sub-container schs">
+        Flag post and reason removed (free text, SPAM or LEGAL is preference)
+        <div mat-dialog-actions class="content-container">
+          <div>
+            <div>
+              <mat-form-field>
+                Flag Type: &nbsp; <input matInput [(ngModel)]="flag.Type" class="confirmText" style="background:white; color:black; width:100%">
+              </mat-form-field>  
+            </div>
+            <div>
+              <mat-form-field>
+                Mod Address: &nbsp; <input matInput [(ngModel)]="flag.Address" class="confirmText" style="background:white; color:black; width:100%">
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field>
+                Mod Key: &nbsp; <input matInput [(ngModel)]="flag.Key" class="confirmText" style="background:white; color:black; width:100%">
+              </mat-form-field>
+            </div>
+          </div>
+
+      </div>
+      <div class="spacerm">
+          <button mat-button [mat-dialog-close]="flag" cdkFocusInitial class="btn btn-wrapper btn-default btn-round btnmod">flag</button>
+        </div>
+    </div>
+  </div>

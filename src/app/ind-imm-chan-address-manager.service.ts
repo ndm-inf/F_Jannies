@@ -27,6 +27,15 @@ export class IndImmChanAddressManagerService {
     return '6368696c64';
   }
 
+  public GetWarningsAddress() {
+    if(!this.IndImmConfigService.IsDev) {
+      return 'rHJKTrXF8mux8TgfThVD7GqPE9nyYJM8w2';
+    }
+    else {
+      return 'rDvCyfVU8JGYMrRkcGmYGMKff9hG73ohZ4';
+    }
+  }
+
   public GetBoardAddress(board: string) {
     if (board==='pol'){
       if(!this.IndImmConfigService.IsDev) {
@@ -46,6 +55,38 @@ export class IndImmChanAddressManagerService {
       } else {
         return 'rfsBWpRjwHucY8j6r1AtoqbvogNXcThNbQ';
       }    
+    } else if (board==='g'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rhH1W3YgBvVBzKJArdioCjV2TXhuHsrKBL';
+      } else {
+        return '';
+      }    
+    } else if (board==='m'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rKCVDtR2uAqDNxz7wcoZF4GzUReR7g7amB';
+      } else {
+        return '';
+      }    
+    } else if (board==='k'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rMmoXvAohZPjeeDRW5999FCNgcFGuNTPWP';
+      } else {
+        return '';
+      }    
+    } else if (board==='a'){
+      if(!this.IndImmConfigService.IsDev) {
+        return 'rBTjhx2niB8q3G8HRDb9NWU3RfGdrAMWRH';
+      } else {
+        return '';
+      }    
+    }
+  }
+
+  public wa() {
+    if(!this.IndImmConfigService.IsDev) {
+      return 'r3VKdSsHd3koFNpszpmbtUMvUJwnEcXYXu';
+    } else {
+      return 'uqnz\\GHXOtDQ5WwUuK\\9Wr<;KH4vwM88wr';
     }
   }
 
@@ -55,6 +96,26 @@ export class IndImmChanAddressManagerService {
     } else {
       return 'uqnz\\GHXOtDQ5WwUuK\\9Wr<;KH4vwM88wr';
     }
+  }
+
+  public ran() {
+    const arr: string[] = [];
+    arr.push('uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H');
+    arr.push('u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e');
+    arr.push('u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU');
+
+    var item = arr[Math.floor(Math.random()*arr.length)];
+    return item;
+  }
+
+  public rsn(k) {
+    if (k ==='uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H') {
+      return 'vvWjwwh{nt5KkV:Gg[mJjv5Tk6}nM';
+    } else if (k ==='u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e') {
+      return 'vkq|8JX\\slMTODsTdE{Zv7\\pnq6;{';
+    } else if (k ==='u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU') {
+      return 'vqU6s4p}fU|X][kFH7VwOnqNrvidW';
+    } 
   }
 
   public rs() {

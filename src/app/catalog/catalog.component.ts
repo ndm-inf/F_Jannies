@@ -56,6 +56,15 @@ export class CatalogComponent implements OnInit {
   TripSecret = '';
   TripName = '';
   ShowTripEntry = false;
+  search = '';
+  ShowSearch = false;
+
+  ToggleShowSearch() {
+    this.ShowSearch = true;
+  }
+  ToggleHideSearch() {
+    this.ShowSearch = false;
+  }
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
@@ -68,6 +77,10 @@ export class CatalogComponent implements OnInit {
       this.Router = router;
       this.ToastrService = toasterService;
       this.GlobalEventService = globalEventService;
+      this.GlobalEventService.EnableModeration.subscribe(state => {
+        this.refresh(false);
+      });
+      
       this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
 
         if(state) {
@@ -80,12 +93,71 @@ export class CatalogComponent implements OnInit {
       const cu: ChunkingUtility = new ChunkingUtility();
     }
 
+    filterCatalog(event) {
+      console.log(event);
+      for (let i = 0; i < this.threads.length; i++) {
+        if (event === '') {
+          this.threads[i].FilteredBySearch = false;
+        } else {
+          if(this.threads[i].IndImmChanPostModelParent.Title.toLowerCase().includes(event.toLowerCase())) {
+            this.threads[i].FilteredBySearch = false;       
+          } else if (this.threads[i].IndImmChanPostModelParent.Msg.toLowerCase().includes(event.toLowerCase())) {
+            this.threads[i].FilteredBySearch = false;            
+          }
+          else {
+            this.threads[i].FilteredBySearch = true;
+          }
+        }
+      }
+    }
+
+    sortThreadsFromConfig() {
+      let configFromMemory = JSON.parse(localStorage.getItem('Config'));
+      if(configFromMemory) {
+        this.Config.Sort = configFromMemory.Sort;
+        console.log('config sort1: ' + this.Config.Sort);
+
+      }
+      if (this.threads && this.threads.length > 0) {
+        if (!this.Config.Sort || this.Config.Sort === '') {
+          console.log('null sort');
+          this.sortThreads('LastReply');
+        } else {
+        this.sortThreads(this.Config.Sort);
+        console.log('config sort: ' + this.Config.Sort);
+        }
+      } else {
+        console.log('no threads');
+      }
+    }
+
+    sortThreads(sort) {
+      if (sort === 'LastReply') {
+        this.threads.sort(this.sortLastReply);
+      } else if  (sort === 'CreateDate') {
+        this.threads.sort(this.sortCreationDate);
+      } else if  (sort === 'ReplyCount') {
+        this.threads.sort(this.sortReplies);
+      }
+      this.Config.Sort = sort;
+      try{ 
+        localStorage.setItem('Config', JSON.stringify(this.Config));
+      } catch (error) {
+        console.log('Storage out of space more than likely, work around coming');
+      }
+    }
+
     AddTrip() {
       this.ShowTripEntry = true;
     }
     OpenPostInNewWindows(thread:IndImmChanThread) {
       const url = this.Router.createUrlTree(['BlockChan/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
-      localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+      
+      try {
+        localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+      } catch (error) {
+        console.log('Storage out of space more than likely, work around coming');
+      }
 
       window.open(url.toString(), '_blank');
     }
@@ -100,6 +172,22 @@ export class CatalogComponent implements OnInit {
   
     OpenRandom() {
       this.selfInit('b');
+    }
+
+    OpenMeta() {
+      this.selfInit('m');
+    }
+
+    OpenTechnology() {
+      this.selfInit('g');
+    }
+
+    OpenWeapons() {
+      this.selfInit('k');
+    }
+
+    OpenAnime() {
+      this.selfInit('a');
     }
 
   async ConfirmEncryption() {
@@ -179,10 +267,17 @@ export class CatalogComponent implements OnInit {
       threads[i].Prep();
     }
 
-    threads.sort(this.compare);
+    // threads.sort(this.sortLastReply);
     this.threads = threads;
+    this.sortThreadsFromConfig();
+
     this.PostLoading = false;
-    localStorage.setItem(this.postBoard, JSON.stringify(this.threads));
+    try {
+         localStorage.setItem(this.postBoard, JSON.stringify(this.threads)); 
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
+
   }
   
   public handleFileInput(files: FileList) {
@@ -200,8 +295,9 @@ export class CatalogComponent implements OnInit {
     }
     if (!(this.fileToUpload.type === 'image/jpeg' ||
       this.fileToUpload.type === 'image/gif' ||
+      this.fileToUpload.type === 'video/webm' ||
       this.fileToUpload.type === 'image/png')) {
-        this.ToastrService.error('File must be of type Jpeg, Gif, or PNG; Webm coming soon', 'Posting Error');
+        this.ToastrService.error('File must be of type Jpeg, Gif, PNG, or Webm', 'Posting Error');
         return;
     }
     if (this.postMessage.length > 420) {
@@ -262,11 +358,15 @@ export class CatalogComponent implements OnInit {
   }
   
   async OpenThread(thread: IndImmChanThread){
-    localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    try {
+      localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
+    } catch (error) {
+      console.log('Storage out of space more than likely, work around coming');
+    }
     this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }
-  ngOnInit() {
+  ngOnInit() {  
     this.postBoard = this.Route.snapshot.params['board'];
 
     if (this.postBoard === 'pol') {
@@ -275,6 +375,14 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
+    } else if (this.postBoard === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (this.postBoard === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (this.postBoard === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (this.postBoard === 'g') {
+      this.postBoardName = 'Technology';
     }
     
     const cu: ChunkingUtility = new ChunkingUtility();
@@ -316,10 +424,11 @@ export class CatalogComponent implements OnInit {
       for (let i = 0; i < populatedThreads.length; i++) {
         populatedThreads[i].Prep();
       }
-      populatedThreads.sort(this.compare);
+      // populatedThreads.sort(this.sortLastReply);
 
       this.threads = populatedThreads;
-     
+      this.sortThreadsFromConfig();
+
       if(this.Config.ShowImages) {
       this.reloadImages();
       } else {
@@ -360,7 +469,18 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Business';
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
+    } else if (board === 'm') {
+      this.postBoardName = 'Meta';
+    } else if (board === 'a') {
+      this.postBoardName = 'Anime';
+    } else if (board === 'k') {
+      this.postBoardName = 'Weapons';
+    } else if (board === 'g') {
+      this.postBoardName = 'Technology';
     }
+
+    this.Router.navigate(['/catalog/' + this.postBoard]);
+
     this.refresh(false);
   }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
@@ -369,7 +489,7 @@ export class CatalogComponent implements OnInit {
   }
 
 
-  compare( a: IndImmChanThread, b:IndImmChanThread ) {
+  sortLastReply( a: IndImmChanThread, b:IndImmChanThread ) {
     if ( a.LastCommentTime < b.LastCommentTime ){
       return 1;
     }
@@ -378,4 +498,26 @@ export class CatalogComponent implements OnInit {
     }
     return 0;
   }
+
+  sortCreationDate(a: IndImmChanThread, b:IndImmChanThread) {
+    if ( a.IndImmChanPostModelParent.Timestamp < b.IndImmChanPostModelParent.Timestamp ){
+      return 1;
+    }
+    if ( a.IndImmChanPostModelParent.Timestamp > b.IndImmChanPostModelParent.Timestamp ){
+      return -1;
+    }
+    return 0;
+  }
+  
+  sortReplies(a: IndImmChanThread, b:IndImmChanThread) {
+    if ( a.TotalReplies< b.TotalReplies ){
+      return 1;
+    }
+    if ( a.TotalReplies > b.TotalReplies ){
+      return -1;
+    }
+    return 0;
+  }
+  
+
 }

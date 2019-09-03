@@ -66,6 +66,21 @@
    margin: auto;
    }
  
+.webmContainer {
+   background-color: rgba(16, 16, 16, 0.85);
+   border-radius: 12px;
+   padding:10px;
+   margin:10px;
+   text-align: center;
+   cursor: pointer;
+   word-wrap: break-word
+}
+.webmContainer video {
+   height: 100%;
+   max-width: 100%;
+   display: block;
+   margin: auto;
+}
  .click-show {
     font-size: 10px;
  }

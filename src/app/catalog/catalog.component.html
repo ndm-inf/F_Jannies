@@ -3,6 +3,10 @@
         &nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
         <span class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
         <span class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenAnime()">a</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenWeapons()">k</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenMeta()">m</span><span class="grey"> / </span>
+        <span class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
         <span class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
 <div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
@@ -109,7 +113,11 @@
     <div class="col-lg-4">
             <tbody id="blotter-msgs" class="blotter">
             <tr>
-                <td data-utc="1493903967" class="blotter-date" style="color:green">08/24/19</td>
+                <td data-utc="1493903967" class="blotter-date" style="color:green">08/31/19</td>
+                <td class="blotter-content">Moderation mode added to not download/show content from flagged posts/threads (unmoderated version is never touched). Searching and sorting added. New boards added (anime, weapons, technology, meta). Trello added to view future progress: <a href="https://trello.com/b/C7wVrMd3/blockchan">https://trello.com/b/C7wVrMd3/blockchan</a></td>
+            </tr>
+            <tr>
+                <td data-utc="1493903967" class="blotter-date">08/24/19</td>
                 <td class="blotter-content">Trip code functionality added</td>
             </tr>
             <tr>
@@ -139,17 +147,46 @@
     <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
 </div>
 <div class="row" *ngIf="threads !== null">
+<<<<<<< HEAD
     <div class="col-lg-4">
             <span class="util"><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span>&nbsp;<span style="cursor: pointer" (click)="refresh()">[Update]</span></span>
     </div>
     <div class="col-lg-4">        
         
+=======
+    <div class="col-lg-1">
+            <span class="util">
+                <span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span>
+                <span style="cursor: pointer" (click)="refresh()">[Update]</span>
+            </span>
+>>>>>>> upstream/master
     </div>
     <div class="col-lg-4">
-        <span class="util counters">
-            {{ threads.length }} threads
+        <span class="util" style="float:left; margin-top:1px; padding-top:1px;">
+            sort:        
+            <select id="order-ctrl" size="1" (change)="sortThreads($event.target.value)" [(ngModel)]="Config.Sort">
+                <option value="LastReply">Last reply</option> 
+                <option value="CreateDate">Creation date</option> 
+                <option value="ReplyCount">Reply count</option> 
+            </select>     
+        </span>   
+        &nbsp; 
+        <span *ngIf="Config.LastUpdateTime" class="util" >Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
+
+    </div>
+    <div class="col-lg-1">        
+        </div>
+    <div class="col-lg-3">
+
+    </div>    
+    <div class="col-lg-3">   
+        <span class="util counters" style="float:right;">
+                {{ threads.length }} threads
         </span>
-        </div>    
+        <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)" style="font-size:10px;"></span>
+        <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"> x </span>
+        <span class="util" [hidden]="ShowSearch" style="cursor:pointer; float:right" (click)="ToggleShowSearch()">[Search] &nbsp;</span>
+    </div>
 </div>    
 <div class="row">
     <hr class="smallPadding"> 
@@ -157,17 +194,20 @@
 <div class="row uk-text-center upload-container">
     <div *ngFor="let row of threads; let i = index">
         <div *ngIf=" i % 6 === 0 " class="row">
-            <div *ngFor="let thread of threads.slice(i,i+6)"> 
-
-        
+            <div *ngFor="let thread of threads.slice(i,i+6)">         
                 <div class="col-lg-2" >
-                    <div class="progress-container"> 
+                    <div class="progress-container" *ngIf="!thread.FilteredBySearch"> 
                         <span style="float:right; margin-top:-8px; margin-right:3px; cursor:pointer" (click)="OpenPostInNewWindows(thread)" title="Open in New Window">⇗</span>
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.ImageLoading" (click)="OpenThread(thread)">
                             <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
                         </div>
-                        <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image" (click)="OpenThread(thread)">
+                        <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image && !thread.IndImmChanPostModelParent.IsWebm" (click)="OpenThread(thread)">
                             <img [src]=" thread.IndImmChanPostModelParent.Base64Image" width="150px">
+                        </div>
+                        <div class="webmContainer" *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
+                            <video width="215" controls>
+                                <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
+                            </video>
                         </div>
                         <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">

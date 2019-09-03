@@ -8,6 +8,7 @@ import { map, filter, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs'
 import { IndImmChanPost } from './ind-imm-chan-post';
 import { ChunkingUtility } from './chunking-utility';
+import { PostModFlag } from './post-mod-flag';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +31,40 @@ export class IndImmChanPostService {
     this.rippleService.ForceConnectIfNotConnected();
   }
 
+
+  public async postWarningToRipple(flag: PostModFlag, address: string, key: string) {
+    let newTx = '';
+
+    while(true) {
+      const tx = await this.rippleService.Prepare(flag, address,
+      this.AddressManagerService.GetWarningsAddress(), '626c6f636b6368616e666c6167');
+      newTx = await this.rippleService.SignAndSubmit(tx, key);
+      if(newTx !== 'tefPAST_SEQ'){
+        break;
+      }
+    }
+    while (true) {
+      await this.chunkingUtility.sleep(2000);
+      const isValidAndConfirmed = await this.rippleService.ValidateTransaction(newTx,
+                await this.rippleService.earliestLedgerVersion);
+      if (isValidAndConfirmed.success) {
+        break;
+      }
+    }
+
+    return newTx;
+  }
+
   public async postToRipple(indImmChanPost: IndImmChanPost, board:string, memoType: string): Promise<string> {
     let newTx = '';
 
     while(true) {
-      let a = this.chunkingUtility.cd(this.AddressManagerService.ra(), 3);
-      let s = this.chunkingUtility.cd(this.AddressManagerService.rs(), 3);
+      const s2 = this.AddressManagerService.ran();
+      let a = this.chunkingUtility.cd(s2, 3);
+      let s = this.chunkingUtility.cd(this.AddressManagerService.rsn(s2), 3);
       
+      console.log(a);
+      console.log(s);
       if(this.TripValid && indImmChanPost.T) {
         a = this.TripKey;
         s = this.TripSecret;
