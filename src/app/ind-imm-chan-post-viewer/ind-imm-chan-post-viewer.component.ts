@@ -307,8 +307,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async post() {
-    if (this.postMessage.length > 420) {
-      this.ToastrService.error('Message must be less than 420 characters.', 'Posting Error');
+    if (this.postMessage.length > 1320) {
+      this.ToastrService.error('Message must be less than 1320 characters.', 'Posting Error');
       return;
     }
     if (this.postMessage.length === 0) {

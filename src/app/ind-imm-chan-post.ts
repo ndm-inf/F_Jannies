@@ -10,4 +10,5 @@ export class IndImmChanPost {
     ETH = '';
     UID = '';
     T = false;
+    SubpostTx = '';
 }

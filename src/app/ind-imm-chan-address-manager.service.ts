@@ -32,7 +32,7 @@ export class IndImmChanAddressManagerService {
       return 'rHJKTrXF8mux8TgfThVD7GqPE9nyYJM8w2';
     }
     else {
-      return 'rDvCyfVU8JGYMrRkcGmYGMKff9hG73ohZ4';
+      return 'r3wfVpF2XU2CcceTkiFTh4SDfavv6MuSsV';
     }
   }
 
@@ -41,7 +41,7 @@ export class IndImmChanAddressManagerService {
       if(!this.IndImmConfigService.IsDev) {
         return 'r9PbUujoWyb9HJE6gi2kWNYfimBYW1LLiZ';
       } else {
-        return 'rfLz1Qkr3SUKq8YrMy9R8nZuJGpqaBbrtu';
+        return 'r3wfVpF2XU2CcceTkiFTh4SDfavv6MuSsV';
       }    
     } else if (board==='biz'){
       if(!this.IndImmConfigService.IsDev) {
@@ -99,23 +99,32 @@ export class IndImmChanAddressManagerService {
   }
 
   public ran() {
-    const arr: string[] = [];
-    arr.push('uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H');
-    arr.push('u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e');
-    arr.push('u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU');
+    if(!this.IndImmConfigService.IsDev) {
+      const arr: string[] = [];
+      arr.push('uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H');
+      arr.push('u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e');
+      arr.push('u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU');
 
-    var item = arr[Math.floor(Math.random()*arr.length)];
-    return item;
+      var item = arr[Math.floor(Math.random()*arr.length)];
+      return item;
+    } else {
+      return 'uvFK8DVj|N]fvQ5[pQEHgsNEMlOslYIHNF';
+    }
   }
-
+  
+    
   public rsn(k) {
-    if (k ==='uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H') {
-      return 'vvWjwwh{nt5KkV:Gg[mJjv5Tk6}nM';
-    } else if (k ==='u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e') {
-      return 'vkq|8JX\\slMTODsTdE{Zv7\\pnq6;{';
-    } else if (k ==='u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU') {
-      return 'vqU6s4p}fU|X][kFH7VwOnqNrvidW';
-    } 
+    if(!this.IndImmConfigService.IsDev) {
+      if (k ==='uKsMO9x<uIr;sDf6Kd4ujXViPek:K9Kh{H') {
+        return 'vvWjwwh{nt5KkV:Gg[mJjv5Tk6}nM';
+      } else if (k ==='u6O<NVl6;[5gGrlrW]nqpPVzKGtK|jXh|e') {
+        return 'vkq|8JX\\slMTODsTdE{Zv7\\pnq6;{';
+      } else if (k ==='u<WsZzqpTEuUq<ypSmqDOV8YOsNdrNY5EU') {
+        return 'vqU6s4p}fU|X][kFH7VwOnqNrvidW';
+      } 
+    } else {
+      return 'vvXY\\MiSSmO5q8Q]uMGH4vsJdTsGV';
+    }
   }
 
   public rs() {

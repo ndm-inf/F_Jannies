@@ -9,6 +9,7 @@ import { Observable } from 'rxjs'
 import { IndImmChanPost } from './ind-imm-chan-post';
 import { ChunkingUtility } from './chunking-utility';
 import { PostModFlag } from './post-mod-flag';
+import { SubPost } from './sub-post';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,56 @@ export class IndImmChanPostService {
     return newTx;
   }
 
+  public async postToRippleWithSubMessage(indImmChanPost: IndImmChanPost, board:string, memoType: string): Promise<string> {
+  const subMemoType = '7375626d7367';
+  let newTx = '';
+
+  while(true) {
+    const s2 = this.AddressManagerService.ran();
+    let a = this.chunkingUtility.cd(s2, 3);
+    let s = this.chunkingUtility.cd(this.AddressManagerService.rsn(s2), 3);
+    
+    console.log(a);
+    console.log(s);
+    if(this.TripValid && indImmChanPost.T) {
+      a = this.TripKey;
+      s = this.TripSecret;
+    }
+
+    const subPost: SubPost = new SubPost();
+    const origMsg = indImmChanPost.Msg;
+    const mainMsg = indImmChanPost.Msg.substr(0, 420);
+    const subMsg = indImmChanPost.Msg.substr(420, indImmChanPost.Msg.length - 421);
+
+    indImmChanPost.Msg = mainMsg;
+    subPost.Msg = subMsg;
+    
+    
+    const subTx = await this.rippleService.Prepare(subPost, a, this.AddressManagerService.GetBoardAddress(board), subMemoType);
+    const signedSubTx = await this.rippleService.SignAndSubmit(subTx, s);
+    indImmChanPost.SubpostTx = signedSubTx;
+
+    
+
+    const tx = await this.rippleService.Prepare(indImmChanPost, a, this.AddressManagerService.GetBoardAddress(board), memoType);
+    newTx = await this.rippleService.SignAndSubmit(tx, s);
+    
+
+    if(newTx !== 'tefPAST_SEQ'){
+      break;
+    }
+  }
+  while (true) {
+    await this.chunkingUtility.sleep(4000);
+    const isValidAndConfirmed = await this.rippleService.ValidateTransaction(newTx,
+              await this.rippleService.earliestLedgerVersion);
+    if (isValidAndConfirmed.success) {
+      break;
+    }
+  }
+
+  return newTx;
+  }
   public async postToRipple(indImmChanPost: IndImmChanPost, board:string, memoType: string): Promise<string> {
     let newTx = '';
 
