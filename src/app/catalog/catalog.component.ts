@@ -18,7 +18,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { ConfirmEncryptPostComponent } from '../confirm-encrypt-post/confirm-encrypt-post.component';
 import { PostKey } from '../post-key';
 import { CreateFileDetailTransactionChainResponse } from '../create-file-detail-transaction-chain-response';
-
+import { Meta } from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-catalog',
@@ -32,7 +33,9 @@ export class CatalogComponent implements OnInit {
   Route: ActivatedRoute
   ToastrService: ToastrService;
   Config: IndImmConfigService
-  
+  Meta: Meta;
+  Title: Title;
+
   HeaderImage = '';
   postBoardName = '';
   postTitle = '';
@@ -70,7 +73,7 @@ export class CatalogComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
-    dialog: MatDialog) {
+    dialog: MatDialog, meta: Meta, title: Title) {
       this.Dialog = dialog;
       this.Config = config;
       this.Route = route;
@@ -83,6 +86,9 @@ export class CatalogComponent implements OnInit {
         this.refresh(false);
       });
       
+      this.Meta = meta;
+      this.Title = title;
+
       this.GlobalEventService.ShowImagesToggled.subscribe(state=>{
 
         if(state) {
@@ -433,13 +439,15 @@ export class CatalogComponent implements OnInit {
       this.threads = populatedThreads;
       this.sortThreadsFromConfig();
 
+
+
       if(this.Config.ShowImages) {
       this.reloadImages();
       } else {
         this.hideImagesFromToggle();
       }
       
-      
+      this.setMeta();
       //this.refresh(true);
     }
     else {
@@ -447,6 +455,25 @@ export class CatalogComponent implements OnInit {
     }    
   }
 
+  async setMeta() {
+    this.Title.setTitle('BlockChan - /' + this.postBoard + '/');
+
+    
+    this.removeTagIfExists('twitter:card');
+    this.removeTagIfExists('twitter:site');
+    this.removeTagIfExists('twitter:creator');
+    this.removeTagIfExists('twitter:title');
+    this.removeTagIfExists('twitter:description');
+    this.removeTagIfExists('twitter:image');
+
+    this.Meta.addTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.Meta.addTag({ name: 'twitter:site', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:site', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:title',content:  '/' + this.postBoard + '/ - ' + this.postBoardName });
+    this.Meta.addTag({ name: 'twitter:description', content: '/' + this.postBoard + '/ on BlockChan'});
+    this.Meta.addTag({ name: 'twitter:image', content: this.HeaderImage });
+ 
+  }
   
   async reloadImages() {
       for (let i = 0; i < this.threads.length; i++) {
@@ -463,6 +490,14 @@ export class CatalogComponent implements OnInit {
       }
     }
   
+    
+  removeTagIfExists(tag) {
+    const tagToRemove = this.Meta.getTag('name=\'' + tag + '\'');
+    if(tagToRemove) {
+     this.Meta.removeTagElement(tagToRemove);
+    }
+  }
+
 
   selfInit(board) {
     this.postBoard = board;
@@ -485,6 +520,7 @@ export class CatalogComponent implements OnInit {
     this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
     this.Router.navigate(['/catalog/' + this.postBoard]);
 
+    this.setMeta();
     this.refresh(false);
   }
   async ManualOverRideShowImage(post: IndImmChanPostModel) {
