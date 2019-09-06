@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-boards',
@@ -8,12 +10,38 @@ import {Router} from '@angular/router';
 })
 export class BoardsComponent implements OnInit {
   Router: Router;
+  Meta: Meta;
+  Title: Title;
 
-  constructor(router:Router) {
+  constructor(router:Router, meta: Meta, title: Title) {
     this.Router = router;
+    this.Meta = meta;
+    this.Title = title;
+  }
+
+  removeTagIfExists(tag) {
+    const tagToRemove = this.Meta.getTag('name=\'' + tag + '\'');
+    if(tagToRemove) {
+     this.Meta.removeTagElement(tagToRemove);
+    }
   }
 
   ngOnInit() {
+    this.removeTagIfExists('twitter:card');
+    this.removeTagIfExists('twitter:site');
+    this.removeTagIfExists('twitter:creator');
+    this.removeTagIfExists('twitter:title');
+    this.removeTagIfExists('twitter:description');
+    this.removeTagIfExists('twitter:image');
+
+
+    this.Meta.addTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.Meta.addTag({ name: 'twitter:site', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:creator', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:title', content: 'BlockChan Boards'});
+    this.Meta.addTag({ name: 'twitter:description', content: 'Boards available on BlockChan'});
+    this.Meta.addTag({ name: 'twitter:image', content: 'assets/images/biglogo.png' });
+
   }
 
   OpenPolitics() {
