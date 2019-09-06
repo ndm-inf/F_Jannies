@@ -5,12 +5,31 @@
     Clone this repo: https://github.com/ndm-inf/BlockChan.git
 
     Install Angular CLI: npm install -g @angular/cli
+    
+    You might also need to run: npm install --save-dev @angular-devkit/build-angular
 
     Install Dependencies: npm install
 
     Run Locally: ng serve
 
     Navigate to `http://localhost:4200/`
+
+## Put your client live on the internet with an nginx reverse proxy
+    It's easy just add lines like this to your nginx vhost conf in /etc/nginx/sites-available/
+    
+    access_log /var/log/nginx/blockchan.ca.access.log;
+    error_log /var/log/nginx/blockchan.ca.error.log;
+
+    location / {
+        proxy_pass http://localhost:4200;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+    
+    You should also of course install SSL with a free certificate via https://letsencrypt.org or purchase your own.
 
 ## How does IndImm work
     IndImm Chan works by storing content and references on the Ripple blockchain while storing actual images on IPFS referenced via hash. More detailed explanation and docs coming soon.
