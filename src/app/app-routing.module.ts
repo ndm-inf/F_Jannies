@@ -5,6 +5,7 @@ import { UploadComponent } from './upload/upload.component';
 import { ViewFileComponent } from './view-file/view-file.component';
 import { ViewPortalComponent } from './view-portal/view-portal.component';
 import { AnonymousComponent } from './anonymous/anonymous.component';
+import { AboutComponent } from './about/about.component';
 import { DevComponent } from './dev/dev.component';
 import { FileIndexComponent } from './file-index/file-index.component';
 import { IndImmChanPostViewerComponent } from './ind-imm-chan-post-viewer/ind-imm-chan-post-viewer.component';
@@ -37,6 +38,10 @@ const routes: Routes = [
     path: 'anonymous',
     component: AnonymousComponent
   },
+  {
+    path: 'about',
+    component: AboutComponent
+  }, 
   {
     path: 'dev',
     component: DevComponent

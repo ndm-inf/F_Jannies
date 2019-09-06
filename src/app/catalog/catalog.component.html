@@ -1,13 +1,13 @@
 <div class="container">
     <div class="row">
-        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
-        <span class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenAnime()">a</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenWeapons()">k</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenMeta()">m</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
-        <span class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/" title="Home"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards" title="Boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
+        <span title="Politically Incorrect" class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
+        <span title="Business & Finance" class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
+        <span title="Anime"class="openBoard" (click)="OpenAnime()">a</span><span class="grey"> / </span>
+        <span title="Weapons" class="openBoard" (click)="OpenWeapons()">k</span><span class="grey"> / </span>
+        <span title="Meta"class="openBoard" (click)="OpenMeta()">m</span><span class="grey"> / </span>
+        <span title="Technology" class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
+        <span title="Random" class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
     <div class="row uk-text-center text-center">
         <img [src]="HeaderImage">
