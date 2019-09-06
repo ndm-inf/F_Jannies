@@ -19,6 +19,7 @@ export class AnonymousComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    /*
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');
     this.removeTagIfExists('twitter:creator');
@@ -32,6 +33,7 @@ export class AnonymousComponent implements OnInit, AfterViewInit {
     this.Meta.addTag({ name: 'twitter:title', content: 'BlockChan - Anonymize Posting/Browsing'});
     this.Meta.addTag({ name: 'twitter:description', content: 'Tips for Browsing and Posting w/ BlockChan anonymously'});
     this.Meta.addTag({ name: 'twitter:image', content: 'assets/images/biglogo.png' });
+    */
   }
   ngAfterViewInit() {
     // const homeelm = this.elmRef.nativeElement.ownerDocument.body.querySelector('#home');
