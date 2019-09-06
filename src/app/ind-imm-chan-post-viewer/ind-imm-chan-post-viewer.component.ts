@@ -4,6 +4,8 @@ import { IndImmChanPostService } from '../ind-imm-chan-post.service';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { IndImmChanPost } from '../ind-imm-chan-post';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Meta } from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 
 import { IndImmChanPostManagerService } from '../ind-imm-chan-post-manager.service';
 import { IndImmChanAddressManagerService } from '../ind-imm-chan-address-manager.service';
@@ -36,6 +38,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Router: Router;
   ToastrService: ToastrService;
   Dialog: MatDialog;
+  Meta: Meta;
+  Title: Title;
 
   postTitle = '';
   postMessage = '';
@@ -216,7 +220,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
-    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog) {
+    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -228,6 +232,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Config = config; 
     this.GlobalEventService = globalEventService;
     this.EthTipService = ethTipService;
+    this.Meta = meta;
+    this.Title = title;
 
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
@@ -473,11 +479,38 @@ export class IndImmChanPostViewerComponent implements OnInit {
       thread.TotalReplies = children.length;
       thread.ImageReplies = imageCounter;
       this.thread = thread;
+      this.Title.setTitle('BlockChan - /' + this.postBoard + '/ - ' + this.thread.IndImmChanPostModelParent.Title);
+
+
+
+
       this.reloadImages();
       // this.refresh(true);
     }
     else {
       this.refresh(false);
+    }
+    this.removeTagIfExists('twitter:card');
+    this.removeTagIfExists('twitter:site');
+    this.removeTagIfExists('twitter:creator');
+    this.removeTagIfExists('twitter:title');
+    this.removeTagIfExists('twitter:description');
+    this.removeTagIfExists('twitter:image');
+
+    this.Meta.addTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.Meta.addTag({ name: 'twitter:site', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:creator', content: '@ind_imm' });
+    this.Meta.addTag({ name: 'twitter:title', content: encodeURIComponent(this.thread.IndImmChanPostModelParent.Title) });
+    this.Meta.addTag({ name: 'twitter:description', content: encodeURIComponent(this.thread.IndImmChanPostModelParent.Msg
+      .substring(0, Math.min(this.thread.IndImmChanPostModelParent.Msg.length, 70)).trim())});
+    this.Meta.addTag({ name: 'twitter:image', content: 'https://ipfs.io/ipfs/' + this.thread.IndImmChanPostModelParent.IPFSHash });
+ 
+  }
+
+  removeTagIfExists(tag) {
+    const tagToRemove = this.Meta.getTag('name=\'' + tag + '\'');
+    if(tagToRemove) {
+     this.Meta.removeTagElement(tagToRemove);
     }
   }
 
