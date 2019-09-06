@@ -17,16 +17,6 @@ export class BoardsComponent implements OnInit {
     this.Router = router;
     this.Meta = meta;
     this.Title = title;
-  }
-
-  removeTagIfExists(tag) {
-    const tagToRemove = this.Meta.getTag('name=\'' + tag + '\'');
-    if(tagToRemove) {
-     this.Meta.removeTagElement(tagToRemove);
-    }
-  }
-
-  ngOnInit() {
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');
     this.removeTagIfExists('twitter:creator');
@@ -41,6 +31,17 @@ export class BoardsComponent implements OnInit {
     this.Meta.addTag({ name: 'twitter:title', content: 'BlockChan Boards'});
     this.Meta.addTag({ name: 'twitter:description', content: 'Boards available on BlockChan'});
     this.Meta.addTag({ name: 'twitter:image', content: 'assets/images/biglogo.png' });
+  }
+
+  removeTagIfExists(tag) {
+    const tagToRemove = this.Meta.getTag('name=\'' + tag + '\'');
+    if(tagToRemove) {
+     this.Meta.removeTagElement(tagToRemove);
+    }
+  }
+
+  ngOnInit() {
+
 
   }
 
