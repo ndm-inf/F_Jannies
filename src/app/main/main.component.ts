@@ -36,6 +36,7 @@ export class MainComponent implements OnInit {
     this.router.navigate(['/boards']);
   }
   ngOnInit() {
+    /*
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');
     this.removeTagIfExists('twitter:creator');
@@ -49,6 +50,7 @@ export class MainComponent implements OnInit {
     this.Meta.addTag({ name: 'twitter:title', content: 'BlockChan'});
     this.Meta.addTag({ name: 'twitter:description', content: 'Infinite. Immutable. Indestructible Discussions.'});
     this.Meta.addTag({ name: 'twitter:image', content: 'assets/images/biglogo.png' });
+    */
   }
 
   removeTagIfExists(tag) {

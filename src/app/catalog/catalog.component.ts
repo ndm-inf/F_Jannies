@@ -458,7 +458,7 @@ export class CatalogComponent implements OnInit {
   async setMeta() {
     this.Title.setTitle('BlockChan - /' + this.postBoard + '/');
 
-    
+    /*
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');
     this.removeTagIfExists('twitter:creator');
@@ -472,7 +472,7 @@ export class CatalogComponent implements OnInit {
     this.Meta.addTag({ name: 'twitter:title',content:  '/' + this.postBoard + '/ - ' + this.postBoardName });
     this.Meta.addTag({ name: 'twitter:description', content: '/' + this.postBoard + '/ on BlockChan'});
     this.Meta.addTag({ name: 'twitter:image', content: this.HeaderImage });
- 
+    */
   }
   
   async reloadImages() {

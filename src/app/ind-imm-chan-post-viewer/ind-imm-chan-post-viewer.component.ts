@@ -490,6 +490,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     else {
       this.refresh(false);
     }
+    /*
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');
     this.removeTagIfExists('twitter:creator');
@@ -504,7 +505,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Meta.addTag({ name: 'twitter:description', content: encodeURIComponent(this.thread.IndImmChanPostModelParent.Msg
       .substring(0, Math.min(this.thread.IndImmChanPostModelParent.Msg.length, 70)).trim())});
     this.Meta.addTag({ name: 'twitter:image', content: 'https://ipfs.io/ipfs/' + this.thread.IndImmChanPostModelParent.IPFSHash });
- 
+      */
   }
 
   removeTagIfExists(tag) {
