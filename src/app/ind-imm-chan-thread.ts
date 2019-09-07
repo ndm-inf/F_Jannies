@@ -28,7 +28,12 @@ export class IndImmChanThread {
         }
     }
 
-    greenText(post:IndImmChanPostModel) {
+    spoilerText(post: IndImmChanPostModel) {
+        post.Msg = post.Msg.replace('[SPOILER]' , '<span class="spoiler">');
+        post.Msg = post.Msg.replace('[/SPOILER]' , '</span>');
+    }
+
+    greenText(post: IndImmChanPostModel) {
         const splitMessage = post.Msg.split('\n');
 
         const newMsgArray: string[] = [];
@@ -60,10 +65,12 @@ export class IndImmChanThread {
         const ids: string[] = [];
         ids.push(this.IndImmChanPostModelParent.Tx);
         this.greenText(this.IndImmChanPostModelParent);
+        this.spoilerText(this.IndImmChanPostModelParent);
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             ids.push(this.IndImmChanPostModelChildren[i].Tx)
-            this.greenText(this.IndImmChanPostModelChildren[i]);        
+            this.greenText(this.IndImmChanPostModelChildren[i]);      
+            this.spoilerText(this.IndImmChanPostModelChildren[i]);  
         }
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
