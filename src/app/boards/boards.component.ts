@@ -17,6 +17,7 @@ export class BoardsComponent implements OnInit {
     this.Router = router;
     this.Meta = meta;
     this.Title = title;
+    this.Title.setTitle("BlockChan Boards");
     /*
     this.removeTagIfExists('twitter:card');
     this.removeTagIfExists('twitter:site');

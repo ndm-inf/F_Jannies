@@ -16,6 +16,7 @@ export class AnonymousComponent implements OnInit, AfterViewInit {
     this.elmRef = elementRef;
     this.Meta = meta;
     this.Title = title;
+    this.Title.setTitle('BlockChan - About Us');
   }
 
   ngOnInit() {
