@@ -28,9 +28,14 @@ export class IndImmChanThread {
         }
     }
 
-    spoilerText(post: IndImmChanPostModel) {
+    spoilerAndYoutubeText(post: IndImmChanPostModel) {
         post.Msg = post.Msg.replace('[SPOILER]' , '<span class="spoiler">');
         post.Msg = post.Msg.replace('[/SPOILER]' , '</span>');
+
+        post.Msg = post.Msg.replace("watch?v=", "embed/");
+        post.Msg = post.Msg.replace(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*((youtube.com)|(youtu.be))[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, function($0) { 
+            return '<iframe width="420" height="315" src="' + $0 + '"></iframe>';
+        });
     }
 
     greenText(post: IndImmChanPostModel) {
@@ -65,12 +70,12 @@ export class IndImmChanThread {
         const ids: string[] = [];
         ids.push(this.IndImmChanPostModelParent.Tx);
         this.greenText(this.IndImmChanPostModelParent);
-        this.spoilerText(this.IndImmChanPostModelParent);
+        this.spoilerAndYoutubeText(this.IndImmChanPostModelParent);
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             ids.push(this.IndImmChanPostModelChildren[i].Tx)
             this.greenText(this.IndImmChanPostModelChildren[i]);      
-            this.spoilerText(this.IndImmChanPostModelChildren[i]);  
+            this.spoilerAndYoutubeText(this.IndImmChanPostModelChildren[i]);  
         }
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
