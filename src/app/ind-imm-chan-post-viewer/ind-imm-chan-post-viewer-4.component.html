@@ -222,9 +222,10 @@
                                     </span>
                                 </span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
-                                    <video width="250" controls>
+                                    <video width="250" controls controlsList="nodownload" >
                                         <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
                                     </video>
+                                    <i class="fa fa-download" aria-hidden="true" style="cursor:pointer" (click)="downloadWebm(thread.IndImmChanPostModelParent)"></i>
                                 </span>
                             </a>
                         </div>
@@ -297,9 +298,10 @@
                                         </span>
                                     </span>
                                     <span *ngIf="post.Base64Image && post.IsWebm">
-                                        <video width="250" controls>
+                                        <video width="250" controls controlsList="nodownload">
                                             <source [src]="post.Base64Image" type="video/webm">
                                         </video>
+                                        <i class="fa fa-download" style="cursor:pointer" aria-hidden="true"  (click)="downloadWebm(post)"></i>
                                     </span>
                                 </a>
                             </div>
