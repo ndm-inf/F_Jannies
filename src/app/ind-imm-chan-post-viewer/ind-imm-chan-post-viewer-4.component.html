@@ -1,12 +1,13 @@
 <div class="container">
     <div class="row">
-        <span class="openBoard" (click)="OpenPolitics()">[ pol /</span>
-        <span class="openBoard" (click)="OpenBusiness()">biz</span>
-        <span class="openBoard" (click)="OpenAnime()">/ a</span>
-        <span class="openBoard" (click)="OpenWeapons()">/ k</span>
-        <span class="openBoard" (click)="OpenMeta()">/ m</span>
-        <span class="openBoard" (click)="OpenTechnology()">/ g</span>
-        <span class="openBoard" (click)="OpenRandom()">/ b]</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/" title="Home"><i class="fa fa-home navgreen"></i></a><span class="grey"> | </span><a href="/boards" title="Boards"><i class="fa fa-th-list navgreen"></i></a>&nbsp;&nbsp;<span class="grey">[ </span>
+        <span title="Politically Incorrect" class="openBoard" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
+        <span title="Business & Finance" class="openBoard" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>
+        <span title="Anime"class="openBoard" (click)="OpenAnime()">a</span><span class="grey"> / </span>
+        <span title="Weapons" class="openBoard" (click)="OpenWeapons()">k</span><span class="grey"> / </span>
+        <span title="Meta"class="openBoard" (click)="OpenMeta()">m</span><span class="grey"> / </span>
+        <span title="Technology" class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
+        <span title="Random" class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
     <div class="row uk-text-center text-center">
         <img [src]="HeaderImage">
@@ -59,13 +60,13 @@
                     <td [hidden]="!ShowTripEntry">
                         Trip Code (Requires attaching your Ripple Wallet. Trip is generated from your signed post w/ your credentials below):
                         <br>
-                        <a href="https://jatchili.github.io/minimalist-ripple-client/">Generte wallet here</a> by clicking generate identity. Your new address is is displayed
+                        <a href="https://jatchili.github.io/minimalist-ripple-client/">Generate wallet here</a> by clicking generate identity. Your new address is displayed
                         <br> above the button "show/hide secret", click that button to show your secret. SAVE BOTH of these. For wallet to be usable/active, you must send 20 XRP or more to it. 
                         <br>
                         Instructions for obtaining XRP is <a href="https://cointelegraph.com/ripple-101/ripple-xrp-wallets-for-beginners">here</a>
                         <br>
                         <br>
-                        XRP Addresss: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
+                        XRP Address: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
                         XRP Key: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
                         Poster Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">                    
                     </td>
@@ -234,7 +235,7 @@
                             thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
                                 Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                             </span>
-                            <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
+                            <span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>

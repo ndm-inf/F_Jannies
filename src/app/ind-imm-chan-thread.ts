@@ -34,13 +34,13 @@ export class IndImmChanThread {
 
         post.Msg = post.Msg.replace("watch?v=", "embed/");
         post.Msg = post.Msg.replace(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*((youtube.com)|(youtu.be))[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, function($0) { 
-            
+
             if ($0.includes('youtu.be')) {
                 const link = $0.replace('https://youtu.be/', ''); 
                 const fullLink = 'https://www.youtube.com/embed/' + link;
                 return '<iframe width="420" height="315" src="' + fullLink + '"></iframe>';
             } else {
-            return '<iframe width="420" height="315" src="' + $0 + '"></iframe>';
+            return '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="' + $0 + '" allowFullScreen></iframe></div>';
             }
 
         });

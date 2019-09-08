@@ -72,6 +72,10 @@ export class AppComponent {
     this.router.navigate(['/anonymous']);
   }
 
+  public viewAbout() {
+    this.router.navigate(['/about']);
+  }
+
   public viewDev() {
     this.router.navigate(['/dev']);
   }

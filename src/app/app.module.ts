@@ -16,6 +16,7 @@ import {AngularFileViewerModule} from '@taldor-ltd/angular-file-viewer';
 import { ViewPortalComponent } from './view-portal/view-portal.component';
 import {ToastrModule} from 'ngx-toastr';
 import { AnonymousComponent } from './anonymous/anonymous.component';
+import { AboutComponent } from './about/about.component';
 import { DevComponent } from './dev/dev.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { FileIndexComponent } from './file-index/file-index.component';
@@ -36,6 +37,7 @@ import { ThreadFilterPipe } from './thread-filter.pipe';
     ViewFileComponent,
     ViewPortalComponent,
     AnonymousComponent,
+    AboutComponent,
     DevComponent,
     ConfirmDialogComponent,
     FileIndexComponent,
