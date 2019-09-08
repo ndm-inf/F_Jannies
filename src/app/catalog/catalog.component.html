@@ -200,7 +200,7 @@
                             <img [src]=" thread.IndImmChanPostModelParent.Base64Image" width="150px">
                         </div>
                         <div class="webmContainer" *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
-                            <video width="215" controls>
+                            <video width="215" controls controlsList="nodownload">
                                 <source [src]="thread.IndImmChanPostModelParent.Base64Image" type="video/webm">
                             </video>
                         </div>

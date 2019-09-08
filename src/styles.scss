@@ -4,6 +4,17 @@
 @import '../node_modules/cryptofont/sass/cryptofont.scss';
 @import '../node_modules/ngx-toastr/toastr.css';
 
+
+.spoiler{ 
+    color: black; 
+    background-color:black;
+  }
+  
+  .spoiler:hover{
+    color: white;
+    }
+
+    
 i.icon-blue {
     color: blue;
 }

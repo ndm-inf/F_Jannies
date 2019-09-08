@@ -28,7 +28,36 @@ export class IndImmChanThread {
         }
     }
 
-    greenText(post:IndImmChanPostModel) {
+    spoilerAndYoutubeText(post: IndImmChanPostModel) {
+        post.Msg = post.Msg.replace('[SPOILER]' , '<span class="spoiler">');
+        post.Msg = post.Msg.replace('[/SPOILER]' , '</span>');
+
+        post.Msg = post.Msg.replace("watch?v=", "embed/");
+        post.Msg = post.Msg.replace(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*((youtube.com)|(youtu.be))[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, function($0) { 
+            return '<iframe width="420" height="315" src="' + $0 + '"></iframe>';
+        });
+        post.Msg = this.linkify(post.Msg);
+    }
+
+    linkify(inputText) {
+        var replacedText, replacePattern1, replacePattern2, replacePattern3;
+    
+        //URLs starting with http://, https://, or ftp://
+        replacePattern1 = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;;
+        // replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+        replacedText = inputText.replace(replacePattern1, function($1) { 
+            if (!($1.includes('youtube') || $1.includes('youtu.be'))) {
+                return '<a style="color: #337ab7;" href="' + $1 +'" target="_blank">' + $1 +'</a>';
+            } else {
+                return $1;
+            }
+        });
+        
+    
+        return replacedText;
+    }
+
+    greenText(post: IndImmChanPostModel) {
         const splitMessage = post.Msg.split('\n');
 
         const newMsgArray: string[] = [];
@@ -60,10 +89,12 @@ export class IndImmChanThread {
         const ids: string[] = [];
         ids.push(this.IndImmChanPostModelParent.Tx);
         this.greenText(this.IndImmChanPostModelParent);
+        this.spoilerAndYoutubeText(this.IndImmChanPostModelParent);
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
             ids.push(this.IndImmChanPostModelChildren[i].Tx)
-            this.greenText(this.IndImmChanPostModelChildren[i]);        
+            this.greenText(this.IndImmChanPostModelChildren[i]);      
+            this.spoilerAndYoutubeText(this.IndImmChanPostModelChildren[i]);  
         }
 
         for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {

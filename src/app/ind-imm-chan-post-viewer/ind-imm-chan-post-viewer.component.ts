@@ -308,6 +308,10 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
   }
 
+  async downloadWebm(post: IndImmChanPostModel){
+    saveAs(post.Image, "download.webm");
+    console.log('download');
+  }
   public handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
   }
