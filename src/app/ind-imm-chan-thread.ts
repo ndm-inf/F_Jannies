@@ -3,6 +3,7 @@ import { IndImmChanPostModel } from './ind-imm-chan-post-model';
 export class IndImmChanThread {
     IndImmChanPostModelParent: IndImmChanPostModel;
     IndImmChanPostModelChildren: IndImmChanPostModel[] = [];
+    AllPosts: IndImmChanPostModel[] = [];
     FilteredBySearch = false;
     constructor() {
         this.IndImmChanPostModelChildren = [];
@@ -10,11 +11,55 @@ export class IndImmChanThread {
     TotalReplies = 0;
     ImageReplies = 1;
     LastCommentTime: Date = null;
+    Board: string;
+
 
     public Prep() {
         this.orderRepliesDescending();
         this.populateLastCommentTime();
         this.linkReplies();
+        this.prepCrossThreadLinks();
+        this.AllPosts=[];
+    }
+
+    prepCrossThreadLinks() {
+        if(this.AllPosts && this.AllPosts.length > 0) {
+            for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
+                for (let j = 0; j < this.AllPosts.length; j++) {
+                    if(this.IndImmChanPostModelChildren[i].Msg.includes(this.AllPosts[j].Tx)) {
+                        if(!this.isPostInThread(this.AllPosts[j])){
+                            
+                            let baseUrl = 'https://ndm-inf.github.io/BlockChan/postViewer/'+ this.Board;
+                            if(this.AllPosts[j].Parent && this.AllPosts[j].Parent.length > 0) {
+                                baseUrl = baseUrl + '/' + this.AllPosts[j].Parent + '#' + this.AllPosts[j].Tx;
+                            } else {
+                                baseUrl = baseUrl + '/' + this.AllPosts[j].Tx;
+                            }
+                            console.log(baseUrl);
+                            this.IndImmChanPostModelChildren[i].Msg =  this.IndImmChanPostModelChildren[i].Msg.replace('>>' + this.AllPosts[j].Tx,
+                            '<a href="'+ baseUrl + '" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"> [cross thread, no previw]</span>' + '--> </a>');
+                           //  '<span onClick="window.open(\'' + baseUrl + '\', \'_blank\');" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"> [cross thread, no previw]</span>' + '--> </span>');
+
+
+                        }
+                    }
+                }
+                this.IndImmChanPostModelChildren[i].HeaderLinks = '&nbsp;' + this.IndImmChanPostModelChildren[i].HeaderLinks;
+            }
+        }
+    }
+
+    isPostInThread(post: IndImmChanPostModel) {
+        for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
+            if (this.IndImmChanPostModelChildren[i].Tx === post.Tx) {
+                return true;
+            }
+        }
+
+        if (this.IndImmChanPostModelParent.Tx === post.Tx) {
+            return true;
+        }
+        return false;
     }
     orderRepliesDescending() {
        this.IndImmChanPostModelChildren = this.IndImmChanPostModelChildren.sort(this.compare);

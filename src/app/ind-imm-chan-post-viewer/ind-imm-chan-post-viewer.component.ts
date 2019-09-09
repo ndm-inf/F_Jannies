@@ -402,6 +402,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
     const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(this.AddressManagerService.GetBoardAddress(this.postBoard), 
       this.parentTx);
+    threadResult.Board = this.postBoard;
     threadResult.Prep();
     this.thread = threadResult;
     this.PostLoading = false;

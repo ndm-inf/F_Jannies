@@ -143,6 +143,7 @@ export class IndImmChanPostManagerService {
       const retSet: IndImmChanThread[] = [];
       const childSet: IndImmChanPostModel[] = [];
       const subPosts: SubPost[] = [];
+      const allPosts: IndImmChanPostModel[] = [];
 
       for (let i = 0; i < unfilteredResults.length; i++) {
         if ('memos' in unfilteredResults[i].specification) {
@@ -220,6 +221,7 @@ export class IndImmChanPostManagerService {
           if(postModel.Tx === parent || postModel.Parent === parent) {
             postSet.push(postModel);
           }
+          allPosts.push(postModel);
         }
       }
 
@@ -254,6 +256,7 @@ export class IndImmChanPostManagerService {
       }
       retSet[0].ImageReplies = imageCounter;
       retSet[0].TotalReplies = retSet[0].IndImmChanPostModelChildren.length;
+      retSet[0].AllPosts = allPosts;
       return retSet[0];
   }
 
