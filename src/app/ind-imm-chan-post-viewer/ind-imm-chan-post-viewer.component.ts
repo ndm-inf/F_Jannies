@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {Buffer} from 'buffer';
 import { IndImmChanPostService } from '../ind-imm-chan-post.service';
 import { map, filter, switchMap } from 'rxjs/operators';
@@ -40,6 +40,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Dialog: MatDialog;
   Meta: Meta;
   Title: Title;
+  Elem: ElementRef;
 
   postTitle = '';
   postMessage = '';
@@ -141,6 +142,13 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
   }
 
+  async highlightposts(postClass: string) {
+    let eles = this.Elem.nativeElement.querySelectorAll('.h' + postClass);
+    for (let i = 0; i < eles.length; i++) {     
+      eles[i].style.background = '#8C3726';
+    }
+  }
+
   async Flag(post:IndImmChanPostModel){
     const dialogRef = this.Dialog.open(ModeratorDialogComponent, {
       width: '525px',
@@ -220,7 +228,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
-    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title) {
+    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -234,7 +242,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.EthTipService = ethTipService;
     this.Meta = meta;
     this.Title = title;
-
+    this.Elem = elem;
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
     });
