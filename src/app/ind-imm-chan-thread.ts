@@ -37,7 +37,7 @@ export class IndImmChanThread {
                             }
                             console.log(baseUrl);
                             this.IndImmChanPostModelChildren[i].Msg =  this.IndImmChanPostModelChildren[i].Msg.replace('>>' + this.AllPosts[j].Tx,
-                            '<a href="'+ baseUrl + '" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"> [cross thread, no previw]</span>' + '--> </a>');
+                            '<a href="'+ baseUrl + '" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"></span>' + '-> </a>');
                            //  '<span onClick="window.open(\'' + baseUrl + '\', \'_blank\');" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"> [cross thread, no previw]</span>' + '--> </span>');
 
 
