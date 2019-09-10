@@ -21,6 +21,7 @@ export class FlagService {
       console.log('ip res: ' + ip);
       return ip.geoplugin_countryCode;
     } catch (error) {
+      console.log('ip error: ' + error);
       return '';
     }
   }
