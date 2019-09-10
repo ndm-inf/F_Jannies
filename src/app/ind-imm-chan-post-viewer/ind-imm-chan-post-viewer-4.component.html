@@ -172,17 +172,19 @@
     </div>
     <div class="row">
         <div class="board">
-            <div id="hover-preview-container" style="position:absolute; z-index:1000; width:50%"></div>
+            <div id="hover-preview-container" style="position:absolute; z-index:1000; width:65%"></div>
             <div class="thread" id="t15343728" *ngIf="thread !== null">
                 <div class="postContainer replyContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
                     <div id="p15343728" class="post reply">
+                        <div [className]="'h'+thread.IndImmChanPostModelParent.UID">
                         <div class="postInfoM mobile">
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"></span>
                                 <span class="posteruid">
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
-                                        <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
+                                        <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
                                                 &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
                                         </span>                                        
                                     </span>)
@@ -239,9 +241,10 @@
                             <span class="nameBlock">
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
+                                <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"></span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" 
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
-                                     <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" >
+                                     <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
                                          &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
                                      </span>                                     
                                     </span>)
@@ -254,11 +257,13 @@
                             </span>
                         </div>
                         <span class="msg"><div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;"   [innerHtml]="thread.IndImmChanPostModelParent.Msg | safe: 'html'"></div></span>
+                        </div>
                     </div>
                 </div>
                 <div class="postContainer replyContainer" *ngFor="let post of thread.IndImmChanPostModelChildren" #elem [id]="post.Tx">
                     <div class="sideArrows">&gt;&gt;</div>
                     <div id="p15343737" class="post reply">
+                        <div [className]="'h'+post.UID">
                         <div class="postInfoM mobile" id="pim15343737"> 
                             <span class="nameBlock">
                                 <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
@@ -267,8 +272,9 @@
                                 </span>
                                 <span class="name">&nbsp;{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
+                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;"></span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
-                                        <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
+                                        <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
 
                                 </span>)
                                 </span>
@@ -314,8 +320,10 @@
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
+                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;"></span>
+
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
-                                    <span class="idhover" [style.color]="post.FontColor">{{ post.UID }}</span>
+                                    <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
                                 </span>)
                                 </span>
                             </span> 
@@ -326,9 +334,10 @@
 
                             </span>
                         </div>
-                            <span class="msg">
-                                <div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;" [innerHtml]="post.Msg | safe: 'html'"></div>
-                            </span>
+                        <span class="msg">
+                            <div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;" [innerHtml]="post.Msg | safe: 'html'"></div>
+                        </span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -11,4 +11,5 @@ export class IndImmChanPost {
     UID = '';
     T = false;
     SubpostTx = '';
+    F = '';
 }

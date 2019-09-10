@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {Buffer} from 'buffer';
 import { IndImmChanPostService } from '../ind-imm-chan-post.service';
 import { map, filter, switchMap } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
 import { ModeratorDialogComponent } from '../moderator-dialog/moderator-dialog.component';
 import { PostModFlagModel } from '../post-mod-flag-model';
 import { PostModFlag } from '../post-mod-flag';
+import { FlagService } from '../flag.service';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -40,6 +41,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Dialog: MatDialog;
   Meta: Meta;
   Title: Title;
+  Elem: ElementRef;
 
   postTitle = '';
   postMessage = '';
@@ -70,6 +72,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   TripSecret = '';
   TripName = '';
   HeaderImage = '';
+  FlagService: FlagService;
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -138,6 +141,17 @@ export class IndImmChanPostViewerComponent implements OnInit {
         this.PostDecrypted = false;
       }
       return origPost;
+    }
+  }
+
+  async highlightposts(postClass: string) {
+    let eles = this.Elem.nativeElement.querySelectorAll('.h' + postClass);
+    for (let i = 0; i < eles.length; i++) {    
+      if(eles[i].style.background === '') {
+        eles[i].style.background = '#8C3726';
+      } else {
+        eles[i].style.background  = '';
+      }
     }
   }
 
@@ -220,7 +234,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
-    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title) {
+    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef,
+    flagService: FlagService) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -234,7 +249,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.EthTipService = ethTipService;
     this.Meta = meta;
     this.Title = title;
-
+    this.Elem = elem;
+    this.FlagService = flagService;
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
     });
@@ -369,7 +385,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     try {
       this.blockPosting();
       await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
-        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
+        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
       this.PostingError = false;
        this.refresh(false);
     } catch (error) {
@@ -394,6 +410,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
     const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(this.AddressManagerService.GetBoardAddress(this.postBoard), 
       this.parentTx);
+    threadResult.Board = this.postBoard;
     threadResult.Prep();
     this.thread = threadResult;
     this.PostLoading = false;

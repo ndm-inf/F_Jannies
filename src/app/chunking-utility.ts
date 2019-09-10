@@ -342,7 +342,7 @@ export class ChunkingUtility {
         newPost.ETH = post.ETH;
         newPost.UID  = post.UID;
         newPost.T = post.T;
-
+        newPost.F = post.F;
         return newPost;
     }
 }

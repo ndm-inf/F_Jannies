@@ -29,6 +29,7 @@
     "cryptofont": "^0.1.1",
     "file-saver": "^2.0.2",
     "file-system": "^2.2.2",
+    "flag-icon-css": "^3.3.0",
     "hammerjs": "^2.0.8",
     "mat-video": "^2.7.2",
     "material-design-icons": "^3.0.1",

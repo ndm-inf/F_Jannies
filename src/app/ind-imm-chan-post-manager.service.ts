@@ -21,13 +21,28 @@ export class IndImmChanPostManagerService {
 
   UID = '';
 
+  /*
   public GetUID(): string {
     if (this.UID.length == 0) {
       return this.SetUID();
     } else {
       return localStorage.getItem('UID');
     }
-  }
+  } */
+
+  public GetUID(): string {
+    if (this.UID.length == 0) {
+      const uid = localStorage.getItem('UID');
+      if (uid && uid.length > 0) {
+        this.UID = uid;
+        return this.UID;
+      } else {
+        return this.SetUID();
+      }
+    } else {
+      return this.UID;
+    }
+  } 
 
   public SetUID(): string {
     const cu: ChunkingUtility = new ChunkingUtility();
@@ -42,7 +57,7 @@ export class IndImmChanPostManagerService {
   }
 
   public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey,
-    ethTipAddress: string, useTrip: boolean) {
+    ethTipAddress: string, useTrip: boolean, flag: string) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
     post.Title = title;
@@ -51,6 +66,8 @@ export class IndImmChanPostManagerService {
     post.ETH = ethTipAddress;
     post.UID = this.GetUID();
     post.T = useTrip;
+    post.F = flag;
+
     let postMemoType = '';
 
     if(!parent || parent.length == 0) {
@@ -143,6 +160,7 @@ export class IndImmChanPostManagerService {
       const retSet: IndImmChanThread[] = [];
       const childSet: IndImmChanPostModel[] = [];
       const subPosts: SubPost[] = [];
+      const allPosts: IndImmChanPostModel[] = [];
 
       for (let i = 0; i < unfilteredResults.length; i++) {
         if ('memos' in unfilteredResults[i].specification) {
@@ -190,6 +208,9 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
+          if(post.F && post.F.length > 0) {
+            postModel.F = post.F.toLowerCase();
+          }
           postModel.SubpostTx = post.SubpostTx;
           if(!post.UID || post.UID.length == 0) {
             postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
@@ -220,6 +241,7 @@ export class IndImmChanPostManagerService {
           if(postModel.Tx === parent || postModel.Parent === parent) {
             postSet.push(postModel);
           }
+          allPosts.push(postModel);
         }
       }
 
@@ -254,6 +276,7 @@ export class IndImmChanPostManagerService {
       }
       retSet[0].ImageReplies = imageCounter;
       retSet[0].TotalReplies = retSet[0].IndImmChanPostModelChildren.length;
+      retSet[0].AllPosts = allPosts;
       return retSet[0];
   }
 
@@ -310,6 +333,9 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.Enc = post.Enc;
           postModel.T = post.T;
+          if(post.F && post.F.length > 0) {
+            postModel.F = post.F.toLowerCase();
+          }
           postModel.SubpostTx = post.SubpostTx;
           postModel.SendingAddress = unfilteredResults[i].address;
 
