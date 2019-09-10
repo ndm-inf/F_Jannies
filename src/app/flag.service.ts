@@ -17,9 +17,9 @@ export class FlagService {
 
   async GetFlag() {
     try{
-      const ip:any = await this.Http.get('http://www.geoplugin.net/json.gp', {responseType: 'json'}).toPromise();
+      const ip:any = await this.Http.get('https://ipapi.co/json/', {responseType: 'json'}).toPromise();
       console.log('ip res: ' + ip);
-      return ip.geoplugin_countryCode;
+      return ip.country;
     } catch (error) {
       console.log('ip error: ' + JSON.stringify(error));
       return '';
