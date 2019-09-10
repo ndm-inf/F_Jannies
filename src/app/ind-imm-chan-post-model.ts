@@ -19,6 +19,7 @@ export class IndImmChanPostModel extends IndImmChanPost{
     SendingAddress: '';
     TripCode = '';
     IsWebm = false;
+    Country = '';
     public CreateImageFromBlob() {
         let reader = new FileReader();
         reader.addEventListener("load", () => {

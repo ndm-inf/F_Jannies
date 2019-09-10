@@ -217,10 +217,11 @@ export class IndImmChanPostManagerService {
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
           postModel.Timestamp = new Date(unfilteredResults[i].outcome.timestamp);
-
+          
           if(post.F && post.F.length > 0) {
             postModel.F = post.F.toLowerCase();
           }
+          postModel.Country = cu.GetCountryFromCode(postModel.F);
           postModel.SubpostTx = post.SubpostTx;
           if(!post.UID || post.UID.length == 0) {
             if(postModel.Timestamp < new Date(2019,7,26)) {
@@ -353,8 +354,11 @@ export class IndImmChanPostManagerService {
           if(post.F && post.F.length > 0) {
             postModel.F = post.F.toLowerCase();
           }
+
           postModel.SubpostTx = post.SubpostTx;
           postModel.SendingAddress = unfilteredResults[i].address;
+          const cuf: ChunkingUtility = new ChunkingUtility();
+          postModel.Country = cuf.GetCountryFromCode(postModel.F);
 
           if(post.T) {
             const cu: ChunkingUtility = new ChunkingUtility();
