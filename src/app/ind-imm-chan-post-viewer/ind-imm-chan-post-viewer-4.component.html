@@ -183,7 +183,7 @@
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"></span>
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0">
-                                    <img src="assets/images/anon_flag.svg" style="width:16px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
                                 </span>
                                 <span class="posteruid">
                                     &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
@@ -246,7 +246,7 @@
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"></span>
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0">
-                                    <img src="assets/images/anon_flag.svg" style="width:16px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
                                 </span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" 
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
@@ -280,7 +280,7 @@
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
                                 <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;"></span>
                                 <span *ngIf="!post.F || post.F.length == 0">
-                                    <img src="assets/images/anon_flag.svg" style="width:16px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
                                 </span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
                                         <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
@@ -331,7 +331,7 @@
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
                                 <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;"></span>
                                 <span *ngIf="!post.F || post.F.length == 0">
-                                    <img src="assets/images/anon_flag.svg" style="width:16px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
                                 </span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                     <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
