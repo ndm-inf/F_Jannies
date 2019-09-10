@@ -8,7 +8,7 @@ import { GlobalEventService } from './global-event.service';
 
 export class IndImmConfigService {
   public Environment: ConfigEnvironment;
-  public IsDev = false;
+  public IsDev = true;
   public ShowImages = false;
   public ModerationOn = false;
   public Sort = 'LastReply';

@@ -24,6 +24,7 @@ import { TipDialogComponent } from '../tip-dialog/tip-dialog.component';
 import { ModeratorDialogComponent } from '../moderator-dialog/moderator-dialog.component';
 import { PostModFlagModel } from '../post-mod-flag-model';
 import { PostModFlag } from '../post-mod-flag';
+import { FlagService } from '../flag.service';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -71,6 +72,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   TripSecret = '';
   TripName = '';
   HeaderImage = '';
+  FlagService: FlagService;
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -228,7 +230,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
-    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef) {
+    globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef,
+    flagService: FlagService) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -243,6 +246,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Meta = meta;
     this.Title = title;
     this.Elem = elem;
+    this.FlagService = flagService;
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
     });
@@ -377,7 +381,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     try {
       this.blockPosting();
       await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
-        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
+        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
       this.PostingError = false;
        this.refresh(false);
     } catch (error) {

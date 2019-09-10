@@ -42,7 +42,7 @@ export class IndImmChanPostManagerService {
   }
 
   public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey,
-    ethTipAddress: string, useTrip: boolean) {
+    ethTipAddress: string, useTrip: boolean, flag: string) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
     post.Title = title;
@@ -51,6 +51,8 @@ export class IndImmChanPostManagerService {
     post.ETH = ethTipAddress;
     post.UID = this.GetUID();
     post.T = useTrip;
+    post.F = flag;
+
     let postMemoType = '';
 
     if(!parent || parent.length == 0) {
@@ -191,6 +193,9 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.ETH = post.ETH;
           postModel.Enc = post.Enc;
+          if(post.F && post.F.length > 0) {
+            postModel.F = post.F.toLowerCase();
+          }
           postModel.SubpostTx = post.SubpostTx;
           if(!post.UID || post.UID.length == 0) {
             postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
@@ -313,7 +318,9 @@ export class IndImmChanPostManagerService {
           postModel.Parent = post.Parent;
           postModel.Enc = post.Enc;
           postModel.T = post.T;
-          postModel.SubpostTx = post.SubpostTx;
+          if(post.F && post.F.length > 0) {
+            postModel.F = post.F.toLowerCase();
+          }          postModel.SubpostTx = post.SubpostTx;
           postModel.SendingAddress = unfilteredResults[i].address;
 
           if(post.T) {

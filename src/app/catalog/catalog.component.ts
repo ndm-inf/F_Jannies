@@ -73,9 +73,6 @@ export class CatalogComponent implements OnInit {
     this.ShowSearch = false;
   }
 
-  GetGeoFromIP() {
-    this.FlagService.LoadGeoCountryData();
-  }
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
     dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService) {
@@ -103,7 +100,6 @@ export class CatalogComponent implements OnInit {
         }
       });
   
-      flagService.LoadGeoCountryData();
       this.FlagService = flagService;
       const cu: ChunkingUtility = new ChunkingUtility();
     }
@@ -360,7 +356,7 @@ export class CatalogComponent implements OnInit {
     try {
       this.blockPosting();
       const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
-        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip);
+        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
       this.PostingError = false;
       this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
       // this.refresh();

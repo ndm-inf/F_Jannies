@@ -317,6 +317,8 @@
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
+                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F"></span>
+
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                     <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
                                 </span>)

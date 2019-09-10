@@ -15,15 +15,17 @@ export class FlagService {
   public GeoContryRecords: GeoCountry[] = [];  
   public GeoLocationRecords: MGeoLocation[] = [];
 
-  async LoadGeoCountryData() {
-   
-    
+  async GetFlag() {
+    try{
+      const ip:any = await this.Http.get('http://www.geoplugin.net/json.gp', {responseType: 'json'}).toPromise();
+      console.log('ip res: ' + ip);
+      return ip.geoplugin_countryCode;
+    } catch (error) {
+      return '';
+    }
   }
 
-  saveIP() {
-
-  }
-  async LoadGeoCountryData_old() {  
+  async LoadGeoCountryData() {  
 
     this.LoadGeolocations();
 
