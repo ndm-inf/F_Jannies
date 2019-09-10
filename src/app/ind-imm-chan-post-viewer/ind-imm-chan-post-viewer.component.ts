@@ -146,8 +146,12 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   async highlightposts(postClass: string) {
     let eles = this.Elem.nativeElement.querySelectorAll('.h' + postClass);
-    for (let i = 0; i < eles.length; i++) {     
-      eles[i].style.background = '#8C3726';
+    for (let i = 0; i < eles.length; i++) {    
+      if(eles[i].style.background === '') {
+        eles[i].style.background = '#8C3726';
+      } else {
+        eles[i].style.background  = '';
+      }
     }
   }
 
