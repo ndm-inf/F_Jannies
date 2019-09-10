@@ -320,7 +320,8 @@ export class IndImmChanPostManagerService {
           postModel.T = post.T;
           if(post.F && post.F.length > 0) {
             postModel.F = post.F.toLowerCase();
-          }          postModel.SubpostTx = post.SubpostTx;
+          }
+          postModel.SubpostTx = post.SubpostTx;
           postModel.SendingAddress = unfilteredResults[i].address;
 
           if(post.T) {
