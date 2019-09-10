@@ -20,6 +20,7 @@ import { PostKey } from '../post-key';
 import { CreateFileDetailTransactionChainResponse } from '../create-file-detail-transaction-chain-response';
 import { Meta } from '@angular/platform-browser';
 import {Title} from '@angular/platform-browser';
+import { FlagService } from '../flag.service';
 
 @Component({
   selector: 'app-catalog',
@@ -63,6 +64,7 @@ export class CatalogComponent implements OnInit {
   ShowTripEntry = false;
   search = '';
   ShowSearch = false;
+  FlagService: FlagService;
 
   ToggleShowSearch() {
     this.ShowSearch = true;
@@ -71,9 +73,12 @@ export class CatalogComponent implements OnInit {
     this.ShowSearch = false;
   }
 
+  GetGeoFromIP() {
+    this.FlagService.LoadGeoCountryData();
+  }
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
-    dialog: MatDialog, meta: Meta, title: Title) {
+    dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService) {
       this.Dialog = dialog;
       this.Config = config;
       this.Route = route;
@@ -98,6 +103,8 @@ export class CatalogComponent implements OnInit {
         }
       });
   
+      flagService.LoadGeoCountryData();
+      this.FlagService = flagService;
       const cu: ChunkingUtility = new ChunkingUtility();
     }
 
