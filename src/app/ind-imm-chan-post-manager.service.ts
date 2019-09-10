@@ -21,13 +21,28 @@ export class IndImmChanPostManagerService {
 
   UID = '';
 
+  /*
   public GetUID(): string {
     if (this.UID.length == 0) {
       return this.SetUID();
     } else {
       return localStorage.getItem('UID');
     }
-  }
+  } */
+
+  public GetUID(): string {
+    if (this.UID.length == 0) {
+      const uid = localStorage.getItem('UID');
+      if (uid && uid.length > 0) {
+        this.UID = uid;
+        return this.UID;
+      } else {
+        return this.SetUID();
+      }
+    } else {
+      return this.UID;
+    }
+  } 
 
   public SetUID(): string {
     const cu: ChunkingUtility = new ChunkingUtility();
