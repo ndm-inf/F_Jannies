@@ -16,9 +16,9 @@ export class FlagService {
   public GeoLocationRecords: MGeoLocation[] = [];
 
   async LoadGeoCountryData() {
-    this.Http.get('http://freegeoip.net/json/?callback')
+    this.Http.get('http://gd.geobytes.com/GetCityDetails', {responseType: 'json'})
     .subscribe(
-       data => console.log('result: ' + data['ip']), // Data from REST
+       data => console.log('result: ' + data), // Data from REST
        error => console.error(error),      // Error callback
        () => this.saveIP()                 // Once this call completes
     );
