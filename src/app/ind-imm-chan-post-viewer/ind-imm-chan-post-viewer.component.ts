@@ -149,6 +149,13 @@ export class IndImmChanPostViewerComponent implements OnInit {
     for (let i = 0; i < eles.length; i++) {    
       if(eles[i].style.background === '') {
         eles[i].style.background = '#8C3726';
+        const newHeight = eles[i].parentNode.parentNode.clientHeight;
+        
+        eles[i].style.minHeight = newHeight + 'px';
+        eles[i].style.height = newHeight+ 'px';
+        
+        //eles[i].style.minHeight = '500px';
+        // eles[i].style.height = '500px';
       } else {
         eles[i].style.background  = '';
       }
