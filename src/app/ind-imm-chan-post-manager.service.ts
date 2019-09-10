@@ -73,6 +73,8 @@ export class IndImmChanPostManagerService {
     post.UID = this.GetUID();
     post.T = useTrip;
     post.F = flag;
+    post.Msg  = encodeURI(post.Msg);
+    title = title.replace(/[^\x00-\x7F]/g, "");;
 
     let postMemoType = '';
 
@@ -208,7 +210,7 @@ export class IndImmChanPostManagerService {
 
           postModel.IPFSHash = post.IPFSHash;
           postModel.Tx = unfilteredResults[i].id;
-          postModel.Msg = post.Msg;
+          postModel.Msg = this.decodeURIC(post.Msg);
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
@@ -264,7 +266,7 @@ export class IndImmChanPostManagerService {
         if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
           for (let j = 0; j < subPosts.length; j++) {
             if (curPost.SubpostTx === subPosts[j].Tx) {
-              curPost.Msg = curPost.Msg + subPosts[j].Msg;
+              curPost.Msg = curPost.Msg + this.decodeURIC(subPosts[j].Msg);
             }
           }
         }
@@ -340,7 +342,7 @@ export class IndImmChanPostManagerService {
           const postModel: IndImmChanPostModel = new IndImmChanPostModel();
           postModel.IPFSHash = post.IPFSHash;
           postModel.Tx = unfilteredResults[i].id;
-          postModel.Msg = post.Msg;
+          postModel.Msg = this.decodeURIC(post.Msg);
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
@@ -402,7 +404,7 @@ export class IndImmChanPostManagerService {
         if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
           for (let j = 0; j < subPosts.length; j++) {
             if (curPost.SubpostTx === subPosts[j].Tx) {
-              curPost.Msg = curPost.Msg + subPosts[j].Msg;
+              curPost.Msg = curPost.Msg + this.decodeURIC(subPosts[j].Msg);
             }
           }
         }
@@ -489,5 +491,14 @@ export class IndImmChanPostManagerService {
   public async getImageBlobFromIPFSHash(post: IndImmChanPost) {
     const result = this.IndImmChanPostService.getFromIPFS(post.IPFSHash);      
     return result;   
+  }
+  
+  decodeURIC(str: string) {
+    try {
+      return decodeURI(str.replace('.%0', ''));
+    } catch (error) {
+      console.log(error);
+      return str;
+    }
   }
 }
