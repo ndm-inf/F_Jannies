@@ -29,7 +29,7 @@ export class IndImmChanPostManagerService {
       return localStorage.getItem('UID');
     }
   } 
-  
+
  /*
   public GetUID(): string {
     if (this.UID.length == 0) {
@@ -221,9 +221,6 @@ export class IndImmChanPostManagerService {
           }
           postModel.SubpostTx = post.SubpostTx;
           if(!post.UID || post.UID.length == 0) {
-            if(postModel.Tx==='7A211983CEEC6CC2B4C89EB890D6D59C1373755B2A7F4A872541C223EF8F3F6E'){
-              debugger;
-            }
             if(postModel.Timestamp < new Date(2019,7,26)) {
               postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
               postModel.BackgroundColor = '#cc0000';
