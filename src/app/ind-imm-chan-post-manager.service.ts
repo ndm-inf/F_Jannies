@@ -66,15 +66,15 @@ export class IndImmChanPostManagerService {
     ethTipAddress: string, useTrip: boolean, flag: string) {
     const post: IndImmChanPost = new IndImmChanPost();
     post.Name = name;
-    post.Title = title;
-    post.Msg = message;
+    post.Title = title.replace(/[^\x00-\x7F]/g, '');;
+    post.Msg = encodeURI(message); //.replace(/[^\x00-\x7F]/g, '');;
     post.Parent = parent;
     post.ETH = ethTipAddress;
     post.UID = this.GetUID();
     post.T = useTrip;
     post.F = flag;
-    post.Msg  = encodeURI(post.Msg);
-    title = title.replace(/[^\x00-\x7F]/g, "");;
+    //post.Msg  = post.Msg;
+    // title = title.replace(/[^\x00-\x7F]/g, "");;
 
     let postMemoType = '';
 
@@ -210,7 +210,7 @@ export class IndImmChanPostManagerService {
 
           postModel.IPFSHash = post.IPFSHash;
           postModel.Tx = unfilteredResults[i].id;
-          postModel.Msg = this.decodeURIC(post.Msg);
+          postModel.Msg = post.Msg;
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
@@ -267,10 +267,12 @@ export class IndImmChanPostManagerService {
         if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
           for (let j = 0; j < subPosts.length; j++) {
             if (curPost.SubpostTx === subPosts[j].Tx) {
-              curPost.Msg = curPost.Msg + this.decodeURIC(subPosts[j].Msg);
+              curPost.Msg = curPost.Msg + subPosts[j].Msg;
             }
           }
         }
+
+        curPost.Msg = this.decodeURIC(curPost.Msg);
 
         if(!curPost.Parent || curPost.Parent.length === 0) {
           const newThread: IndImmChanThread = new IndImmChanThread();
@@ -343,7 +345,7 @@ export class IndImmChanPostManagerService {
           const postModel: IndImmChanPostModel = new IndImmChanPostModel();
           postModel.IPFSHash = post.IPFSHash;
           postModel.Tx = unfilteredResults[i].id;
-          postModel.Msg = this.decodeURIC(post.Msg);
+          postModel.Msg = post.Msg;
           postModel.Title = post.Title
           postModel.Name = post.Name;
           postModel.Parent = post.Parent;
@@ -408,10 +410,11 @@ export class IndImmChanPostManagerService {
         if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
           for (let j = 0; j < subPosts.length; j++) {
             if (curPost.SubpostTx === subPosts[j].Tx) {
-              curPost.Msg = curPost.Msg + this.decodeURIC(subPosts[j].Msg);
+              curPost.Msg = curPost.Msg + subPosts[j].Msg;
             }
           }
         }
+        curPost.Msg = this.decodeURIC(curPost.Msg);
 
         if(!curPost.Parent || curPost.Parent.length === 0) {
           const newThread: IndImmChanThread = new IndImmChanThread();
@@ -499,9 +502,10 @@ export class IndImmChanPostManagerService {
   
   decodeURIC(str: string) {
     try {
-      return decodeURI(str.replace('.%0', ''));
+      return decodeURI(str); //.replace(/%0[89AD]/gi, '')).replace(/%0/g, '');
     } catch (error) {
       console.log(error);
+      console.log(str);
       return str;
     }
   }

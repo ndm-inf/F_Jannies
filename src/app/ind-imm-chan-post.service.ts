@@ -75,7 +75,7 @@ export class IndImmChanPostService {
     const subPost: SubPost = new SubPost();
     const origMsg = indImmChanPost.Msg;
     const mainMsg = indImmChanPost.Msg.substr(0, 420);
-    const subMsg = indImmChanPost.Msg.substr(420, indImmChanPost.Msg.length - 421);
+    const subMsg = indImmChanPost.Msg.substr(420, indImmChanPost.Msg.length - 420);
 
     indImmChanPost.Msg = mainMsg;
     subPost.Msg = subMsg;
