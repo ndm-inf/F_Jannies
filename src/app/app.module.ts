@@ -28,6 +28,7 @@ import { ConfirmEncryptPostComponent } from './confirm-encrypt-post/confirm-encr
 import { TipDialogComponent } from './tip-dialog/tip-dialog.component';
 import { ModeratorDialogComponent } from './moderator-dialog/moderator-dialog.component';
 import { ThreadFilterPipe } from './thread-filter.pipe';
+import { EncodeURIPipe } from './encode-uri.pipe';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ThreadFilterPipe } from './thread-filter.pipe';
     ConfirmEncryptPostComponent,
     TipDialogComponent,
     ModeratorDialogComponent,
-    ThreadFilterPipe
+    ThreadFilterPipe,
+    EncodeURIPipe
   ],
   imports: [
     BrowserModule,
