@@ -332,7 +332,7 @@ export class ChunkingUtility {
         newPost.FontColor = post.FontColor;
         newPost.SendingAddress = post.SendingAddress;
         newPost.TripCode = post.TripCode;
-
+        newPost.Country = post.Country;
         newPost.Parent = post.Parent;
         newPost.Title  = post.Title;
         newPost.Msg = post.Msg;
