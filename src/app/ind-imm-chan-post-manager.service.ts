@@ -73,7 +73,7 @@ export class IndImmChanPostManagerService {
     post.UID = this.GetUID();
     post.T = useTrip;
     post.F = flag;
-    post.Msg  = encodeURI(post.Msg);
+    post.Msg  = post.Msg;
     title = title.replace(/[^\x00-\x7F]/g, "");;
 
     let postMemoType = '';
@@ -499,7 +499,7 @@ export class IndImmChanPostManagerService {
   
   decodeURIC(str: string) {
     try {
-      return decodeURI(str.replace('.%0', ''));
+      return decodeURI(str.replace(/%0[89AD]/gi, '')).replace(/%0/g, '');
     } catch (error) {
       console.log(error);
       return str;
