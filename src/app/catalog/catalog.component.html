@@ -9,7 +9,7 @@
         <span title="Technology" class="openBoard" (click)="OpenTechnology()">g</span><span class="grey"> / </span>
         <span title="Random" class="openBoard" (click)="OpenRandom()">b</span><span class="grey"> ]</span>
     </div>
-    <div class="row uk-text-center text-center">
+    <div class="row text-center">
         <img [src]="HeaderImage">
     </div>
 
@@ -20,25 +20,25 @@
 <div class="row poster-container" [hidden]="!ShowPostingForm">
     Title: <input id="sub_text" type="text'" [(ngModel)] = "postTitle" style="width:100%">
     <span id="sub_length" class="sub_length">{{ postTitle.length }} / 80</span>
-    <div>Comment: <textarea [(ngModel)] = "postMessage" id="msg_text" rows="4" style="width:100%"></textarea></div>
+    <br>Comment: <textarea [(ngModel)] = "postMessage" id="msg_text" rows="4" style="width:100%"></textarea>
     <span id="msg_length" class="msg_length">{{ postMessage | encodeURI}} / 1320</span><span class="grey">&nbsp;(urlencoded characters take 3)</span>
     
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-8">
 	        <div style="display:none;" id="dragAndDropDiv">
-            	<div id="dropzone">Drag files to upload / click here to browse</div>
+            	<div id="dropzone">Drag files to upload / click here to browse <i class="fa fa-upload"></i></div>
 				<div id="selectedDiv"></div>
             </div>
 	        <input type="file" id="file" (change)="handleFileInput($event.target.files)"> <br>
-	        <span class="small">&bull; Posts are permanent so follow <a href="/about">the rules</a></span><br>
-			<span class="small">&bull; Max file size: 4MB</span>
+	        <span class="small">&bull; Max file size: 4MB</span><br>
+			<span class="small">&bull; Posts are permanent so follow <a href="/about">the rules</a></span>
         </div>
         <div class="col-md-6 col-lg-2">
 	        <div [hidden]="ShowTripEntry">
-                <button (click)="AddTrip()" class="btn btn-block btn-primary btn-round btn-poster">Trip Code <i class="fa fa-hashtag"></i></button>
+                <button (click)="AddTrip()" class="btn btn-block btn-primary btn-round btn-poster spacer20">Trip Code <i class="fa fa-hashtag"></i></button>
             
             <div class="" [hidden]="PostIsEncrypted">
-		        	<button (click)="ConfirmEncryption()" class="btn btn-block btn-primary btn-round btn-poster">Encrypt It <i class="fa fa-lock"></i></button>
+		        	<button (click)="ConfirmEncryption()" class="btn btn-block btn-primary btn-round btn-poster spacer20">Encrypt It <i class="fa fa-lock"></i></button>
 		    </div>
 		    
 		        <br>
@@ -49,7 +49,7 @@
 		        </div>
             </div>	        
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-2">
 	    	<div [hidden]="!PostingEnabled">
 		        <div (click)="post()" class="btn btn-block btn-success btn-round btn-poster">Post It! <i class="fa fa-share"></i></div>
 		    </div> 
@@ -60,24 +60,22 @@
     </div>
     
     <div class="row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;" [hidden]="!ShowTripEntry">
-                    <b>Trip Code</b> (Requires attaching your Ripple Wallet. Trip is generated from your signed post w/ your credentials below):
-                    <br>
-                    <br>
-                    <a href="https://jatchili.github.io/minimalist-ripple-client/">Generate wallet here</a> by clicking generate identity. Your new address is is displayed
-                    <br> above the button "show/hide secret", click that button to show your secret. SAVE BOTH of these. For wallet to be usable/active, you must send 20 XRP or more to it. 
-                    <br>
-                    Instructions for obtaining XRP is <a href="https://cointelegraph.com/ripple-101/ripple-xrp-wallets-for-beginners">here</a>
-                    <br>
-                    <br>                <br>
-                XRP Address: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
-                XRP Key: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
-                Poster Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">
+	                    <hr>
+	                    <b>Use a Trip Code to prove you are OP</b>. By verifying a Ripple wallet your unique trip code is generated from your signed post. Simply supply some credentials below:
+	                    <br>
+	                    <br>
+	                    Generate an address with an open source Ripple wallet like <a href="https://toastwallet.com/" target="_blank">Toast</a> or <a href="https://jatchili.github.io/minimalist-ripple-client/" target="_blank">this one</a>. You will need just your Ripple wallet's address and secret. For your wallet to be active you must send 20 XRP or more to it.
+	                    <br><br>
+		                XRP Address: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
+		                XRP Secret: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
+		                Posters Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">		
+		            <div [hidden]="!ShowTripEntry">
+			        	<div (click)="toggleTripEntry()" class="btn btn-block btn-danger btn-round btn-poster hidden">No Trip <i class="fa fa-times-circle"></i></div>
+			    	</div>
             </div>
         </div>
-        <div class="col-lg-3"></div>
     </div>
 
     <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">
@@ -110,44 +108,20 @@
         </span>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-4"></div>
-    <div class="col-lg-4">        
-        
+
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">        
+            
+            <div class="blotter">
+	            <hr class="belowReply">
+                <span class="small">&bull; BlockChan is evolving. Keep suggestions, bug reports, etc. in <a href="/catalog/m">/meta</a></span><br>
+                <span class="small">&bull; We run on cigarettes + beer. Send <i class="fa fa-btc"> </i>itcoin asap bros: xxxxxxxxxxxxxxxxx</span>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
     </div>
-    <div class="col-lg-4"></div>
-</div>
-<div class="row">
-    <div class="col-lg-4"></div>
-    <div class="col-lg-4">
-            <tbody id="blotter-msgs" class="blotter">
-            <tr>
-                <td data-utc="1493903967" class="blotter-date" style="color:green">08/31/19</td>
-                <td class="blotter-content">Moderation mode added to not download/show content from flagged posts/threads (unmoderated version is never touched). Searching and sorting added. New boards added (anime, weapons, technology, meta). Trello added to view future progress: <a href="https://trello.com/b/C7wVrMd3/blockchan">https://trello.com/b/C7wVrMd3/blockchan</a></td>
-            </tr>
-            <tr>
-                <td data-utc="1493903967" class="blotter-date">08/24/19</td>
-                <td class="blotter-content">Trip code functionality added</td>
-            </tr>
-            <tr>
-                <td data-utc="1493903967" class="blotter-date">08/23/19</td>
-                <td class="blotter-content">UID's added to posts</td>
-            </tr>
-            <tr>
-                <td data-utc="1493903967" class="blotter-date">08/16/19</td>
-                <td class="blotter-content">Tipping with ETH is now available by clicking Tip Shekels</td>
-            </tr>
-            <tr>
-                <td data-utc="1475592573" class="blotter-date">08/14/19</td>
-                <td class="blotter-content">You can now Encrypt posts with a client generated key. To open post or comment in post, you must have the key</td>
-            </tr>
-            <tr><td data-utc="1466421827" class="blotter-date">08/13/19</td>
-                <td class="blotter-content">Comment Linking and speed improvements added. UI Updates.</td>
-            </tr>
-        </tbody>
-    </div>
-    <div class="col-lg-4"></div>
-</div>
+
 <div class="row rowspacer2">     
     <hr class="smallPadding"> 
 </div>
@@ -155,39 +129,38 @@
     <h3>Loading...</h3>
     <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
 </div>
+
 <div class="row" *ngIf="threads !== null">
-    <div class="col-lg-2">
+    <div class="col-md-6 col-lg-2">
             <span class="util">
-                <span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span>
-                <span style="cursor: pointer" (click)="refresh()">[Update]</span>
+                <span style="cursor: pointer;margin: 6px 3px 0 0;" class="pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span>&nbsp;&nbsp;
+                <span style="cursor: pointer;margin-top: 6px;" class="pull-left" (click)="refresh()">[Update]</span>
             </span>
     </div>
-    <div class="col-lg-5">
-        <span class="util" style="float:left; margin-top:1px; padding-top:1px;">
+    <div class=" hidden-xs hidden-sm hidden-md col-lg-6">
+        <span class="util pull-right" style="margin-top: 6px; padding-top: 1px;">
             Sort: 
             <select id="order-ctrl" size="1" (change)="sortThreads($event.target.value)" [(ngModel)]="Config.Sort">
                 <option value="LastReply">Last reply</option> 
                 <option value="CreateDate">Creation date</option> 
                 <option value="ReplyCount">Reply count</option> 
-            </select>     
-        </span>   
-        &nbsp; 
-        <span *ngIf="Config.LastUpdateTime" class="util tiny">Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
-
-    </div>
-
-    <div class="col-lg-2">
-
-    </div>    
-    <div class="col-lg-3">   
-        <span class="util counters pull-right">
-                {{ threads.length }} threads
+            </select>
+            &nbsp; 
+			<span *ngIf="Config.LastUpdateTime" class="util tiny">Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>     
         </span>
-        <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)" style="font-size:10px;"></span>
-        <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"><i class="fa fa-times-circle"></i></span>
-        <span class="util" [hidden]="ShowSearch" style="cursor:pointer; float:right" (click)="ToggleShowSearch()">[Search] &nbsp;</span>
     </div>
-</div>    
+
+    <div class="col-md-6 col-lg-4">   
+        <span class="util counters pull-right">
+                &nbsp;&nbsp;{{ threads.length }} threads
+        </span>
+        <span class="util pull-right" [hidden]="!ShowSearch" (click)="ToggleHideSearch()" style="cursor:pointer">&nbsp;<i class="fa fa-times-circle red"></i></span>
+        <span class="util pull-right" [hidden]="ShowSearch" style="cursor:pointer;" (click)="ToggleShowSearch()">[Search <i class="fa fa-search-plus"></i>]</span>
+        <span class="util pull-right" [hidden]="!ShowSearch"> <input type="text" class="searchfield" placeholder="Search..." [(ngModel)]="search" (ngModelChange)="filterCatalog($event)"></span>
+
+    </div>
+</div>
+ 
 <div class="row">
     <hr class="smallPadding"> 
 </div>

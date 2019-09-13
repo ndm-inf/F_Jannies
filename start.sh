@@ -1,2 +1,2 @@
 #!/bin/bash
-ng serve --disable-host-check
+ng serve --port 4400 --disable-host-check

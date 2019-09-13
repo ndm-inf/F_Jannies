@@ -12,6 +12,7 @@
     <div class="row uk-text-center text-center">
         <img [src]="HeaderImage">
     </div>
+    
     <div class="row">
         <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
     </div>    
@@ -21,8 +22,8 @@
     <div class="row" *ngIf="thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted">
         <div class="col-lg-1"></div>
             <div class="col-lg-10">                
-            <div class="row ">
-                <span style="font-size: 34px; color:darkred">Post must be decrypted to view and post, enter key and IV below.
+            <div class="row">
+                <span style="font-size: 16px; color:darkred">Post must be decrypted to view or post, enter key and IV below.
                 </span>
                 <div>
                     Key: <input type="text" [(ngModel)]="Key" style="width:100%"> 
@@ -35,141 +36,111 @@
         </div>
         <div class="col-lg-1"></div>
     </div> 
+    
     <div class="row" [hidden]="ShowPostingForm ||
     (thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted)">
         <div class="center-text">
             <span class="center-text post-reply-btn" (click)="togglePostingForm()" style="cursor: pointer">
                 <span class="replybracket">[</span>
-                Post a Reply
+                Post A Reply
                 <span class="replybracket">]</span>
             </span>
         </div>
     </div>
+    
     <div class="row poster-container" [hidden]="!ShowPostingForm">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-        <table class="postForm hideMobile" id="postForm" style="display: table;">
-            <tbody>
-                <tr data-type="Options">
-                    <td>Trip Code</td>
-                    <td [hidden]="ShowTripEntry">
-                        <input type="submit" value="Add Trip Code" tabindex="6" (click)="AddTrip()">
-
-                        
-                    </td>
-                    <td [hidden]="!ShowTripEntry">
-                        Trip Code (Requires attaching your Ripple Wallet. Trip is generated from your signed post w/ your credentials below):
-                        <br>
-                        <a href="https://jatchili.github.io/minimalist-ripple-client/">Generate wallet here</a> by clicking generate identity. Your new address is displayed
-                        <br> above the button "show/hide secret", click that button to show your secret. SAVE BOTH of these. For wallet to be usable/active, you must send 20 XRP or more to it. 
-                        <br>
-                        Instructions for obtaining XRP is <a href="https://cointelegraph.com/ripple-101/ripple-xrp-wallets-for-beginners">here</a>
-                        <br>
-                        <br>
-                        XRP Address: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
-                        XRP Key: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
-                        Poster Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">                    
-                    </td>
-                </tr>
-                <tr data-type="Options">
-                    <td>Options</td>
-                    <td>
-                        Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
-                        <span [hidden]="!PostingEnabled">
-                            <input type="submit" value="Post" tabindex="6" (click)="post()">
-                        </span>
-                        <span [hidden]="PostingEnabled">
-                                Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
-                        </span>
-                        
-                    </td>
-                </tr>
-                <tr data-type="Comment">
-                    <td>Comment</td>
-                    <td>
-                        <textarea name="com" id="msg_text" cols="48" rows="4" wrap="soft" tabindex="4" [(ngModel)] = "postMessage"></textarea>
+                    Your Reply:<br>
+                        <textarea name="com" id="msg_text" cols="48" rows="4" wrap="soft" tabindex="4" [(ngModel)] = "postMessage" style="width:100%"></textarea>
                         <div><span id="msg_length" class="msg_length">{{ postMessage | encodeURI}} / 1320 (urlencoded characters take up to 3)</span></div>
-                    </td>
-                </tr>
-                <tr data-type="File">
-                    <td>File</td>
-                    <td>
-                        <input id="file" type="file" tabindex="7" (change)="handleFileInput($event.target.files)">
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <div id="postFormError"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        </div>
-        <div class="col-lg-4"></div>
+                    
+                <div class="row">
+			        <div class="col-lg-7">
+				        <div style="display:none;" id="dragAndDropDiv">
+			            	<div id="dropzone">Drag files to upload / click here to browse <i class="fa fa-upload"></i></div>
+							<div id="selectedDiv"></div>
+			            </div>
+				        <input type="file" id="file" (change)="handleFileInput($event.target.files)"> <br>
+				        <span class="small">&bull; Max file size: 4MB</span><br>
+				        <span class="small">&bull; Posts are permanent so follow <a href="/about">the rules</a></span>
+			        </div>
+			        <div class="col-md-6 col-lg-2">
+				        <div [hidden]="ShowTripEntry">
+			                <button (click)="AddTrip()" class="btn btn-block btn-primary btn-round btn-poster spacer20">Trip Code <i class="fa fa-hashtag"></i></button>
+			            </div>	        
+			        </div>
+			        <div class="col-md-6 col-lg-3">
+				    	<div [hidden]="!PostingEnabled">
+					        <div (click)="post()" class="btn btn-block btn-success btn-round btn-poster pull-right">Reply! <i class="fa fa-share"></i></div>
+					    </div> 
+					    <div [hidden]="!PostingEnabled">
+					        <div (click)="togglePostingForm()" class="btn btn-block btn-danger btn-round btn-poster pull-right">Close <i class="fa fa-times-circle"></i></div>
+					    </div>
+			        </div>
+			    </div>
+
+	            <div class="pane_instuction" [hidden]="!ShowTripEntry">
+		            	<hr>
+	                    <b>Use a Trip Code to prove you are OP</b>. By verifying a Ripple wallet your unique trip code is generated from your signed post. Simply supply some credentials below:
+	                    <br>
+	                    <br>
+	                    Generate an address with an open source Ripple wallet like <a href="https://toastwallet.com/" target="_blank">Toast</a> or <a href="https://jatchili.github.io/minimalist-ripple-client/" target="_blank">this one</a>. You will need just your Ripple wallet's address and secret. For your wallet to be active you must send 20 XRP or more to it.
+	                    <br><br>
+		                XRP Address: <input type="text" [(ngModel)] = "TripAddress" rows="4" style="width:100%">
+		                XRP Secret: <input type="text" [(ngModel)] = "TripSecret" rows="4" style="width:100%">
+		                Posters Name: <input type="text" [(ngModel)] = "posterName" rows="4" style="width:100%">	
+		            <div [hidden]="!ShowTripEntry">
+			        	<div (click)="toggleShowTripEntry()" class="btn btn-block btn-danger btn-round btn-poster hidden">No Trip <i class="fa fa-times-circle"></i></div>
+			    	</div>   
+	            </div>
+	            	<div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">    
+		            	<br>
+		            	Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
+	            	</div>
+	                <span [hidden]="PostingEnabled" class="green">
+	                	Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
+	                </span>
     </div>
+    
     <div class="text-center" [hidden]="!Posting">
         <h3>Posting...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
     </div>
+    
     <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">        
-            <hr>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">        
+            <hr class="belowReply">
+            <div class="blotter">
+                <span class="small">&bull; BlockChan is evolving. Keep suggestions, bug reports, etc. in <a href="/catalog/m">/meta</a></span><br>
+                <span class="small">&bull; We run on cigarettes + beer. Send <i class="fa fa-btc"> </i>itcoin asap bros: xxxxxxxxxxxxxxxxx</span>
+            </div>
         </div>
-        <div class="col-lg-4"></div>
+        <div class="col-lg-3"></div>
     </div>
-    <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-                <tbody id="blotter-msgs" class="blotter">
-                <tr>
-                    <td data-utc="1493903967" class="blotter-date" style="color:green">08/31/19</td>
-                    <td class="blotter-content">Moderation mode added to not download/show content from flagged posts/threads (unmoderated version is never touched). Searching and sorting added. New boards added (anime, weapons, technology, meta). Trello added to view future progress: <a href="https://trello.com/b/C7wVrMd3/blockchan">https://trello.com/b/C7wVrMd3/blockchan</a></td>
-                </tr>
-                <tr>
-                    <td data-utc="1493903967" class="blotter-date">08/24/19</td>
-                    <td class="blotter-content">Trip code functionality added</td>
-                </tr>
-                <tr>
-                    <td data-utc="1493903967" class="blotter-date">08/22/19</td>
-                    <td class="blotter-content">Updated UI for viewing post to be more like "chans". Catalogs will stay the same due to needs of future functionality.</td>
-                </tr>
-                <tr>
-                    <td data-utc="1493903967" class="blotter-date">08/16/19</td>
-                    <td class="blotter-content">Tipping with ETH is now available by clicking Tip Shekels</td>
-                </tr>
-                <tr>
-                    <td data-utc="1475592573" class="blotter-date">08/14/19</td>
-                    <td class="blotter-content">You can now Encrypt posts with a client generated key. To open post or comment in post, you must have the key</td>
-                </tr>
-                <tr><td data-utc="1466421827" class="blotter-date">08/13/19</td>
-                    <td class="blotter-content">Comment Linking and speed improvements added. UI Updates.</td>
-                </tr>
-            </tbody>
-        </div>
-        <div class="col-lg-4"></div>
-    </div>
+    
     <div class="row rowspacer2">     
         <hr class="smallPadding"> 
     </div>
+    
     <div class="row" *ngIf="thread !== null">
         <div class="col-lg-4">
-                <span class="util"><span style="cursor: pointer" (click)="OpenCatalog()">[Catalog] </span><span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span> <span style="cursor: pointer" (click)="refresh()"> [Update]</span></span>
-        </div>
-        <div class="col-lg-4">        
-            
-        </div>
+            <span class="util">
+                <span style="cursor: pointer;margin-top: 6px;" class="pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom]</span>
+                <span style="cursor: pointer;margin-top: 6px;" class="pull-left" (click)="refresh()">[Update]</span>
+            </span>
+    </div>
+        <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <span class="util counters">
                 {{ thread.IndImmChanPostModelChildren.length }}/{{ thread.ImageReplies - 1 }}
             </span>
             </div>    
-    </div>    
+    </div>
+        
     <div class="row">
         <hr class="smallPadding"> 
     </div>
+    
     <div class="row">
         <div class="board">
             <div id="hover-preview-container" style="position:absolute; z-index:1000; width:65%"></div>
