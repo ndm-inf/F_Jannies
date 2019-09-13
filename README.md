@@ -17,9 +17,11 @@
 ## Put your client live on the internet with an nginx reverse proxy
     It's easy just add lines like this to your nginx vhost conf in /etc/nginx/sites-available/
     
-    access_log /var/log/nginx/blockchan.ca.access.log;
-    error_log /var/log/nginx/blockchan.ca.error.log;
-
+    #We don't need no stinky web logs (optional)
+    access_log  /dev/null;
+    error_log /dev/null;
+    
+    #proxy part (required)
     location / {
         proxy_pass http://localhost:4200;
         proxy_http_version 1.1;
