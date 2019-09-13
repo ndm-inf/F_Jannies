@@ -12,27 +12,53 @@
     <div class="row uk-text-center text-center">
         <img [src]="HeaderImage">
     </div>
-<div class="row uk-text-center upload-container" [hidden]="!ShowPostingForm">
 
-    <input type="file"
-    id="file"
-    (change)="handleFileInput($event.target.files)">
-    Title: <input type="text'" [(ngModel)] = "postTitle" style="width:100%"><br>
-    <div>{{ postTitle.length }}/80</div>
-    Message: <textarea [(ngModel)] = "postMessage" rows="4" style="width:100%"></textarea>
-    <div>{{ postMessage | encodeURI}}/1320 (urlencoded characters, such as >,<,",',etc... take up 3 characters)</div>
+<div class="row">
+    <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
+</div>
 
+<div class="row poster-container" [hidden]="!ShowPostingForm">
+    Title: <input id="sub_text" type="text'" [(ngModel)] = "postTitle" style="width:100%">
+    <span id="sub_length" class="sub_length">{{ postTitle.length }} / 80</span>
+    <div>Comment: <textarea [(ngModel)] = "postMessage" id="msg_text" rows="4" style="width:100%"></textarea></div>
+    <span id="msg_length" class="msg_length">{{ postMessage | encodeURI}} / 1320</span><span class="grey">&nbsp;(urlencoded characters take 3)</span>
+    
     <div class="row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
-            <div [hidden]="ShowTripEntry">
-                <div (click)="AddTrip()" class="btn btn-wrapper btn-default btn-round" style="width:100%">
-                    Add Trip Code
-                </div>
+        <div class="col-lg-7">
+	        <div style="display:none;" id="dragAndDropDiv">
+            	<div id="dropzone">Drag files to upload / click here to browse</div>
+				<div id="selectedDiv"></div>
             </div>
+	        <input type="file" id="file" (change)="handleFileInput($event.target.files)"> <br>
+	        <span class="small">&bull; Posts are permanent so follow <a href="/about">the rules</a></span><br>
+			<span class="small">&bull; Max file size: 4MB</span>
         </div>
-        <div class="col-lg-3"></div>
+        <div class="col-md-6 col-lg-2">
+	        <div [hidden]="ShowTripEntry">
+                <button (click)="AddTrip()" class="btn btn-block btn-primary btn-round btn-poster">Trip Code <i class="fa fa-hashtag"></i></button>
+            
+            <div class="" [hidden]="PostIsEncrypted">
+		        	<button (click)="ConfirmEncryption()" class="btn btn-block btn-primary btn-round btn-poster">Encrypt It <i class="fa fa-lock"></i></button>
+		    </div>
+		    
+		        <br>
+		        <div>
+		            <ul class="list-inline text-center" [hidden]="!PostIsEncrypted">
+		            	<li><i class="fa fa-lock"></i></li> 
+		            </ul>
+		        </div>
+            </div>	        
+        </div>
+        <div class="col-md-6 col-lg-3">
+	    	<div [hidden]="!PostingEnabled">
+		        <div (click)="post()" class="btn btn-block btn-success btn-round btn-poster">Post It! <i class="fa fa-share"></i></div>
+		    </div> 
+		    <div [hidden]="!PostingEnabled">
+		        <div (click)="togglePostingForm()" class="btn btn-block btn-danger btn-round btn-poster">Close <i class="fa fa-times-circle"></i></div>
+		    </div>
+        </div>
     </div>
+    
     <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
@@ -55,26 +81,9 @@
     </div>
 
     <div style="margin-top:7px; padding-top: 7px; margin-bottom:7px; padding-bottom: 7px;">
-    Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
+    		Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
     </div>
-    <div [hidden]="!PostingEnabled">
-        <div (click)="post()" class="btn btn-wrapper btn-default btn-round" style="width:100%">Post</div>
-        <div  [hidden]="PostIsEncrypted">
-            <br>
-            <div (click)="ConfirmEncryption()" class="btn btn-wrapper btn-default btn-round" style="width:100%">
-                Post Encrypted
-            </div>
-        </div>
-        <br>
-        <div>
-            <ul class="list-inline text-center" [hidden]="!PostIsEncrypted">                
-                    <li><i class="fa fa-lock"></i></li> 
-            </ul>
-        </div>
-    </div>    
-    <div [hidden]="!PostingEnabled">
-        <div (click)="togglePostingForm()" class="btn btn-wrapper btn-primary btn-round" style="width:100%">Close</div>
-    </div>
+        
     <div [hidden]="PostingEnabled">
         <div class="btn btn-wrapper btn-primary btn-round" style="width:100%">
             Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
@@ -90,9 +99,6 @@
     </div> 
 <br [hidden]="!ShowPostingForm">
 <div class="row">
-    <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
-</div>   
-<div class="row">
     <hr class="belowBoard">
 </div>
 <div class="row" [hidden]="ShowPostingForm">
@@ -107,7 +113,7 @@
 <div class="row">
     <div class="col-lg-4"></div>
     <div class="col-lg-4">        
-        <hr>
+        
     </div>
     <div class="col-lg-4"></div>
 </div>
@@ -150,15 +156,15 @@
     <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
 </div>
 <div class="row" *ngIf="threads !== null">
-    <div class="col-lg-1">
+    <div class="col-lg-2">
             <span class="util">
                 <span style="cursor: pointer" onclick="window.scrollTo(0,document.body.scrollHeight);">[Bottom] </span>
                 <span style="cursor: pointer" (click)="refresh()">[Update]</span>
             </span>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-5">
         <span class="util" style="float:left; margin-top:1px; padding-top:1px;">
-            sort:        
+            Sort: 
             <select id="order-ctrl" size="1" (change)="sortThreads($event.target.value)" [(ngModel)]="Config.Sort">
                 <option value="LastReply">Last reply</option> 
                 <option value="CreateDate">Creation date</option> 
@@ -166,31 +172,30 @@
             </select>     
         </span>   
         &nbsp; 
-        <span *ngIf="Config.LastUpdateTime" class="util" >Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
+        <span *ngIf="Config.LastUpdateTime" class="util tiny">Last Update: {{  Config.LastUpdateTime | date:'medium' }}</span>
 
     </div>
-    <div class="col-lg-1">        
-        </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-2">
 
     </div>    
     <div class="col-lg-3">   
-        <span class="util counters" style="float:right;">
+        <span class="util counters pull-right">
                 {{ threads.length }} threads
         </span>
         <span class="util" [hidden]="!ShowSearch"> Search: <input type="text" [(ngModel)]="search" (ngModelChange)="filterCatalog($event)" style="font-size:10px;"></span>
-        <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"> x </span>
+        <span class="util" [hidden]="!ShowSearch" (click)="ToggleHideSearch()"  style="cursor:pointer"><i class="fa fa-times-circle"></i></span>
         <span class="util" [hidden]="ShowSearch" style="cursor:pointer; float:right" (click)="ToggleShowSearch()">[Search] &nbsp;</span>
     </div>
 </div>    
 <div class="row">
     <hr class="smallPadding"> 
 </div>
-<div class="row uk-text-center upload-container">
+<div class="row upload-container">
     <div *ngFor="let row of threads; let i = index">
         <div *ngIf=" i % 6 === 0 " class="row">
             <div *ngFor="let thread of threads.slice(i,i+6)">         
-                <div class="col-lg-2" >
+                <div class="col-lg-2">
                     <div class="progress-container" *ngIf="!thread.FilteredBySearch"> 
                         <span style="float:right; margin-top:-8px; margin-right:3px; cursor:pointer" (click)="OpenPostInNewWindows(thread)" title="Open in New Window">⇗</span>
                         <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.ImageLoading" (click)="OpenThread(thread)">
@@ -206,7 +211,7 @@
                         </div>
                         <div class="progress-item-container" (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
                             && thread.IndImmChanPostModelParent.HasImage && !this.Config.ShowImages">
-                            <div class="btn btn-wrapper btn-primary btn-round click-show">Show Image Preview</div>
+                            <div class="btn btn-wrapper btn-primary btn-round click-show">Show Image</div>
                         </div>                        
                         <div class="progress-item-container title" (click)="OpenThread(thread)">
                         <b>{{  thread.IndImmChanPostModelParent.Title | slice:0:140 }}</b>

@@ -18,7 +18,7 @@
     <div class="row">
         <hr class="belowBoard">
     </div>
-    <div class="row " *ngIf="thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted">
+    <div class="row" *ngIf="thread && thread.IndImmChanPostModelParent.Enc && !PostDecrypted">
         <div class="col-lg-1"></div>
             <div class="col-lg-10">                
             <div class="row ">
@@ -45,7 +45,7 @@
             </span>
         </div>
     </div>
-    <div class="row" [hidden]="!ShowPostingForm">
+    <div class="row poster-container" [hidden]="!ShowPostingForm">
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
         <table class="postForm hideMobile" id="postForm" style="display: table;">
@@ -87,8 +87,8 @@
                 <tr data-type="Comment">
                     <td>Comment</td>
                     <td>
-                        <textarea name="com" cols="48" rows="4" wrap="soft" tabindex="4" [(ngModel)] = "postMessage"></textarea>
-                        <div>{{ postMessage | encodeURI}}/1320 (urlencoded characters, such as >,<,",',etc... take up 3 characters)</div>
+                        <textarea name="com" id="msg_text" cols="48" rows="4" wrap="soft" tabindex="4" [(ngModel)] = "postMessage"></textarea>
+                        <div><span id="msg_length" class="msg_length">{{ postMessage | encodeURI}} / 1320 (urlencoded characters take up to 3)</span></div>
                     </td>
                 </tr>
                 <tr data-type="File">
@@ -199,7 +199,7 @@
                                 thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
                                     Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
-                                <span class="subject">{{  thread.IndImmChanPostModelParent.Title }}</span> 
+                                <span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             </span>
                             &nbsp;<i class="fa fa-warning " (click)="Flag(thread.IndImmChanPostModelParent)"></i>
                             <span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}} 

@@ -4,7 +4,6 @@
 @import '../node_modules/cryptofont/sass/cryptofont.scss';
 @import '../node_modules/ngx-toastr/toastr.css';
 
-
 .spoiler{ 
     color: black; 
     background-color:black;
@@ -13,7 +12,6 @@
   .spoiler:hover{
     color: white;
     }
-
     
 i.icon-blue {
     color: blue;
@@ -148,10 +146,6 @@ h6,
     line-height: 1.1;
 }
 
-.teammembers img,
-.blog-box,
-.cop-logo img,
-.service-box,
 a {
     outline: none;
     text-decoration: none !important;
@@ -216,7 +210,7 @@ MENU
     height: 100%;
     background: rgba(0, 0, 0, 1) url("assets/images/menubg.jpg") no-repeat scroll center center;
     z-index: 10;
-    overflow-x: hidden;
+    //overflow-x: hidden;
     min-width: 260px;
     overflow-y: auto
 }
@@ -584,7 +578,7 @@ MENU
 }
 
 /*********************
-RANDOM COLORS
+ COLORS
 *********************/
 
 .grey {
@@ -608,7 +602,6 @@ BUTTONS
 	font-size: 32px;
 	margin: 12px;
 }
-
 
 /*********************
 MOBILE MENU
@@ -738,10 +731,6 @@ mark.rotate {
     padding-bottom: 1em;
     margin: 0;
 }
-
-
-
-
 
 /*********************
 RESPONSIVE
