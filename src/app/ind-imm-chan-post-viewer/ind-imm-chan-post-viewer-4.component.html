@@ -102,7 +102,7 @@
 		            	Tip Address (ETH): <input type="text" [(ngModel)] = "EthTipAddress" rows="4" style="width:100%">
 	            	</div>
 	                <span [hidden]="PostingEnabled" class="green">
-	                	<i class="fa fa-hourglass"></i> Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
+	                	<i class="fas fa-hourglass-half"></i> Posting enabled within {{ PostingSecondsLeftCounter }} seconds.
 	                </span>
     </div>
     
@@ -130,14 +130,14 @@
     <div class="row" *ngIf="thread !== null">
         <div class="col-lg-4">
             <div class="util">
-                <span style="cursor: pointer;" class="pull-left navgreen" onclick="window.scrollTo(0,document.body.scrollHeight);">[ Bottom <i class="fa fa-chevron-down"></i> ]&nbsp;</span><span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh()">[ Update <i class="fa fa-repeat"></i> ]</span>
+                <span style="cursor: pointer;" class="pull-left navgreen" onclick="window.scrollTo(0,document.body.scrollHeight);">[ Bottom <i class="fa fa-chevron-down"></i> ]&nbsp;</span><span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
             </div>
     </div>
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
-            <span class="util counters">
-                {{ thread.IndImmChanPostModelChildren.length }}/{{ thread.ImageReplies - 1 }}
-            </span>
+            <div class="util counters">
+                <span class="ts-replies">{{ thread.IndImmChanPostModelChildren.length }}</span> / <span class="ts-images">{{ thread.ImageReplies - 1 }}</span>
+            </div>
             </div>    
     </div>
         
@@ -152,12 +152,14 @@
                 <div class="postContainer replyContainer" #elem [id]="thread.IndImmChanPostModelParent.Tx">
                     <div id="p15343728" class="post reply">
                         <div [className]="'h'+thread.IndImmChanPostModelParent.UID">
+	                        
                         <div class="postInfoM mobile">
                             <span class="nameBlock">
+                                <span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span>
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" 
-                                    [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"
+                                    [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:3px;"
                                     [title]="thread.IndImmChanPostModelParent.Country"></span>
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0" [title]="thread.IndImmChanPostModelParent.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
@@ -172,20 +174,20 @@
                                 <br>
                                 <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
                                 thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
-                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                    Tip Shekels&nbsp;<i class="fa fa-ils" aria-hidden="true"></i>
                                 </span>
-                                <span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                             </span>
-                            &nbsp;<i class="fa fa-warning " (click)="Flag(thread.IndImmChanPostModelParent)"></i>
-                            <span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}} </span>
-                                <span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
-                                    &nbsp;
-                                {{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
+                            	<span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span>
+                                <span class="dateTime postNum">&nbsp;No.&nbsp;
+	                                <span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
+	                                	{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
+	                                </span>
+	                                &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)"></i>
+	                            </span>
                                 <span class="headerlinks" [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
-                            </span>
                         </div>
+                        
                         <div class="file">
-                    
                             <a class="fileThumb" target="_blank">
                                 <span (click)="ManualOverRideShowImage(thread.IndImmChanPostModelParent)" 
                                     *ngIf="!thread.IndImmChanPostModelParent.ShowImageOverride
@@ -213,17 +215,19 @@
                                 </span>
                             </a>
                         </div>
+                        
                         <div class="postInfo desktop" id="pi15343728">
-                            <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
-                            thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
-                                Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
-                            </span>
-                            <span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
-                            <span class="nameBlock">
+                            
+                            <span class="nameBlock" style="padding-top: 6px;">
+                            	<span style="color:gold; cursor:pointer; margin-right:6px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+	                            thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
+	                                Tip Shekels&nbsp;<i class="fa fa-ils" aria-hidden="true"></i>
+	                            </span>
+                            	<span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
                                 <span *ngIf="thread.IndImmChanPostModelParent.T" class="trip" title="TripCode">##{{  thread.IndImmChanPostModelParent.TripCode }}</span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.F && thread.IndImmChanPostModelParent.F.length > 0" 
-                                    [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:2px;"  
+                                    [className]="'flag-icon flag-icon-'+thread.IndImmChanPostModelParent.F" style="margin-left:3px;"  
                                     [title]="thread.IndImmChanPostModelParent.Country"></span>
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0" [title]="thread.IndImmChanPostModelParent.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
@@ -240,6 +244,7 @@
                             &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)" ></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">&nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...</span>
                                 <span class="headerlinks" [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
+                                <hr class="postinfo_hr">
                             </span>
                         </div>
                         		<div class="msg">
@@ -260,9 +265,9 @@
                                 </span>
                                 <span class="name">&nbsp;{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
-                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;" [title]="post.Country"></span>
+                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:3px;" [title]="post.Country"></span>
                                 <span *ngIf="!post.F || post.F.length == 0" [title]="post.Country">
-                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
                                         <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
@@ -299,6 +304,7 @@
                                         <video width="250" controls controlsList="nodownload">
                                             <source [src]="post.Base64Image" type="video/webm">
                                         </video>
+                                        <br>
                                         <span class="navgreen tiny" (click)="downloadWebm(post)">[ Download <i class="fa fa-download" aria-hidden="true" style="cursor:pointer"></i> ]</span>
                                     </span>
                                 </a>
@@ -311,9 +317,9 @@
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
-                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:2px;"  [title]="post.Country"></span>
+                                <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:3px;"  [title]="post.Country"></span>
                                 <span *ngIf="!post.F || post.F.length == 0" [title]="post.Country">
-                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:2px;">
+                                    <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
                                 <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                     <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
@@ -324,12 +330,12 @@
                             &nbsp;<i class="fa fa-warning " (click)="Flag(post)"></i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">{{  post.Tx.substring(0, 10)}}...</span>
                                 <span class="headerlinks" [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
-
+								<hr class="postinfo_hr">
                             </span>
                         </div>
-                        <span class="msg">
-                            <div style="margin-left: 6px; margin-right: 6px; padding-left:6px; padding-right:6px;" [innerHtml]="post.Msg | safe: 'html'"></div>
-                        </span>
+                        <div class="msg">
+                            <span [innerHtml]="post.Msg | safe: 'html'"></span>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -347,12 +353,12 @@
     <div class="row" *ngIf="thread !== null">
         <div class="col-lg-6">
                 <div class="util">
-	                <span style="cursor: pointer" class="navgreen" (click)="OpenCatalog()">[ Catalog <i class="fa fa-th"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" id="bottom" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" (click)="refresh()">[ Update <i class="fa fa-repeat"></i> ]</span>
+	                <span style="cursor: pointer" class="navgreen" (click)="OpenCatalog()">[ Catalog <i class="fa fa-th"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" id="bottom" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
                 </div>
         </div>
         <div class="col-lg-6">
             <div class="util counters">
-                {{ thread.IndImmChanPostModelChildren.length }}/{{ thread.ImageReplies - 1 }}
+                <span class="ts-replies">{{ thread.IndImmChanPostModelChildren.length }}</span> / <span class="ts-images">{{ thread.ImageReplies - 1 }}</span>
             </div>
         </div>    
     </div>

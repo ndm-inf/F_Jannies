@@ -88,7 +88,7 @@
 	        
 	    <div [hidden]="PostingEnabled">
 	        <span [hidden]="PostingEnabled" class="green">
-		            <i class="fa fa-hourglass"></i> Posting enabled in {{ PostingSecondsLeftCounter }} seconds.
+		            <i class="fas fa-hourglass-half"></i> Posting enabled within {{ PostingSecondsLeftCounter }} seconds.
 		    </span>
 	    </div>
 	</div>   
@@ -138,7 +138,7 @@
 	    <div class="col-md-6 col-lg-3">
 	            <div class="util">
 	                <span style="cursor: pointer;" class="pull-left navgreen" onclick="window.scrollTo(0,document.body.scrollHeight);">[ Bottom <i class="fa fa-chevron-down"></i> ]&nbsp;</span>
-	                <span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh()">[ Update <i class="fa fa-repeat"></i> ]</span>
+	                <span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
 	            </div>
 	    </div>
 	    <div class="hidden-xs hidden-sm hidden-md col-lg-5">
@@ -225,7 +225,7 @@
 	<div class="row" *ngIf="threads !== null">
 	        <div class="col-lg-6">
 	                <div class="util">
-		                <span class="navgreen" style="cursor: pointer" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ] </span> <span class="navgreen" style="cursor: pointer" (click)="refresh()">[ Update <i class="fa fa-repeat"></i> ]</span>
+		                <span class="navgreen" style="cursor: pointer" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ] </span> <span class="navgreen" style="cursor: pointer" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
 	        		</div>
 	        </div>
 	        <div class="col-lg-6">
