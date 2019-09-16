@@ -94,13 +94,18 @@ table {
    font-family: arial,helvetica,sans-serif;
    font-size: 11pt;
    padding: 0.5em 0;
-}
+ }
 .smallPadding{
 	margin: 0px;
 	padding: 0px;
 }
+
+.tiny {
+	font-size: 65% !important;
+}
+
 .counters{
-	text-align: right;
+	
 	float: right;
 }
 .rowspacer2{
@@ -110,16 +115,23 @@ table {
 .trip{
 	font-style: italic;
 	color:darkcyan;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-word;
 }
-.msg_length{
-	
-}
-
 .spacer20 {
     margin-right: 20px;
 }
 
 .green {
+	color: #13d400;
+}
+
+.navgreen {
+	color: #ffffff;
+}
+
+.navgreen:hover {
 	color: #13d400;
 }
 
@@ -301,8 +313,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -395,8 +407,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -489,8 +501,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -581,8 +593,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -670,8 +682,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -764,8 +776,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -861,8 +873,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -905,8 +917,8 @@ table {
 			display:none!important;
 		}
 		div.post div.file .fileThumb{
-			margin-left:5px!important;
-			margin-right:10px!important;
+			//margin-left:5px!important;
+			//margin-right:10px!important;
 			text-decoration:none;
 		}
 		div.post div.file div.fileText{
@@ -1086,8 +1098,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1191,8 +1203,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1296,8 +1308,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1395,8 +1407,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1487,8 +1499,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1586,8 +1598,8 @@ table {
 	}
 	div.post div.file .fileThumb{
 		float:left;
-		margin-left:20px;
-		margin-right:20px;
+		//margin-left:20px;
+		//margin-right:20px;
 		margin-top:3px;
 		margin-bottom:5px;
 	}
@@ -1672,7 +1684,7 @@ table {
 		display:inline-block;
 	}
 	div.post div.postInfo span.nameBlock span.name{
-		color:#c5c8c6;
+		color:#117743;
 		font-weight:700;
 	}
 	div.post blockquote.postMessage{
@@ -1739,8 +1751,8 @@ table {
 			display:none!important;
 		}
 		div.post div.file .fileThumb{
-			margin-left:5px!important;
-			margin-right:10px!important;
+			//margin-left:5px!important;
+			//margin-right:10px!important;
 			text-decoration:none;
 		}
 		div.post div.file div.fileText{
@@ -2599,7 +2611,15 @@ table {
 }
 
 
-
+/* Thread Styling */
+.headerlinks {
+	font-size: 10px;
+	display: block;
+	text-decoration: none;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-word;
+}
 
 
 
@@ -2614,8 +2634,12 @@ table {
 }
 
 .msg{
+	margin-left: 6px; margin-right: 6px; 
+	padding-left:6px; padding-right:6px;
 	white-space: pre-wrap;
+	overflow-wrap: break-word;
 	word-wrap: break-word;
+	word-break: break-word;
 }
 .postreply {
 	width: 50%;

@@ -107,7 +107,7 @@
 }
 
 .spacer20 {
-    
+    padding-right:20px;
 }
 
 
@@ -151,8 +151,17 @@ a:visited {
    color: aqua;
 }
 .green {
-   color: rgb(2, 99, 2)
+	color: #13d400;
 }
+
+.navgreen {
+	color: #ffffff;
+}
+
+.navgreen:hover {
+	color: #13d400;
+}
+
 .red {
    color: rgb(189, 3, 3);
 }
@@ -278,7 +287,7 @@ table {
 }
 .util {
    font-family: arial,helvetica,sans-serif;
-   font-size: 11pt;
+   font-size: 10pt;
    padding: 0.5em 0;
 }
 
