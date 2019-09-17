@@ -16,7 +16,7 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="primary-menu">
                             <a><li (click)="viewMain()">Home</li></a>
-                            <a><li (click)="viewBoards()">View Board List</li></a>
+                            <a><li (click)="viewBoards()">Board List</li></a>
                             <a><li class="secure-highlight" (click)="viewSecure()">Post Anonymously</li></a>
                         </ul> 
                         <br>
@@ -40,7 +40,7 @@
                                 [(ngModel)]="this.Config.ModerationOn"
                                 (change)="toggleMod()"
                                 >
-                                Use Moderated Mode
+                                Moderated Mode
                                 </mat-slide-toggle>
                             </div>
                         </div>   
@@ -61,7 +61,7 @@
     
                     <ul class="primary-menu">
                         <a><li (click)="viewMain()">Home</li></a>
-                        <a><li (click)="viewBoards()">View Board List</li></a>
+                        <a><li (click)="viewBoards()">Board List</li></a>
                         <a><li (click)="viewAbout()">About BlockChan</li></a>
                     </ul>  
                     <br>
@@ -85,7 +85,7 @@
                             [(ngModel)]="this.Config.ModerationOn"
                             (change)="toggleMod()"
                             >
-                            Use Moderated Mode
+                            Moderated Mode
                             </mat-slide-toggle>
                         </div>
                         </div>       
