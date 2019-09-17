@@ -1,3 +1,9 @@
+# BlockChan.ca Instance of the Blockchan Client
+
+	Live Client: http://blockchan.ca
+	Twitter: https://twitter.com/blockchan_ca
+	
+
 # Run BlockChan Locally
 
     This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
