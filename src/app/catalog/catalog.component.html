@@ -22,6 +22,28 @@
 	    <div class="boardHeader center-text">/{{ postBoard }}/ - {{ postBoardName }}</div>
 	</div>
 	
+	   
+	<div class="text-center" [hidden]="!Posting">
+	        <h3>Posting...</h3>
+	        <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+	    </div>
+	    <div class="row board-container text-center" [hidden]="!PostingError">
+	        <div class="btn btn-wrapper btn-round" style="width:100%">Error Posting</div>
+	    </div> 
+	<br [hidden]="!ShowPostingForm">
+	<div class="row">
+	    <hr class="belowBoard">
+	</div>
+	<div class="row" [hidden]="ShowPostingForm">
+	    <div class="center-text">
+	        <span class="center-text post-reply-btn" (click)="togglePostingForm()" style="cursor: pointer">
+	            <span class="replybracket">[</span>
+	            Start a New Thread
+	            <span class="replybracket">]</span>
+	        </span>
+	    </div>
+	</div>
+	
 	<div class="row poster-container" [hidden]="!ShowPostingForm">
 	    Title: <input id="sub_text" type="text'" [(ngModel)] = "postTitle" style="width:100%">
 	    <span id="sub_length" class="sub_length">{{ postTitle.length }} / 80</span>
@@ -45,7 +67,6 @@
 	            <div class="" [hidden]="PostIsEncrypted">
 			        	<button (click)="ConfirmEncryption()" class="btn btn-block btn-primary btn-round btn-poster">Encrypt It <i class="fa fa-lock"></i></button>
 			    </div>
-			        <br>
 			        <div [hidden]="!PostIsEncrypted">
 			            <ul class="list-inline text-center" [hidden]="!PostIsEncrypted">
 			            	<li><i class="fa fa-lock"></i></li> 
@@ -91,27 +112,7 @@
 		            <i class="fas fa-hourglass-half"></i> Posting enabled within {{ PostingSecondsLeftCounter }} seconds.
 		    </span>
 	    </div>
-	</div>   
-	<div class="text-center" [hidden]="!Posting">
-	        <h3>Posting...</h3>
-	        <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
-	    </div>
-	    <div class="row board-container text-center" [hidden]="!PostingError">
-	        <div class="btn btn-wrapper btn-round" style="width:100%">Error Posting</div>
-	    </div> 
-	<br [hidden]="!ShowPostingForm">
-	<div class="row">
-	    <hr class="belowBoard">
-	</div>
-	<div class="row" [hidden]="ShowPostingForm">
-	    <div class="center-text">
-	        <span class="center-text post-reply-btn" (click)="togglePostingForm()" style="cursor: pointer">
-	            <span class="replybracket">[</span>
-	            Start a New Thread
-	            <span class="replybracket">]</span>
-	        </span>
-	    </div>
-	</div>
+	</div>	
 	
 	    <div class="row">
 	        <div class="col-lg-3"></div>
