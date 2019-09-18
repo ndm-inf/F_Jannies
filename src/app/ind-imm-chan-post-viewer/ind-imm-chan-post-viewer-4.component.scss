@@ -130,6 +130,13 @@ table {
 	color: #13d400;
 }
 
+.btn-round{
+    border-radius: 12px;  
+}
+.btn-poster {
+	margin: 12px 0;
+	float: right;
+}
 
 @media only screen and (min-width: 768px){
 		.thread-stats{
@@ -391,10 +398,10 @@ table {
 @media (min-width: 468px) {
   
   	.btn-poster{
-	  	margin: 12px;
+	  	float: none;
   	}
   
-}
+}	
 
 /*! CSS Used for targetting mobiles */
 @media only screen and (max-width:480px){
