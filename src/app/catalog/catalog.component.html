@@ -1,10 +1,10 @@
 <div class="container">
 	    <div class="row">
-	        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/" title="Home"><i class="fa fa-home navgreen"></i></a>
+	        &nbsp;&nbsp;&nbsp;&nbsp;<a [attr.href]="BlockChanHostingService.HomeLink" title="Home"><i class="fa fa-home navgreen"></i></a>
         	<span class="grey"> | </span>
-        <a href="/boards" title="Boards"><i class="fa fa-th-list navgreen"></i></a>
+        <a [attr.href]="BlockChanHostingService.BoardsLink" title="Boards"><i class="fa fa-th-list navgreen"></i></a>
         	<span class="grey"> | </span>     
-        <a href="/about" title="About"><i class="fa fa-question-circle navgreen" aria-hidden="true"></i></a>
+        <a [attr.href]="BlockChanHostingService.AboutLink" title="About"><i class="fa fa-question-circle navgreen" aria-hidden="true"></i></a>
 	         &nbsp;&nbsp;<span class="grey">[ </span>
 	        <span title="Politically Incorrect" class="openBoard navgreen" (click)="OpenPolitics()">pol</span><span class="grey"> / </span>
 	        <span title="Business & Finance" class="openBoard navgreen" (click)="OpenBusiness()">biz</span><span class="grey"> / </span>

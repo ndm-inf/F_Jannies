@@ -17,5 +17,20 @@ export class BlockChanHostSettingsService {
   
   public MainHeader = 'BlockChan';
   public Footer = '';
-  constructor() { }
+
+  public HomeLink = '';
+  public BoardsLink = '';
+  public AboutLink = '';
+  
+  constructor() {
+    if (this.IsHostedOnGithub) {
+      this.HomeLink = this.GitHubRepo + '/';
+      this.BoardsLink = this.GitHubRepo + '/boards';
+      this.AboutLink = this.GitHubRepo + '/about';
+    } else {
+      this.HomeLink = '/';
+      this.BoardsLink = '/boards';
+      this.AboutLink = '/about';
+    }
+  }
 }
