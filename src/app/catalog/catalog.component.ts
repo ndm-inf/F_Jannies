@@ -444,7 +444,7 @@ export class CatalogComponent implements OnInit {
       }
 
       for (let i = 0; i < populatedThreads.length; i++) {
-        // populatedThreads[i].Prep(this.BlockChanHostingService.BaseUrl);
+        populatedThreads[i].PrepForCache();
       }
       // populatedThreads.sort(this.sortLastReply);
 

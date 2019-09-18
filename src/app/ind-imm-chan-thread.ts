@@ -22,6 +22,10 @@ export class IndImmChanThread {
         this.AllPosts=[];
     }
 
+    public PrepForCache() {
+        this.orderRepliesDescending();
+        this.populateLastCommentTime();
+    }
     prepCrossThreadLinks(baseHostUrl: string) {
         if(this.AllPosts && this.AllPosts.length > 0) {
             for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
