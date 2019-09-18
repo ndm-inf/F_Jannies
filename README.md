@@ -3,6 +3,7 @@
 	http://blockchan.link | http://blockchan.ca
 	
   Official Twitter: https://twitter.com/ind_imm
+
   BlockChan Canada Twitter: https://twitter.com/blockchan_ca
 	
 
