@@ -24,9 +24,9 @@ export class BlockChanHostSettingsService {
   
   constructor() {
     if (this.IsHostedOnGithub) {
-      this.HomeLink = this.GitHubRepo + '/';
-      this.BoardsLink = this.GitHubRepo + '/boards';
-      this.AboutLink = this.GitHubRepo + '/about';
+      this.HomeLink = '/';
+      this.BoardsLink = '/boards';
+      this.AboutLink =  '/about';
     } else {
       this.HomeLink = '/';
       this.BoardsLink = '/boards';
