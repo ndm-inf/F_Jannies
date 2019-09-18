@@ -1,7 +1,9 @@
-# BlockChan.ca Instance of the Blockchan Client
+# BlockChan Live Instances:
 
-	Live Client: http://blockchan.ca
-	Twitter: https://twitter.com/blockchan_ca
+	http://blockchan.link | http://blockchan.ca
+	
+  Official Twitter: https://twitter.com/ind_imm
+  BlockChan Canada Twitter: https://twitter.com/blockchan_ca
 	
 
 # Run BlockChan Locally
@@ -12,7 +14,7 @@
 
     Install Angular CLI: npm install -g @angular/cli
     
-    You might also need to run: npm install --save-dev @angular-devkit/build-angular
+    You must then run: npm install --save-dev @angular-devkit/build-angular
 
     Install Dependencies: npm install
 
