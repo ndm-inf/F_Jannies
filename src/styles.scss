@@ -607,11 +607,11 @@ SECTIONS
 }
 
 .section.lb {
-    background-color: #f7f6f6
+    background-color: #f7f6f6;
 }
 
 .section.db {
-    background-color: #000000
+    background-color: #000000;
 }
 
 .nopadtop {
@@ -655,7 +655,7 @@ mark.rotate {
 RESPONSIVE
 *********************/
 
-@media(max-width:768px) {
+@media(max-width:767px) {
     .navbar-default .navbar-nav>.open>a,
     .navbar-default .navbar-nav>.open>a:focus,
     .navbar-default .navbar-nav>.open>a:hover {
@@ -674,7 +674,7 @@ RESPONSIVE
         padding-top: 90px;
     }
     .service-box.m30 {
-        margin: 15px 0;
+        //margin: 15px 0;
     }
     .mobile-menu {
         display: block;
@@ -700,7 +700,7 @@ RESPONSIVE
     }
 }
 
-@media(min-width:768px) {
+@media(min-width:767px) {
     .mobile-menu {
         display: none;
     }

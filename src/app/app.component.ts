@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IndImmConfigService } from './ind-imm-config.service';
 import { GlobalEventService } from './global-event.service';
+import { BlockChanHostSettingsService } from './block-chan-host-settings.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent {
   toaster: ToastrService;
   Config: IndImmConfigService;
   GlobalEventService: GlobalEventService;
+  BlockChanHostingService: BlockChanHostSettingsService
   Hidden = false;
 
   hideMenu() {
@@ -29,11 +31,12 @@ export class AppComponent {
     this.Hidden = false;
     console.log('show menu');
   }
-  constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService, globalEventService: GlobalEventService) {
+  constructor(rtr: Router, tstr: ToastrService, config: IndImmConfigService, globalEventService: GlobalEventService, blockChanHostingService: BlockChanHostSettingsService) {
     this.router = rtr;
     this.toaster = tstr;
     this.Config = config;
     this.GlobalEventService = globalEventService;
+    this.BlockChanHostingService = blockChanHostingService;
     let configFromMemory = JSON.parse(localStorage.getItem('Config'));
     if(configFromMemory) {
       this.Config.ShowImages = configFromMemory.ShowImages;

@@ -7,7 +7,7 @@ import { IndImmChanPostManagerService } from '../ind-imm-chan-post-manager.servi
 import { IndImmChanAddressManagerService } from '../ind-imm-chan-address-manager.service';
 import { IndImmChanPostModel } from '../ind-imm-chan-post-model';
 import { IndImmChanThread } from '../ind-imm-chan-thread';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, UrlTree } from '@angular/router';
 import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChunkingUtility } from '../chunking-utility';
@@ -21,6 +21,7 @@ import { CreateFileDetailTransactionChainResponse } from '../create-file-detail-
 import { Meta } from '@angular/platform-browser';
 import {Title} from '@angular/platform-browser';
 import { FlagService } from '../flag.service';
+import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 
 @Component({
   selector: 'app-catalog',
@@ -33,7 +34,8 @@ export class CatalogComponent implements OnInit {
   GlobalEventService: GlobalEventService;
   Route: ActivatedRoute
   ToastrService: ToastrService;
-  Config: IndImmConfigService
+  Config: IndImmConfigService;
+  BlockChanHostingService: BlockChanHostSettingsService;
   Meta: Meta;
   Title: Title;
 
@@ -75,7 +77,7 @@ export class CatalogComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
-    dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService) {
+    dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService, blockChanHostingService: BlockChanHostSettingsService) {
       this.Dialog = dialog;
       this.Config = config;
       this.Route = route;
@@ -84,6 +86,7 @@ export class CatalogComponent implements OnInit {
       this.Router = router;
       this.ToastrService = toasterService;
       this.GlobalEventService = globalEventService;
+      this.BlockChanHostingService = blockChanHostingService;
       this.GlobalEventService.EnableModeration.subscribe(state => {
         this.refresh(false);
       });
@@ -162,7 +165,13 @@ export class CatalogComponent implements OnInit {
       this.ShowTripEntry = true;
     }
     OpenPostInNewWindows(thread:IndImmChanThread) {
-      const url = this.Router.createUrlTree(['postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
+      let url: UrlTree = null;
+
+      if (this.BlockChanHostingService.IsHostedOnGithub) {
+        url = this.Router.createUrlTree([this.BlockChanHostingService.GitHubRepo + '/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
+      } else {
+        url = this.Router.createUrlTree(['postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
+      }
       
       try {
         localStorage.setItem('thread-' + thread.IndImmChanPostModelParent.Tx, JSON.stringify(thread));
@@ -275,7 +284,7 @@ export class CatalogComponent implements OnInit {
     }
     const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
     for (let i = 0; i < threads.length; i++) {
-      threads[i].Prep();
+      threads[i].Prep(this.BlockChanHostingService.BaseUrl);
     }
 
     // threads.sort(this.sortLastReply);
@@ -435,7 +444,7 @@ export class CatalogComponent implements OnInit {
       }
 
       for (let i = 0; i < populatedThreads.length; i++) {
-        populatedThreads[i].Prep();
+        populatedThreads[i].PrepForCache();
       }
       // populatedThreads.sort(this.sortLastReply);
 
