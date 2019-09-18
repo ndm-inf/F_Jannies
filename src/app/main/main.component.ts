@@ -4,6 +4,7 @@ import { IndImmConfigService } from '../ind-imm-config.service';
 import {MatSlideToggle} from '@angular/material';
 import { Meta } from '@angular/platform-browser';
 import {Title} from '@angular/platform-browser';
+import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 
 @Component({
   selector: 'app-main',
@@ -16,12 +17,14 @@ export class MainComponent implements OnInit {
   Config: IndImmConfigService
   Meta: Meta;
   Title: Title;
+  BlockChanHostingService: BlockChanHostSettingsService;
 
-  constructor(rtr: Router, config: IndImmConfigService, meta: Meta, title: Title) {
+  constructor(rtr: Router, config: IndImmConfigService, meta: Meta, title: Title, blockChanHostingService: BlockChanHostSettingsService) {
     this.router = rtr;
     this.Config = config;
     this.Meta = meta;
     this.Title = title;
+    this.BlockChanHostingService = blockChanHostingService;
   }
 
   public viewUpload() {
