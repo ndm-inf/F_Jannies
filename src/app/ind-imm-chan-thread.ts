@@ -14,22 +14,22 @@ export class IndImmChanThread {
     Board: string;
 
 
-    public Prep() {
+    public Prep(baseHostUrl: string) {
         this.orderRepliesDescending();
         this.populateLastCommentTime();
         this.linkReplies();
-        this.prepCrossThreadLinks();
+        this.prepCrossThreadLinks(baseHostUrl);
         this.AllPosts=[];
     }
 
-    prepCrossThreadLinks() {
+    prepCrossThreadLinks(baseHostUrl: string) {
         if(this.AllPosts && this.AllPosts.length > 0) {
             for (let i = 0; i < this.IndImmChanPostModelChildren.length; i++) {
                 for (let j = 0; j < this.AllPosts.length; j++) {
                     if(this.IndImmChanPostModelChildren[i].Msg.includes(this.AllPosts[j].Tx)) {
                         if(!this.isPostInThread(this.AllPosts[j])){
-                            
-                            let baseUrl = 'https://ndm-inf.github.io/BlockChan/postViewer/'+ this.Board;
+                            // https://ndm-inf.github.io/BlockChan/
+                            let baseUrl = baseHostUrl + 'postViewer/'+ this.Board;
                             if(this.AllPosts[j].Parent && this.AllPosts[j].Parent.length > 0) {
                                 baseUrl = baseUrl + '/' + this.AllPosts[j].Parent + '#' + this.AllPosts[j].Tx;
                             } else {

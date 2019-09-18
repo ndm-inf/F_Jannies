@@ -284,7 +284,7 @@ export class CatalogComponent implements OnInit {
     }
     const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
     for (let i = 0; i < threads.length; i++) {
-      threads[i].Prep();
+      threads[i].Prep(this.BlockChanHostingService.BaseUrl);
     }
 
     // threads.sort(this.sortLastReply);
@@ -444,7 +444,7 @@ export class CatalogComponent implements OnInit {
       }
 
       for (let i = 0; i < populatedThreads.length; i++) {
-        populatedThreads[i].Prep();
+        populatedThreads[i].Prep(this.BlockChanHostingService.BaseUrl);
       }
       // populatedThreads.sort(this.sortLastReply);
 

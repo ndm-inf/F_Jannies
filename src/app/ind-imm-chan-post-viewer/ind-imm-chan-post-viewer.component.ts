@@ -25,6 +25,7 @@ import { ModeratorDialogComponent } from '../moderator-dialog/moderator-dialog.c
 import { PostModFlagModel } from '../post-mod-flag-model';
 import { PostModFlag } from '../post-mod-flag';
 import { FlagService } from '../flag.service';
+import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -73,6 +74,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   TripName = '';
   HeaderImage = '';
   FlagService: FlagService;
+  BlockChanHostSettingsService: BlockChanHostSettingsService;
 
   public async blockPosting() {
     this.PostingEnabled = false;
@@ -242,7 +244,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
     globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef,
-    flagService: FlagService) {
+    flagService: FlagService, blockChanHostSettingsService: BlockChanHostSettingsService) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -258,6 +260,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Title = title;
     this.Elem = elem;
     this.FlagService = flagService;
+    this.BlockChanHostSettingsService = blockChanHostSettingsService;
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
     });
@@ -418,7 +421,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(this.AddressManagerService.GetBoardAddress(this.postBoard), 
       this.parentTx);
     threadResult.Board = this.postBoard;
-    threadResult.Prep();
+    threadResult.Prep(this.BlockChanHostSettingsService.BaseUrl);
     this.thread = threadResult;
     this.PostLoading = false;
 
