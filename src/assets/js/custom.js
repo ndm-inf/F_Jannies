@@ -27,3 +27,32 @@
 			}
 		}
 	})
+	
+	//turn textarea text red if over 1320 chars
+	$(document).ready(function() {
+        var char_limit = 1320;       
+        $('#msg_text').bind('keyup', function() {
+            new_length = $('#msg_text').val().length;
+            if (new_length > char_limit) {
+              $('#msg_text').css('color','red');
+              $('#msg_length').css('color','red');
+            } else {
+               $('#msg_text').css('color', 'black');
+               $('#msg_length').css('color','white');
+            }
+        });
+ 	});
+ 	//turn title text red if over 80 chars
+	$(document).ready(function() {
+        var char_limit = 80;       
+        $('#sub_text').bind('keyup', function() {
+            new_length = $('#sub_text').val().length;
+            if (new_length > char_limit) {
+              $('#sub_text').css('color','red');
+              $('#sub_length').css('color','red');
+            } else {
+               $('#sub_text').css('color','black');
+               $('#sub_length').css('color','white');
+            }
+        });
+ 	});
