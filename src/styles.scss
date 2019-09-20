@@ -626,13 +626,12 @@ SECTIONS
     display: table;
     width: 100%;
     height: 100%;
-    position: relative;
     text-align: center;
     z-index: 11;
 }
 
 .home-content {
-    position: relative;
+    //position: relative;
 }
 
 .home-message {
