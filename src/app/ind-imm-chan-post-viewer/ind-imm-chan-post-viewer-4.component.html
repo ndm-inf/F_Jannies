@@ -165,16 +165,16 @@
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
                                 <span class="posteruid">
-                                    &nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
+                                    &nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
                                         <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
                                                 &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
                                         </span>                                        
-                                    </span>)
+                                    </span>
+                                    
                                 </span>
-                                <br>
-                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+                                <span class="gold" style="cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
                                 thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
-                                    Tip Shekels&nbsp;<i class="fa fa-ils" aria-hidden="true"></i>
+                                    Tip ETH&nbsp;<i class="fab fa-ethereum" aria-hidden="true"></i>
                                 </span>
                             </span>
                             	<span class="dateTime postNum">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span>
@@ -182,7 +182,7 @@
 	                                <span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">
 	                                	{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...
 	                                </span>
-	                                &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)"></i>
+	                                &nbsp;<i class="fas fa-exclamation-triangle flagpost" (click)="Flag(thread.IndImmChanPostModelParent)">&nbsp;</i>
 	                            </span>
                                 <span class="headerlinks" [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
                         </div>
@@ -204,6 +204,7 @@
                                     </span>
                                     <div *ngIf="thread.IndImmChanPostModelParent.ShowFullSizeFile">
                                         <img [src]="thread.IndImmChanPostModelParent.Base64Image" style="width: 100%;height: auto;">
+                                        <!--<span class="mFileInfo">[ Download Original <i class="fa fa-download" aria-hidden="true" style="cursor:pointer"></i> ]</span>-->
                                     </div>
                                 </span>
                                 <span *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
@@ -219,9 +220,9 @@
                         <div class="postInfo desktop" id="pi15343728">
                             
                             <span class="nameBlock" style="padding-top: 6px;">
-                            	<span style="color:gold; cursor:pointer; margin-right:6px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
+                            	<span class="gold" style="cursor:pointer; margin-right:6px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
 	                            thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
-	                                Tip Shekels&nbsp;<i class="fa fa-ils" aria-hidden="true"></i>
+	                                Tip ETH&nbsp;<i class="fab fa-ethereum" aria-hidden="true"></i>
 	                            </span>
                             	<span class="subject" style="color:#b294bb !important;font-weight:700;">{{  thread.IndImmChanPostModelParent.Title }}</span> 
                                 <span class="name">&nbsp;{{  thread.IndImmChanPostModelParent.Name }}</span> 
@@ -232,16 +233,17 @@
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0" [title]="thread.IndImmChanPostModelParent.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
-                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" 
+                                <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" 
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                      <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
                                          &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
                                      </span>                                     
-                                    </span>)
+                                    </span>
+                                    
                             </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  thread.IndImmChanPostModelParent.Timestamp | date:'medium'}}</span> 
-                            &nbsp;<i class="fa fa-warning" (click)="Flag(thread.IndImmChanPostModelParent)" ></i>
+                            &nbsp;<i class="fas fa-exclamation-triangle flagpost" (click)="Flag(thread.IndImmChanPostModelParent)">&nbsp;</i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(thread.IndImmChanPostModelParent.Tx)" title="Reply to this post">&nbsp;{{  thread.IndImmChanPostModelParent.Tx.substring(0, 10)}}...</span>
                                 <span class="headerlinks" [innerHtml]="thread.IndImmChanPostModelParent.HeaderLinks | safe: 'html'"></span>
                                 <hr class="postinfo_hr">
@@ -259,25 +261,26 @@
                         <div [className]="'h'+post.UID">
                         <div class="postInfoM mobile" id="pim15343737"> 
                             <span class="nameBlock">
-                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
+                                <span class="gold" style="cursor:pointer;" *ngIf="post.ETH && 
                                 post.ETH.length > 0" (click)="Tip(post)"> 
-                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                    Tip ETH&nbsp;<i class="fab fa-ethereum" aria-hidden="true"></i>
                                 </span>
-                                <span class="name">&nbsp;{{ post.Name}}</span> 
+                                <span class="name">{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
                                 <span *ngIf="post.F && post.F.length > 0" [className]="'flag-icon flag-icon-'+post.F" style="margin-left:3px;" [title]="post.Country"></span>
                                 <span *ngIf="!post.F || post.F.length == 0" [title]="post.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
-                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
+                                <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
                                         <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
 
-                                </span>)
+                                </span>
+                                
                                 </span>
                                 <br>
                             </span>
                             <span class="dateTime postNum" data-utc="1566433365">&nbsp;{{  post.Timestamp | date:'medium'}}<span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">&nbsp;{{  post.Tx.substring(0, 10)}}...</span>
-                            &nbsp;<i class="fa fa-warning" (click)="Flag(post)" ></i>
+                            &nbsp;<i class="fas fa-exclamation-triangle flagpost" (click)="Flag(post)">&nbsp;</i>
                             <span class="headerlinks" [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
                             </span>
                         </div>
@@ -298,6 +301,8 @@
                                         </span>
                                         <span *ngIf="post.ShowFullSizeFile">
                                             <img [src]="post.Base64Image" style="width: 100%;height: auto;">
+                                            <br>
+                                            <!--<span class="mFileInfo">[ Download Original <i class="fa fa-download" aria-hidden="true" style="cursor:pointer"></i> ]</span>-->
                                         </span>
                                     </span>
                                     <span *ngIf="post.Base64Image && post.IsWebm">
@@ -309,11 +314,11 @@
                                     </span>
                                 </a>
                             </div>
-                        <div class="postInfo desktop" style="margin:3px; padding:3px">
+                        <div class="postInfo desktop" style="margin-top: 6px;">
                             <span class="nameBlock" >
-                                <span style="color:gold; cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
+                                <span class="gold" style="cursor:pointer; margin-right:10px; text-align: center" *ngIf="post.ETH && 
                                 post.ETH.length > 0" (click)="Tip(post)"> 
-                                    Tip Shekels &nbsp; <i class="fa fa-ils" aria-hidden="true"></i>
+                                    Tip ETH&nbsp;<i class="fab fa-ethereum" aria-hidden="true"></i>
                                 </span>
                                 <span class="name">{{ post.Name}}</span> 
                                 <span *ngIf="post.T" class="trip" title="TripCode">##{{  post.TripCode }}</span>
@@ -321,13 +326,14 @@
                                 <span *ngIf="!post.F || post.F.length == 0" [title]="post.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
-                                <span class="posteruid">&nbsp;(ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
+                                <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                     <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
-                                </span>)
+                                </span>
+                                
                                 </span>
                             </span> 
                             <span class="dateTime">&nbsp;{{  post.Timestamp | date:'medium'}}</span> 
-                            &nbsp;<i class="fa fa-warning " (click)="Flag(post)"></i>
+                            &nbsp;<i class="fas fa-exclamation-triangle flagpost" (click)="Flag(post)">&nbsp;</i>
                             <span class="postNum desktop"><span>&nbsp;No.&nbsp;</span><span style="cursor: pointer;" (click)="quoteMessage(post.Tx)" title="Reply to this post">{{  post.Tx.substring(0, 10)}}...</span>
                                 <span class="headerlinks" [innerHtml]="post.HeaderLinks | safe: 'html'"></span>
 								<hr class="postinfo_hr">

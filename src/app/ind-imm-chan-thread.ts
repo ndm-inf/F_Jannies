@@ -89,7 +89,7 @@ export class IndImmChanThread {
                 const fullLink = 'https://www.youtube.com/embed/' + link;
                 return '<iframe width="420" height="315" src="' + fullLink + '"></iframe>';
             } else {
-            return '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="' + $0 + '" allowFullScreen></iframe></div>';
+            return '<div class="embed-responsive embed-responsive-16by9 center-block float-none"><iframe class="embed-responsive-item" src="' + $0 + '" allowFullScreen></iframe></div>';
             }
 
         });

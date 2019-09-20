@@ -179,7 +179,7 @@
 	                            <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
 	                        </div>
 	                        <div class="progress-item-container" *ngIf="thread.IndImmChanPostModelParent.Base64Image && !thread.IndImmChanPostModelParent.IsWebm" (click)="OpenThread(thread)">
-	                            <img [src]=" thread.IndImmChanPostModelParent.Base64Image" width="150px">
+	                            <img [src]="thread.IndImmChanPostModelParent.Base64Image" width="150px">
 	                        </div>
 	                        <div class="webmContainer" *ngIf="thread.IndImmChanPostModelParent.Base64Image && thread.IndImmChanPostModelParent.IsWebm">
 	                            <video width="215" controls controlsList="nodownload">
