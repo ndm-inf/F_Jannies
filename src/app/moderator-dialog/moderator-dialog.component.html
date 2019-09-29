@@ -1,13 +1,17 @@
 <div class="main-conter">
-    <h2 mat-dialog-title>Flag post to be hidden</h2>
+    <h2 mat-dialog-title>Flag Post to be Hidden</h2>
     <div mat-dialog-content class="sub-container">
       <div class="sub-container schs">
-        Flag post and reason removed (free text, SPAM or LEGAL is preference)
+        <i class="far fa-question-circle"></i> Choose a reason to flag this post. Once accepted it will not show in Moderated Mode. For now this post flagging system is just for moderators.
         <div mat-dialog-actions class="content-container">
           <div>
             <div>
               <mat-form-field>
-                Flag Type: &nbsp; <input matInput [(ngModel)]="flag.Type" class="confirmText" style="background:white; color:black; width:100%">
+                Flag Type: &nbsp; <select matInput [(ngModel)]="flag.Type" class="confirmText" style="background:white; color:black; width:100%">
+	                				<option label="SPAM" value="SPAM">
+	                				<option label="LEGAL" value="LEGAL">
+	                				<option label="OTHER" value="OTHER">
+								  </select>
               </mat-form-field>  
             </div>
             <div>
@@ -24,7 +28,7 @@
 
       </div>
       <div class="spacerm">
-          <button mat-button [mat-dialog-close]="flag" cdkFocusInitial class="btn btn-wrapper btn-default btn-round btnmod">flag</button>
+          <button mat-button [mat-dialog-close]="flag" class="btn btn-wrapper btn-primary btn-round btnmod">Flag Post</button>
         </div>
     </div>
   </div>
