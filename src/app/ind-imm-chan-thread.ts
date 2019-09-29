@@ -83,15 +83,19 @@ export class IndImmChanThread {
 
         post.Msg = post.Msg.replace("watch?v=", "embed/");
         post.Msg = post.Msg.replace(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*((youtube.com)|(youtu.be))[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, function($0) { 
-
+		
+		if (!['/channel/', '/user/'].some(value => $0.includes(value))) {
             if ($0.includes('youtu.be')) {
                 const link = $0.replace('https://youtu.be/', ''); 
                 const fullLink = 'https://www.youtube.com/embed/' + link;
-                return '<div class="row row-no-gutters"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + fullLink + '" allowfullscreen></iframe></div></div></div>';
+                return '<div class="row"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + fullLink + '" allowfullscreen></iframe></div></div></div>';
             } else {
-            return '<div class="row row-no-gutters"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + $0 + '" allowfullscreen></iframe></div></div></div>';
+            return '<div class="row"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + $0 + '" allowfullscreen></iframe></div></div></div>';
             }
-
+		} else {
+			return '<a style="color: #337ab7" href="' + $0 + '" target="_blank">' + $0 + '</a>';
+		}
+        
         });
         post.Msg = this.linkify(post.Msg);
     }
@@ -104,7 +108,7 @@ export class IndImmChanThread {
         // replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
         replacedText = inputText.replace(replacePattern1, function($1) { 
             if (!($1.includes('youtube') || $1.includes('youtu.be'))) {
-                return '<a style="color: #337ab7;" href="' + $1 +'" target="_blank">' + $1 +'</a>';
+                return '<a style="color: #337ab7" href="' + $1 +'" target="_blank">' + $1 +'</a>';
             } else {
                 return $1;
             }
@@ -128,7 +132,7 @@ export class IndImmChanThread {
                 if (curMsg.charAt(0) === '>') {
                     if (curMsg.length>1){
                         if (curMsg.charAt(1) !== '>') {
-                            newMsg = '<span style="color:green">' + curMsg + '</span>'
+                            newMsg = '<span style="color: #789922">' + curMsg + '</span>'
                         }
                     }
                 }
