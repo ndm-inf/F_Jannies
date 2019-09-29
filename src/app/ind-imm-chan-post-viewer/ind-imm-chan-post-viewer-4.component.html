@@ -165,13 +165,12 @@
                                 <span *ngIf="!thread.IndImmChanPostModelParent.F || thread.IndImmChanPostModelParent.F.length == 0" [title]="thread.IndImmChanPostModelParent.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
-                                <span class="posteruid">
-                                    &nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.color]="thread.IndImmChanPostModelParent.FontColor">
-                                        <span class="idhover" [style.background]="thread.IndImmChanPostModelParent.BackgroundColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
-                                                &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
-                                        </span>                                        
-                                    </span>
-                                    
+                                 <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" 
+                                     [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
+                                     <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
+                                         {{  thread.IndImmChanPostModelParent.UID }}
+                                     </span>                                     
+                                </span>
                                 </span>
                                 <span class="gold" style="cursor:pointer; margin-right:10px; text-align: center" *ngIf="thread.IndImmChanPostModelParent.ETH && 
                                 thread.IndImmChanPostModelParent.ETH.length > 0" (click)="Tip(thread.IndImmChanPostModelParent)"> 
@@ -237,9 +236,9 @@
                                 <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" 
                                      [style.background]="thread.IndImmChanPostModelParent.BackgroundColor">
                                      <span  class="idhover" [style.color]="thread.IndImmChanPostModelParent.FontColor" (click)="highlightposts(thread.IndImmChanPostModelParent.UID)">
-                                         &nbsp;{{  thread.IndImmChanPostModelParent.UID }}
+                                         {{  thread.IndImmChanPostModelParent.UID }}
                                      </span>                                     
-                                    </span>
+                                </span>
                                     
                             </span>
                             </span> 
@@ -272,7 +271,7 @@
                                 <span *ngIf="!post.F || post.F.length == 0" [title]="post.Country">
                                     <img src="assets/images/anon_flag.svg" style="width:20px; margin-left:3px;">
                                 </span>
-                                <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">&nbsp;
+                                <span class="posteruid">&nbsp;&nbsp;ID: <span class="hand" title="Highlight posts by this ID" [style.background]="post.BackgroundColor">
                                         <span class="idhover" [style.color]="post.FontColor" (click)="highlightposts(post.UID)">{{ post.UID }}</span>
 
                                 </span>
