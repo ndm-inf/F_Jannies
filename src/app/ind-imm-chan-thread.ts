@@ -87,9 +87,9 @@ export class IndImmChanThread {
             if ($0.includes('youtu.be')) {
                 const link = $0.replace('https://youtu.be/', ''); 
                 const fullLink = 'https://www.youtube.com/embed/' + link;
-                return '<iframe width="420" height="315" src="' + fullLink + '"></iframe>';
+                return '<div class="row row-no-gutters"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + fullLink + '" allowfullscreen></iframe></div></div></div>';
             } else {
-            return '<div class="embed-responsive embed-responsive-16by9 center-block float-none"><iframe class="embed-responsive-item" src="' + $0 + '" allowFullScreen></iframe></div>';
+            return '<div class="row row-no-gutters"><div class="col-sm-12 col-lg-6"><div class="video-container"><iframe src="' + $0 + '" allowfullscreen></iframe></div></div></div>';
             }
 
         });

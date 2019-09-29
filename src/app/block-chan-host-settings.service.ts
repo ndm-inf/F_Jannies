@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class BlockChanHostSettingsService {
 
   public IsHostedOnGithub = false;
-  //public GitHubRepo = 'BlockChan'; //only populate if hosting site on gh-pages
+  public GitHubRepo = ''; //only populate if hosting site on gh-pages
 
   //public TwitterLink = 'https://twitter.com/ind_imm';
   public TwitterLink = 'https://twitter.com/blockchan_ca';
