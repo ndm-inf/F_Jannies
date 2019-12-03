@@ -10,7 +10,7 @@ export class IndImmConfigService {
   public Environment: ConfigEnvironment;
   public IsDev = false;
   public ShowImages = false;
-  public ModerationOn = false;
+  public ModerationOn = true;
   public Sort = 'LastReply';
   public LastUpdateTime: Date;
   //GlobalEventService: GlobalEventService;
@@ -50,7 +50,8 @@ export class IndImmConfigService {
 
   public GetRippleServer(): string {
     if (!this.IsDev) {
-      return 'wss://s1.ripple.com'; // 'wss://s2.ripple.com:51234';
+      // return 'wss://s1.ripple.com';
+      return 'wss://s2.ripple.com';
     } else {
       return 'wss://s.altnet.rippletest.net:51233';
     }

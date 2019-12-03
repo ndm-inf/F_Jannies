@@ -97,7 +97,9 @@ export class IndImmChanThread {
 		}
         
         });
-        post.Msg = this.linkify(post.Msg);
+        post.Msg = this.linkify(post.Msg).split('script').join('');//.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        
+        console.log(post.Msg);
     }
 
     linkify(inputText) {

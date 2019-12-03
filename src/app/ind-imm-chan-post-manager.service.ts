@@ -10,6 +10,7 @@ import { PostKey } from './post-key';
 import { ChunkingUtility } from './chunking-utility';
 import { PostModFlag } from './post-mod-flag';
 import { SubPost } from './sub-post';
+import { promise } from 'protractor';
 
 
 @Injectable({
@@ -156,7 +157,7 @@ export class IndImmChanPostManagerService {
     while (!this.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
-    const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;
+    const minLedger = 49187118;
     const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
     let imageCounter = 1;
 
@@ -298,16 +299,92 @@ export class IndImmChanPostManagerService {
       return retSet[0];
   }
 
+  public async GetPostsWrapper(boardAddress: string, minLedger: number, maxLedger: number): Promise<Array<object>> {
+    const ret = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+      {minLedgerVersion: minLedger, maxLedgerVersion: maxLedger});
+
+      // return ret as Promise<Array<object>>;
+
+      return new Promise<Array<object>>((resolve) => {
+        resolve(ret);
+    });
+  }
+
   public async GetPostsForCatalog(boardAddress: string): Promise<IndImmChanThread[]> {
+    const retSet: IndImmChanThread[] = [];
+
+    const minLedger = 49187118;
+    const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    //const numberOfPostsPerCall = 130000;
+    const numberOfPostsPerCall = 61000;
+
+    const promisesToExeccute: Promise<any>[] = [];
+
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+
+        if (i + numberOfPostsPerCall > maxLedger) {
+          let promise = this.GetPostsWrapper(boardAddress,  i + 1, maxLedger);
+            promisesToExeccute.push(promise);
+        }
+        else {
+          let promise = this.GetPostsWrapper(boardAddress,i + 1, i + numberOfPostsPerCall);
+            promisesToExeccute.push(promise);
+        }
+        
+        console.log((i+1) + '-' + (i + numberOfPostsPerCall));
+        
+    }
+
+    let results = await Promise.all(promisesToExeccute);
+
+    results.forEach(res=>{
+      res.forEach(item=>{
+        retSet.push(item);
+      });
+    });
+    return await this.GetPostsForCatalogPartial(retSet);
+  }
+  public async GetPostsForCatalogOrig(boardAddress: string): Promise<IndImmChanThread[]> {
+    const retSet: IndImmChanThread[] = [];
+
+    const minLedger = 49187118;
+    const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    const numberOfPostsPerCall = 130000;
+
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+
+        if (i + numberOfPostsPerCall > maxLedger) {
+          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+            {minLedgerVersion: i + 1, maxLedgerVersion: maxLedger});
+
+          unfilteredResultsUnModded.forEach(item => {
+            retSet.push(item);
+          });
+        }
+        else {
+          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+            {minLedgerVersion: i + 1, maxLedgerVersion: i + numberOfPostsPerCall});
+
+          unfilteredResultsUnModded.forEach(item => {
+            retSet.push(item);
+          });
+        }
+        console.log((i+1) + '-' + (i + numberOfPostsPerCall));
+
+    }
+
+    return await this.GetPostsForCatalogPartial(retSet);
+  }
+
+  public async GetPostsForCatalogPartial(unfilteredResultsUnModded: any[]): Promise<IndImmChanThread[]> {
     await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
     while (!this.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
-    const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;
-    const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    //const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;
 
-    const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
-      {minLedgerVersion: minLedger, maxLedgerVersion: max});
+    /*const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+      {minLedgerVersion: minLedger, maxLedgerVersion: maxLedger});*/
 
       const unfilteredResults = await this.RemoveFlaggedPost(unfilteredResultsUnModded);
 
