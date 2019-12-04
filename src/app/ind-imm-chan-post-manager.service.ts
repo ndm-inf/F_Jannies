@@ -140,7 +140,7 @@ export class IndImmChanPostManagerService {
               }
             }
           } catch (error) {
-            console.log(error);
+            // console.log(error);
             continue;
           }
         }
@@ -182,7 +182,7 @@ export class IndImmChanPostManagerService {
               continue;
             }
           } catch(error) {
-            console.log(error);
+            // console.log(error);
             continue;
           }
           let post: IndImmChanPost  = null;
@@ -195,7 +195,7 @@ export class IndImmChanPostManagerService {
               continue;
             }
           } catch (error) {
-            console.log(error);
+            // console.log(error);
             continue;
           }
 
@@ -299,11 +299,11 @@ export class IndImmChanPostManagerService {
       return retSet[0];
   }
 
-  public async GetPostsWrapper(boardAddress: string, minLedger: number, maxLedger: number): Promise<Array<object>> {
-    const ret = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+  public async GetPostsWrapper(boardAddress: string, minLedger: number, maxLedger: number, index: number): Promise<Array<object>> {
+    console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': STARTED');
+    const ret = await this.IndImmChanPostService.rippleService.GetApiInstance(index).getTransactions(boardAddress,
       {minLedgerVersion: minLedger, maxLedgerVersion: maxLedger});
-
-      // return ret as Promise<Array<object>>;
+    console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': COMPLETED');
 
       return new Promise<Array<object>>((resolve) => {
         resolve(ret);
@@ -316,33 +316,46 @@ export class IndImmChanPostManagerService {
     const minLedger = 49187118;
     const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
     //const numberOfPostsPerCall = 130000;
-    const numberOfPostsPerCall = 61000;
+    const numberOfPostsPerCall = 600000;
+    let countOfPingsToServer = 0;
 
     const promisesToExeccute: Promise<any>[] = [];
 
     for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
-
+      countOfPingsToServer++;
         if (i + numberOfPostsPerCall > maxLedger) {
-          let promise = this.GetPostsWrapper(boardAddress,  i + 1, maxLedger);
+          let promise = this.GetPostsWrapper(boardAddress,  i + 1, maxLedger, countOfPingsToServer);
             promisesToExeccute.push(promise);
         }
         else {
-          let promise = this.GetPostsWrapper(boardAddress,i + 1, i + numberOfPostsPerCall);
+          let promise = this.GetPostsWrapper(boardAddress,i + 1, i + numberOfPostsPerCall, countOfPingsToServer);
             promisesToExeccute.push(promise);
         }
         
-        console.log((i+1) + '-' + (i + numberOfPostsPerCall));
+        console.log(new Date().toLocaleString() + ':' + (i+1) + '-' + (i + numberOfPostsPerCall));
         
     }
+    
+    const startTimOfExecution = new Date().toLocaleString();
 
     let results = await Promise.all(promisesToExeccute);
+
+    const endTimeOfExecution = new Date().toLocaleString();
+
 
     results.forEach(res=>{
       res.forEach(item=>{
         retSet.push(item);
       });
     });
-    return await this.GetPostsForCatalogPartial(retSet);
+    var finalResult =  await this.GetPostsForCatalogPartial(retSet);
+    const endTimeOfMoldingResults = new Date().toLocaleString();
+
+    console.log('startTimOfExecution: ' + startTimOfExecution);
+    console.log('endTimeOfExecution: ' + endTimeOfExecution);
+    console.log('endTimeOfMoldingResults: ' + endTimeOfMoldingResults);
+
+    return finalResult;
   }
   public async GetPostsForCatalogOrig(boardAddress: string): Promise<IndImmChanThread[]> {
     const retSet: IndImmChanThread[] = [];
@@ -351,10 +364,13 @@ export class IndImmChanPostManagerService {
     const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
     const numberOfPostsPerCall = 130000;
 
-    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+    let countOfPingsToServer = 0;
 
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+      countOfPingsToServer++;
+      //refactor to make more eleganet and easy to read later, hacky proof of concept
         if (i + numberOfPostsPerCall > maxLedger) {
-          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.GetApiInstance(countOfPingsToServer).getTransactions(boardAddress,
             {minLedgerVersion: i + 1, maxLedgerVersion: maxLedger});
 
           unfilteredResultsUnModded.forEach(item => {
@@ -362,7 +378,7 @@ export class IndImmChanPostManagerService {
           });
         }
         else {
-          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.GetApiInstance(countOfPingsToServer).getTransactions(boardAddress,
             {minLedgerVersion: i + 1, maxLedgerVersion: i + numberOfPostsPerCall});
 
           unfilteredResultsUnModded.forEach(item => {
@@ -404,7 +420,7 @@ export class IndImmChanPostManagerService {
               continue;
             }
           } catch(error) {
-            console.log(error);
+            // console.log(error);
             continue;
           }
           let post: IndImmChanPost = null;
@@ -416,7 +432,7 @@ export class IndImmChanPostManagerService {
               continue;
             }
           } catch (error) {
-            console.log(error);
+            // console.log(error);
             continue;
           }
           const postModel: IndImmChanPostModel = new IndImmChanPostModel();
@@ -564,7 +580,7 @@ export class IndImmChanPostManagerService {
         post.Base64Image = null;
         return post;
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         return post;
       } 
     } else {
@@ -581,8 +597,8 @@ export class IndImmChanPostManagerService {
     try {
       return decodeURI(str); //.replace(/%0[89AD]/gi, '')).replace(/%0/g, '');
     } catch (error) {
-      console.log(error);
-      console.log(str);
+      // console.log(error);
+      // console.log(str);
       return str;
     }
   }

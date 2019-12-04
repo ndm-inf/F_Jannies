@@ -129,19 +129,19 @@ export class CatalogComponent implements OnInit {
       let configFromMemory = JSON.parse(localStorage.getItem('Config'));
       if(configFromMemory) {
         this.Config.Sort = configFromMemory.Sort;
-        console.log('config sort1: ' + this.Config.Sort);
+        // console.log('config sort1: ' + this.Config.Sort);
 
       }
       if (this.threads && this.threads.length > 0) {
         if (!this.Config.Sort || this.Config.Sort === '') {
-          console.log('null sort');
+          //console.log('null sort');
           this.sortThreads('LastReply');
         } else {
         this.sortThreads(this.Config.Sort);
-        console.log('config sort: ' + this.Config.Sort);
+        //console.log('config sort: ' + this.Config.Sort);
         }
       } else {
-        console.log('no threads');
+        //console.log('no threads');
       }
     }
 

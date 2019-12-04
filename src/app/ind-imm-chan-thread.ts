@@ -39,7 +39,7 @@ export class IndImmChanThread {
                             } else {
                                 baseUrl = baseUrl + '/' + this.AllPosts[j].Tx;
                             }
-                            console.log(baseUrl);
+                            // console.log(baseUrl);
                             this.IndImmChanPostModelChildren[i].Msg =  this.IndImmChanPostModelChildren[i].Msg.replace('>>' + this.AllPosts[j].Tx,
                             '<a href="'+ baseUrl + '" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"></span>' + '-> </a>');
                            //  '<span onClick="window.open(\'' + baseUrl + '\', \'_blank\');" title="' + this.AllPosts[j].Tx + '" style="color:aqua; cursor: pointer">>' + this.AllPosts[j].Tx.substring(0, 10)  + '...<span style="font-size:9px; margin-top:-2px;"> [cross thread, no previw]</span>' + '--> </span>');
@@ -99,7 +99,7 @@ export class IndImmChanThread {
         });
         post.Msg = this.linkify(post.Msg).split('script').join('');//.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
         
-        console.log(post.Msg);
+        //console.log(post.Msg);
     }
 
     linkify(inputText) {

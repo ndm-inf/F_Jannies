@@ -12,6 +12,19 @@ declare var ripple: any;
 })
 export class RippleService  {
   api: any = null;
+
+  secondaryApi: any = null;
+  secondaryApiAvailable = false;
+
+  thirdApi: any = null;
+  thirdApiAvailable = false;
+
+  fourthApi: any = null;
+  fourthApiAvailable = false;
+
+  fifthApi: any = null;
+  fifthApiAvailable = false;
+
   public maxLedgerVersion: number;
   public earliestLedgerVersion: number;
   public Config: IndImmConfigService;
@@ -26,6 +39,22 @@ export class RippleService  {
     this.Config = cfg;
     this.FileProgressService = filePrgSvc;
     // this.ConnectAPI();
+   }
+
+   public GetApiInstance(instance: number){
+    console.log('Using Instance: ' + instance); 
+    
+    if (instance == 1) {
+      return this.api;
+     } else if (instance == 2) {
+      return this.secondaryApi;
+     } else if (instance == 3) {
+      return this.thirdApi;
+     } else if (instance == 4) {
+      return this.fourthApi;
+     } else if (instance == 5) {
+      return this.fifthApi;
+     }
    }
 
    public async ForceConnectIfNotConnected() {
@@ -49,40 +78,93 @@ export class RippleService  {
    }
    public async ConnectAPI() {
     this.api = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.secondaryApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.thirdApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.fourthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.fifthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
 
-      this.api.connect()
-      .then(() => {
-          return this.api.getServerInfo();
-        }).then((server_info) => {
+    this.api.connect()
+    .then(() => {
+        return this.api.getServerInfo();
+      }).then((server_info) => {
 
-          console.log(server_info.completeLedgers);
-          const ledgers = server_info.completeLedgers.split('-');
-          this.earliestLedgerVersion = Number(ledgers[0]);
-          this.maxLedgerVersion = Number(ledgers[1]);
-          this.api.on('ledger', ledger => {
-            this.maxLedgerVersion = Number(ledger.ledgerVersion);
-            // this.CheckSequence();
-          });
-          console.log('Most recent hash: ' + server_info.validatedLedger.hash);
-          this.toaster.show('Connected to Ripple (' + this.Config.GetEnvironmentName() + '): '
-           + this.Config.GetRippleServer(),
-           'SUCCESS', {
-            closeButton: true,
-            disableTimeOut: true,
-            toastClass: 'ngx-toastr tstr-success'
-           });
-           this.Connected = true;
-           return;
-        }).catch((error) => {
-          this.toaster.error('Error Connecting to Ripple (' + this.Config.GetEnvironmentName() + '): '
+        console.log('Ledger range: ' + server_info.completeLedgers);
+        const ledgers = server_info.completeLedgers.split('-');
+        this.earliestLedgerVersion = Number(ledgers[0]);
+        this.maxLedgerVersion = Number(ledgers[1]);
+        this.api.on('ledger', ledger => {
+          this.maxLedgerVersion = Number(ledger.ledgerVersion);
+          // this.CheckSequence();
+        });
+        console.log('Most recent hash: ' + server_info.validatedLedger.hash);
+        this.toaster.show('Connected to Ripple (' + this.Config.GetEnvironmentName() + '): '
           + this.Config.GetRippleServer(),
-          'ERROR', {
-            closeButton: true,
-            disableTimeOut: true
+          'SUCCESS', {
+          closeButton: true,
+          disableTimeOut: true,
+          toastClass: 'ngx-toastr tstr-success'
           });
-          console.log(error);
-        }
-      );
+          this.Connected = true;
+          return;
+      }).catch((error) => {
+        this.toaster.error('Error Connecting to Ripple (' + this.Config.GetEnvironmentName() + '): '
+        + this.Config.GetRippleServer(),
+        'ERROR', {
+          closeButton: true,
+          disableTimeOut: true
+        });
+        this.Connected = false;
+        console.log(error);
+      }
+    );
+
+    this.secondaryApi.connect()
+    .then(() => {
+        return this.secondaryApi.getServerInfo();
+      }).then((server_info) => {
+          this.secondaryApiAvailable = true;
+          return;
+      }).catch((error) => {
+        this.secondaryApiAvailable = false;
+        console.log(error);
+      }
+    );
+
+    this.thirdApi.connect()
+    .then(() => {
+        return this.thirdApi.getServerInfo();
+      }).then((server_info) => {
+          this.thirdApiAvailable = true;
+          return;
+      }).catch((error) => {
+        this.thirdApiAvailable = false;
+        console.log(error);
+      }
+    );
+
+    this.fourthApi.connect()
+    .then(() => {
+        return this.fourthApi.getServerInfo();
+      }).then((server_info) => {
+          this.fourthApiAvailable = true;
+          return;
+      }).catch((error) => {
+        this.fourthApiAvailable = false;
+        console.log(error);
+      }
+    );
+
+    this.fifthApi.connect()
+    .then(() => {
+        return this.fifthApi.getServerInfo();
+      }).then((server_info) => {
+          this.fifthApiAvailable = true;
+          return;
+      }).catch((error) => {
+        this.fifthApiAvailable = false;
+        console.log(error);
+      }
+    );
 
   }
 

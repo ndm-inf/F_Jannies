@@ -50,7 +50,6 @@ export class IndImmConfigService {
 
   public GetRippleServer(): string {
     if (!this.IsDev) {
-      // return 'wss://s1.ripple.com';
       return 'wss://s2.ripple.com';
     } else {
       return 'wss://s.altnet.rippletest.net:51233';
