@@ -41,19 +41,45 @@ export class RippleService  {
     // this.ConnectAPI();
    }
 
-   public GetApiInstance(instance: number){
+   public async GetApiInstance(instance: number): Promise<any> {
     console.log('Using Instance: ' + instance); 
-    
+    let cu: ChunkingUtility = new ChunkingUtility();
+
     if (instance == 1) {
-      return this.api;
+      console.log('returning API 1 with state: ' + this.Connected);
+      while(!this.Connected){
+        await cu.sleep(2000);
+        console.log('stuck in api instance number: ' +  instance);
+      }
+      return await this.api;
      } else if (instance == 2) {
-      return this.secondaryApi;
+      console.log('returning API 2 with state: ' + this.secondaryApiAvailable);
+      while(!this.secondaryApiAvailable){
+        await cu.sleep(2000);
+        console.log('stuck in api instance number: ' +  instance);
+      }
+      return await this.secondaryApi;
      } else if (instance == 3) {
-      return this.thirdApi;
+      console.log('returning API 3 with state: ' + this.thirdApiAvailable);
+      while(!this.thirdApiAvailable){
+        await cu.sleep(2000);
+        console.log('stuck in api instance number: ' +  instance);
+      }
+      return await this.thirdApi;
      } else if (instance == 4) {
-      return this.fourthApi;
+      console.log('returning API 4 with state: ' + this.fourthApiAvailable);
+      while(!this.fifthApiAvailable){
+        await cu.sleep(2000);
+        console.log('stuck in api instance number: ' +  instance);
+      }
+      return await this.fourthApi;
      } else if (instance == 5) {
-      return this.fifthApi;
+      console.log('returning API 5 with state: ' + this.fifthApiAvailable);
+      while(!this.fifthApiAvailable){
+        await cu.sleep(2000);
+        console.log('stuck in api instance number: ' +  instance);
+      }
+      return await this.fifthApi;
      }
    }
 
@@ -76,35 +102,51 @@ export class RippleService  {
    public IncrementSequence() {
       this.sequenceNumber++;
    }
-   public async ConnectAPI() {
-    this.api = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
-    this.secondaryApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
-    this.thirdApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
-    this.fourthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
-    this.fifthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
 
-    this.api.connect()
+   public async ConnectAPIInstance(instance: any, instnaceNumber: number){
+    instance.connect()
     .then(() => {
-        return this.api.getServerInfo();
+        return instance.getServerInfo();
       }).then((server_info) => {
 
         console.log('Ledger range: ' + server_info.completeLedgers);
         const ledgers = server_info.completeLedgers.split('-');
         this.earliestLedgerVersion = Number(ledgers[0]);
         this.maxLedgerVersion = Number(ledgers[1]);
-        this.api.on('ledger', ledger => {
-          this.maxLedgerVersion = Number(ledger.ledgerVersion);
-          // this.CheckSequence();
+        
+        
+          instance.on('ledger', ledger => {
+            this.maxLedgerVersion = Number(ledger.ledgerVersion);
+            // this.CheckSequence();
+          });
+        
+
+        this.toaster.toasts.forEach(t=>{
+          this.toaster.remove(t.toastId);
         });
         console.log('Most recent hash: ' + server_info.validatedLedger.hash);
-        this.toaster.show('Connected to Ripple (' + this.Config.GetEnvironmentName() + '): '
+         this.toaster.show('Connected to Ripple [Instance: ' + instnaceNumber +  ' ] (' + this.Config.GetEnvironmentName() + '): '
           + this.Config.GetRippleServer(),
           'SUCCESS', {
           closeButton: true,
           disableTimeOut: true,
           toastClass: 'ngx-toastr tstr-success'
-          });
-          this.Connected = true;
+          }); 
+
+          if (instnaceNumber == 1) {
+            this.Connected = true;
+          }
+          else if (instnaceNumber == 2) {
+            this.secondaryApiAvailable=true;
+          } else if (instnaceNumber == 3) {
+            this.thirdApiAvailable=true;
+          }
+          else if (instnaceNumber == 4) {
+            this.fourthApiAvailable=true;
+          }
+          else if (instnaceNumber == 5) {
+            this.fifthApiAvailable=true;
+          }
           return;
       }).catch((error) => {
         this.toaster.error('Error Connecting to Ripple (' + this.Config.GetEnvironmentName() + '): '
@@ -113,59 +155,42 @@ export class RippleService  {
           closeButton: true,
           disableTimeOut: true
         });
-        this.Connected = false;
+        if (instnaceNumber == 1) {
+          this.Connected = false;
+        }
+        else if (instnaceNumber == 2) {
+          this.secondaryApiAvailable=false;
+        } else if (instnaceNumber == 3) {
+          this.thirdApiAvailable=false;
+        }
+        else if (instnaceNumber == 4) {
+          this.fourthApiAvailable=false;
+        }
+        else if (instnaceNumber == 5) {
+          this.fifthApiAvailable=false;
+        }
         console.log(error);
+        return;
       }
     );
+   }
 
-    this.secondaryApi.connect()
-    .then(() => {
-        return this.secondaryApi.getServerInfo();
-      }).then((server_info) => {
-          this.secondaryApiAvailable = true;
-          return;
-      }).catch((error) => {
-        this.secondaryApiAvailable = false;
-        console.log(error);
-      }
-    );
+   public async ConnectAPI() {
+    this.api = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.secondaryApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    this.thirdApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    //this.fourthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
+    //this.fifthApi = new ripple.RippleAPI({ server: this.Config.GetRippleServer() });
 
-    this.thirdApi.connect()
-    .then(() => {
-        return this.thirdApi.getServerInfo();
-      }).then((server_info) => {
-          this.thirdApiAvailable = true;
-          return;
-      }).catch((error) => {
-        this.thirdApiAvailable = false;
-        console.log(error);
-      }
-    );
+    this.ConnectAPIInstance(this.api, 1);
+    this.ConnectAPIInstance(this.secondaryApi, 2);
+    this.ConnectAPIInstance(this.thirdApi, 3);
+   
+    //this.ConnectAPIInstance(this.fourthApi, 4);
 
-    this.fourthApi.connect()
-    .then(() => {
-        return this.fourthApi.getServerInfo();
-      }).then((server_info) => {
-          this.fourthApiAvailable = true;
-          return;
-      }).catch((error) => {
-        this.fourthApiAvailable = false;
-        console.log(error);
-      }
-    );
-
-    this.fifthApi.connect()
-    .then(() => {
-        return this.fifthApi.getServerInfo();
-      }).then((server_info) => {
-          this.fifthApiAvailable = true;
-          return;
-      }).catch((error) => {
-        this.fifthApiAvailable = false;
-        console.log(error);
-      }
-    );
-
+    //this.ConnectAPIInstance(this.fifthApi, 5);
+     
+    return;
   }
 
   public async ReInit() {

@@ -301,7 +301,10 @@ export class IndImmChanPostManagerService {
 
   public async GetPostsWrapper(boardAddress: string, minLedger: number, maxLedger: number, index: number): Promise<Array<object>> {
     console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': STARTED');
-    const ret = await this.IndImmChanPostService.rippleService.GetApiInstance(index).getTransactions(boardAddress,
+    
+    const apiInstance = await this.IndImmChanPostService.rippleService.GetApiInstance(index);
+    
+    const ret = await apiInstance.getTransactions(boardAddress,
       {minLedgerVersion: minLedger, maxLedgerVersion: maxLedger});
     console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': COMPLETED');
 
@@ -313,10 +316,11 @@ export class IndImmChanPostManagerService {
   public async GetPostsForCatalog(boardAddress: string): Promise<IndImmChanThread[]> {
     const retSet: IndImmChanThread[] = [];
 
+    //original ledger for blockchan: const minLedger = 49187118;
     const minLedger = 49187118;
     const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
     //const numberOfPostsPerCall = 130000;
-    const numberOfPostsPerCall = 600000;
+    const numberOfPostsPerCall = 15000;
     let countOfPingsToServer = 0;
 
     const promisesToExeccute: Promise<any>[] = [];
@@ -332,6 +336,9 @@ export class IndImmChanPostManagerService {
             promisesToExeccute.push(promise);
         }
         
+        if(countOfPingsToServer == 3) {
+          countOfPingsToServer = 0;
+        }
         console.log(new Date().toLocaleString() + ':' + (i+1) + '-' + (i + numberOfPostsPerCall));
         
     }
@@ -356,40 +363,6 @@ export class IndImmChanPostManagerService {
     console.log('endTimeOfMoldingResults: ' + endTimeOfMoldingResults);
 
     return finalResult;
-  }
-  public async GetPostsForCatalogOrig(boardAddress: string): Promise<IndImmChanThread[]> {
-    const retSet: IndImmChanThread[] = [];
-
-    const minLedger = 49187118;
-    const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
-    const numberOfPostsPerCall = 130000;
-
-    let countOfPingsToServer = 0;
-
-    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
-      countOfPingsToServer++;
-      //refactor to make more eleganet and easy to read later, hacky proof of concept
-        if (i + numberOfPostsPerCall > maxLedger) {
-          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.GetApiInstance(countOfPingsToServer).getTransactions(boardAddress,
-            {minLedgerVersion: i + 1, maxLedgerVersion: maxLedger});
-
-          unfilteredResultsUnModded.forEach(item => {
-            retSet.push(item);
-          });
-        }
-        else {
-          const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.GetApiInstance(countOfPingsToServer).getTransactions(boardAddress,
-            {minLedgerVersion: i + 1, maxLedgerVersion: i + numberOfPostsPerCall});
-
-          unfilteredResultsUnModded.forEach(item => {
-            retSet.push(item);
-          });
-        }
-        console.log((i+1) + '-' + (i + numberOfPostsPerCall));
-
-    }
-
-    return await this.GetPostsForCatalogPartial(retSet);
   }
 
   public async GetPostsForCatalogPartial(unfilteredResultsUnModded: any[]): Promise<IndImmChanThread[]> {
