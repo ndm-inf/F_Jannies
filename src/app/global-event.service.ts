@@ -6,6 +6,7 @@ import { Injectable, EventEmitter} from '@angular/core';
 export class GlobalEventService {
   ShowImagesToggled: EventEmitter<boolean> = new EventEmitter();
   EnableModeration: EventEmitter<boolean> = new EventEmitter();
+  PercentLoaded: EventEmitter<number> = new EventEmitter();
 
   public ToggleShowImages(showImages: boolean) {
     this.ShowImagesToggled.emit(showImages);
@@ -13,6 +14,10 @@ export class GlobalEventService {
 
   public ToggleEnableModeration(isModded: boolean) {
     this.EnableModeration.emit(isModded);
+  }
+
+  public NotifyPercentLoaded(percentLoaded: number) {
+    this.PercentLoaded.emit(percentLoaded);
   }
   constructor() { }
 }

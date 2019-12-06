@@ -11,6 +11,8 @@ import { ChunkingUtility } from './chunking-utility';
 import { PostModFlag } from './post-mod-flag';
 import { SubPost } from './sub-post';
 import { promise } from 'protractor';
+import { LoadingCalculatorService } from './loading-calculator.service';
+import { GlobalEventService } from './global-event.service';
 
 
 @Injectable({
@@ -18,7 +20,9 @@ import { promise } from 'protractor';
 })
 export class IndImmChanPostManagerService {
   IndImmChanPostService: IndImmChanPostService;
-  Config: IndImmConfigService
+  Config: IndImmConfigService;
+  LoadingCalculatorService: LoadingCalculatorService;
+  GlobalEventService: GlobalEventService;
 
   UID = '';
 
@@ -58,9 +62,16 @@ export class IndImmChanPostManagerService {
     return this.UID;
   }
 
-  constructor(indImmChanPostService: IndImmChanPostService, config: IndImmConfigService) {
+  constructor(indImmChanPostService: IndImmChanPostService, config: IndImmConfigService, loadingCalculatorService: LoadingCalculatorService
+    , globalEventService: GlobalEventService) {
     this.IndImmChanPostService = indImmChanPostService;
     this.Config = config;
+    this.LoadingCalculatorService = loadingCalculatorService;
+    this.GlobalEventService = globalEventService;
+
+    this.GlobalEventService.PercentLoaded.subscribe(percent => {
+      console.log('Percent Loaded: ' + percent);
+    });
   }
 
   public async post(title: string, message: string, name: string, fileToUpload: File, board: string, parent: string, key: PostKey,
@@ -307,6 +318,7 @@ export class IndImmChanPostManagerService {
     const ret = await apiInstance.getTransactions(boardAddress,
       {minLedgerVersion: minLedger, maxLedgerVersion: maxLedger});
     console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': COMPLETED');
+    this.LoadingCalculatorService.IncrementCallInstanceComplete();
 
       return new Promise<Array<object>>((resolve) => {
         resolve(ret);
@@ -322,6 +334,13 @@ export class IndImmChanPostManagerService {
     //const numberOfPostsPerCall = 130000;
     const numberOfPostsPerCall = 15000;
     let countOfPingsToServer = 0;
+    let trueCountsOfPingToServer = 0;
+
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+      trueCountsOfPingToServer++;
+    }
+
+    this.LoadingCalculatorService.StartLoading(trueCountsOfPingToServer);
 
     const promisesToExeccute: Promise<any>[] = [];
 

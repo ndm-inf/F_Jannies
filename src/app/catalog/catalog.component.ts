@@ -22,6 +22,7 @@ import { Meta } from '@angular/platform-browser';
 import {Title} from '@angular/platform-browser';
 import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
+import { LoadingCalculatorService } from '../loading-calculator.service';
 
 @Component({
   selector: 'app-catalog',
@@ -32,6 +33,7 @@ export class CatalogComponent implements OnInit {
   AddressManagerService: IndImmChanAddressManagerService;
   IndImmChanPostManagerService: IndImmChanPostManagerService;
   GlobalEventService: GlobalEventService;
+  LoadingCalculatorService: LoadingCalculatorService;
   Route: ActivatedRoute
   ToastrService: ToastrService;
   Config: IndImmConfigService;
@@ -77,7 +79,8 @@ export class CatalogComponent implements OnInit {
 
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router:Router, toasterService: ToastrService, globalEventService: GlobalEventService, config: IndImmConfigService,
-    dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService, blockChanHostingService: BlockChanHostSettingsService) {
+    dialog: MatDialog, meta: Meta, title: Title, flagService: FlagService, blockChanHostingService: BlockChanHostSettingsService,
+    loadingCalculatorService: LoadingCalculatorService) {
       this.Dialog = dialog;
       this.Config = config;
       this.Route = route;
@@ -91,6 +94,8 @@ export class CatalogComponent implements OnInit {
         this.refresh(false);
       });
       
+      this.LoadingCalculatorService = loadingCalculatorService;
+
       this.Meta = meta;
       this.Title = title;
 
