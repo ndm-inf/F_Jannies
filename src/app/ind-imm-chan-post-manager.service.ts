@@ -163,7 +163,8 @@ export class IndImmChanPostManagerService {
     return filteredPosts;
   }
 
-  public async GetPostsForPostViewer(boardAddress: string, parent: string): Promise<IndImmChanThread> {
+  
+  public async GetPostsForPostViewerOld(boardAddress: string, parent: string): Promise<IndImmChanThread> {
     await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
     while (!this.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
@@ -310,6 +311,155 @@ export class IndImmChanPostManagerService {
       return retSet[0];
   }
 
+  public async GetPostsForPostViewerPartial(parent: string, unfilteredResultsUnModded: any[]): Promise<IndImmChanThread> {
+    await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
+    while (!this.IndImmChanPostService.rippleService.Connected) {
+      await this.IndImmChanPostService.chunkingUtility.sleep(1000);
+    }
+    const minLedger = 49187118;
+    const max = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    let imageCounter = 1;
+
+    //const unfilteredResultsUnModded: any[] = await this.IndImmChanPostService.rippleService.api.getTransactions(boardAddress,
+    //  {minLedgerVersion: minLedger, maxLedgerVersion: max});
+
+      const unfilteredResults = await this.RemoveFlaggedPost(unfilteredResultsUnModded);
+      const postSet: IndImmChanPostModel[] = [];
+      const retSet: IndImmChanThread[] = [];
+      const childSet: IndImmChanPostModel[] = [];
+      const subPosts: SubPost[] = [];
+      const allPosts: IndImmChanPostModel[] = [];
+
+      for (let i = 0; i < unfilteredResults.length; i++) {
+        if ('memos' in unfilteredResults[i].specification) {
+          try {
+            if(unfilteredResults[i].specification.memos[0].type === 'submsg') {
+              const subPostToParse = unfilteredResults[i].specification.memos[0].data;
+              let subPost: SubPost  = JSON.parse(subPostToParse);
+              subPost.Tx = unfilteredResults[i].id;
+              subPosts.push(subPost);
+              continue;
+            }
+          } catch(error) {
+            // console.log(error);
+            continue;
+          }
+          let post: IndImmChanPost  = null;
+
+          try {
+            const dataToParse = unfilteredResults[i].specification.memos[0].data;
+            post  = JSON.parse(dataToParse);
+
+            if (post.Name.length === 0) {
+              continue;
+            }
+          } catch (error) {
+            // console.log(error);
+            continue;
+          }
+
+          const postModel: IndImmChanPostModel = new IndImmChanPostModel();
+          
+          postModel.SendingAddress = unfilteredResults[i].address;
+          const cu: ChunkingUtility = new ChunkingUtility();
+
+          if(post.T) {
+           postModel.TripCode = cu.GetMd5(postModel.SendingAddress).toString();
+           postModel.T = true;
+          }
+
+          postModel.IPFSHash = post.IPFSHash;
+          postModel.Tx = unfilteredResults[i].id;
+          postModel.Msg = post.Msg;
+          postModel.Title = post.Title
+          postModel.Name = post.Name;
+          postModel.Parent = post.Parent;
+          postModel.ETH = post.ETH;
+          postModel.Enc = post.Enc;
+          postModel.Timestamp = new Date(unfilteredResults[i].outcome.timestamp);
+          
+          if(post.F && post.F.length > 0) {
+            postModel.F = post.F.toLowerCase();
+          }
+          postModel.Country = cu.GetCountryFromCode(postModel.F);
+          postModel.SubpostTx = post.SubpostTx;
+          if(!post.UID || post.UID.length == 0) {
+            if(postModel.Timestamp < new Date(2019,7,26)) {
+              postModel.UID = 'IDs don\'t exist for posts before 8/24/19';
+              postModel.BackgroundColor = '#cc0000';
+              postModel.FontColor = '#ffffff';
+            } else {
+              postModel.UID = 'jvl83kq';
+              postModel.BackgroundColor = '#cc0000';
+              postModel.FontColor = '#ffffff';   
+            }
+          } else {
+            postModel.UID = post.UID
+            const cu: ChunkingUtility = new ChunkingUtility()
+            postModel.BackgroundColor = '#' +  cu.GetColorCodeFingerPrint(postModel.UID);
+            postModel.FontColor = cu.InvertColor(postModel.BackgroundColor);
+          }
+          if(post.IPFSHash && post.IPFSHash.length > 0 && (postModel.Tx === parent || postModel.Parent === parent)) {
+            imageCounter++;
+            postModel.HasImage = true;
+            if(this.Config.ShowImages && !post.Enc) {
+              // postModel.Image = await this.getImageBlobFromIPFSHash(post.IPFSHash); 
+              // postModel.CreateImageFromBlob();
+              postModel.ImageLoading = true;
+              this.getImageBlobFromIPFSHash(postModel).then(res=> {
+                postModel.Image = res; 
+                postModel.CreateImageFromBlob();
+                postModel.ImageLoading = false;
+              });
+            }
+          }
+          
+          if(postModel.Tx === parent || postModel.Parent === parent) {
+            postSet.push(postModel);
+          }
+          allPosts.push(postModel);
+        }
+      }
+
+      for (let i = 0; i < postSet.length; i++) {
+        const curPost = postSet[i];
+
+        if (curPost.SubpostTx && curPost.SubpostTx.length > 0){
+          for (let j = 0; j < subPosts.length; j++) {
+            if (curPost.SubpostTx === subPosts[j].Tx) {
+              curPost.Msg = curPost.Msg + subPosts[j].Msg;
+            }
+          }
+        }
+
+        curPost.Msg = this.decodeURIC(curPost.Msg);
+
+        if(!curPost.Parent || curPost.Parent.length === 0) {
+          const newThread: IndImmChanThread = new IndImmChanThread();
+          newThread.IndImmChanPostModelParent = curPost;
+          retSet.push(newThread);
+        } else {
+          childSet.push(curPost);
+        }
+      }
+
+      for (let i = 0; i < childSet.length; i++) {
+        const curPost = childSet[i];
+        for (let j = 0; j < retSet.length; j++) {
+          const parentId = retSet[j].IndImmChanPostModelParent.Tx;
+          if (curPost.Parent === parentId) {
+            retSet[j].IndImmChanPostModelChildren.push(curPost);
+          }
+        }
+      }
+      retSet[0].ImageReplies = imageCounter;
+      retSet[0].TotalReplies = retSet[0].IndImmChanPostModelChildren.length;
+      retSet[0].AllPosts = allPosts;
+      return retSet[0];
+  }
+
+
+  
   public async GetPostsWrapper(boardAddress: string, minLedger: number, maxLedger: number, index: number): Promise<Array<object>> {
     console.log(new Date().toLocaleString() + ':' + minLedger + '-' + maxLedger + ': STARTED');
     
@@ -383,6 +533,66 @@ export class IndImmChanPostManagerService {
 
     return finalResult;
   }
+
+  public async GetPostsForPostViewer(boardAddress: string, parent: string): Promise<IndImmChanThread> {
+    const retSet: IndImmChanThread[] = [];
+
+    //original ledger for blockchan: const minLedger = 49187118;
+    const minLedger = 49187118;
+    const maxLedger = this.IndImmChanPostService.rippleService.maxLedgerVersion;
+    //const numberOfPostsPerCall = 130000;
+    const numberOfPostsPerCall = 15000;
+    let countOfPingsToServer = 0;
+    let trueCountsOfPingToServer = 0;
+
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+      trueCountsOfPingToServer++;
+    }
+
+    this.LoadingCalculatorService.StartLoading(trueCountsOfPingToServer);
+
+    const promisesToExeccute: Promise<any>[] = [];
+
+    for (let i = minLedger; i <= maxLedger; i = i + numberOfPostsPerCall) {
+      countOfPingsToServer++;
+        if (i + numberOfPostsPerCall > maxLedger) {
+          let promise = this.GetPostsWrapper(boardAddress,  i + 1, maxLedger, countOfPingsToServer);
+            promisesToExeccute.push(promise);
+        }
+        else {
+          let promise = this.GetPostsWrapper(boardAddress,i + 1, i + numberOfPostsPerCall, countOfPingsToServer);
+            promisesToExeccute.push(promise);
+        }
+        
+        if(countOfPingsToServer == 3) {
+          countOfPingsToServer = 0;
+        }
+        console.log(new Date().toLocaleString() + ':' + (i+1) + '-' + (i + numberOfPostsPerCall));
+        
+    }
+    
+    const startTimOfExecution = new Date().toLocaleString();
+
+    let results = await Promise.all(promisesToExeccute);
+
+    const endTimeOfExecution = new Date().toLocaleString();
+
+
+    results.forEach(res=>{
+      res.forEach(item=>{
+        retSet.push(item);
+      });
+    });
+    var finalResult =  await this.GetPostsForPostViewerPartial(parent, retSet);
+    const endTimeOfMoldingResults = new Date().toLocaleString();
+
+    console.log('startTimOfExecution: ' + startTimOfExecution);
+    console.log('endTimeOfExecution: ' + endTimeOfExecution);
+    console.log('endTimeOfMoldingResults: ' + endTimeOfMoldingResults);
+
+    return finalResult;
+  }
+
 
   public async GetPostsForCatalogPartial(unfilteredResultsUnModded: any[]): Promise<IndImmChanThread[]> {
     await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();

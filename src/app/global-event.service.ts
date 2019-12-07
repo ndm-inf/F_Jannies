@@ -7,6 +7,7 @@ export class GlobalEventService {
   ShowImagesToggled: EventEmitter<boolean> = new EventEmitter();
   EnableModeration: EventEmitter<boolean> = new EventEmitter();
   PercentLoaded: EventEmitter<number> = new EventEmitter();
+  OnAllClientsConnected: EventEmitter<boolean> = new EventEmitter();
 
   public ToggleShowImages(showImages: boolean) {
     this.ShowImagesToggled.emit(showImages);
@@ -18,6 +19,10 @@ export class GlobalEventService {
 
   public NotifyPercentLoaded(percentLoaded: number) {
     this.PercentLoaded.emit(percentLoaded);
+  }
+
+  public NotifyAllClientsConnected(){
+    this.OnAllClientsConnected.emit(true);
   }
   constructor() { }
 }

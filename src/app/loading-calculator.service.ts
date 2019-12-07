@@ -6,11 +6,21 @@ import { GlobalEventService } from './global-event.service';
 })
 export class LoadingCalculatorService {
   GlobalEventService: GlobalEventService;
+  public readonly NumberOfClientConnectionsRequired = 3;
+  public NumberOfClientsConnected = 0;
+  public AllClientsConnected = false;
 
   public CurrentPercentLoaded = 0;
   public TotalTransactionForLoad = 0;
   public CurrentNumberTransactionsLoaded = 0;
 
+  public IncrementNumberOfClientsConnected() {
+    this.NumberOfClientsConnected++;
+    if (this.NumberOfClientsConnected == this.NumberOfClientConnectionsRequired){
+      this.GlobalEventService.NotifyAllClientsConnected();
+      this.AllClientsConnected = true;
+    }
+  }
   public reset(){
     this.CurrentNumberTransactionsLoaded = 0;
     this.TotalTransactionForLoad = 0;

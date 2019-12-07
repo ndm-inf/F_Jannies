@@ -26,6 +26,7 @@ import { PostModFlagModel } from '../post-mod-flag-model';
 import { PostModFlag } from '../post-mod-flag';
 import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
+import { LoadingCalculatorService } from '../loading-calculator.service';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -36,6 +37,7 @@ import { BlockChanHostSettingsService } from '../block-chan-host-settings.servic
 export class IndImmChanPostViewerComponent implements OnInit {
   AddressManagerService: IndImmChanAddressManagerService;
   IndImmChanPostManagerService: IndImmChanPostManagerService;
+  LoadingCalculatorService: LoadingCalculatorService;
   Route: ActivatedRoute;
   Router: Router;
   ToastrService: ToastrService;
@@ -244,7 +246,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   constructor(indImmChanPostManagerService: IndImmChanPostManagerService, indImmChanAddressManagerService: IndImmChanAddressManagerService,
     route: ActivatedRoute, router: Router, toastrSrvice: ToastrService, sanitizer: DomSanitizer, config: IndImmConfigService,
     globalEventService: GlobalEventService, ethTipService:ETHTipService, dialog: MatDialog, meta: Meta, title: Title, elem: ElementRef,
-    flagService: FlagService, blockChanHostSettingsService: BlockChanHostSettingsService) {
+    flagService: FlagService, blockChanHostSettingsService: BlockChanHostSettingsService, loadingCalculatorService: LoadingCalculatorService) {
     this.Dialog = dialog;
     this.IndImmChanPostManagerService = indImmChanPostManagerService;
     this.AddressManagerService = indImmChanAddressManagerService;
@@ -261,6 +263,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Elem = elem;
     this.FlagService = flagService;
     this.BlockChanHostSettingsService = blockChanHostSettingsService;
+    this.LoadingCalculatorService = loadingCalculatorService;
     this.GlobalEventService.EnableModeration.subscribe(state => {
       this.refresh(false);
     });

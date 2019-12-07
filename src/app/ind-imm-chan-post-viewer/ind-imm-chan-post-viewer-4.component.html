@@ -105,7 +105,17 @@
 	                	<i class="fas fa-hourglass-half"></i> Posting enabled within {{ PostingSecondsLeftCounter }} seconds.
 	                </span>
     </div>
-    
+    <br>
+	<div class="row text-center">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4"><b>Connection State:
+			<span *ngIf="LoadingCalculatorService.AllClientsConnected" style="color:green">Connected</span>
+			<span *ngIf="!LoadingCalculatorService.AllClientsConnected" style="color:yellow">
+				Connecting...({{LoadingCalculatorService.NumberOfClientsConnected}}/{{LoadingCalculatorService.NumberOfClientConnectionsRequired}})
+			</span></b>
+		</div>
+		<div class="col-lg-4"></div> 
+	</div>
     <div class="text-center" [hidden]="!Posting">
         <h3>Posting...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
@@ -354,6 +364,7 @@
     <div class="text-center" [hidden]="!PostLoading">
         <h3>Loading...</h3>
         <span style="display:inline-block"><mat-spinner ></mat-spinner></span>
+        <h2>{{ LoadingCalculatorService.CurrentPercentLoaded}}%</h2>
     </div>
     
     <div class="row" *ngIf="thread !== null">

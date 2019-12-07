@@ -4,6 +4,7 @@ import { GeneralResult } from './general-result';
 import { IndImmConfigService } from './ind-imm-config.service';
 import {ToastrService} from 'ngx-toastr';
 import {FileProgressService} from './file-progress.service';
+import { LoadingCalculatorService } from './loading-calculator.service';
 
 declare var ripple: any;
 
@@ -33,11 +34,13 @@ export class RippleService  {
   sequenceNumber = 0;
   public AccountForSequence = '';
   FileProgressService: FileProgressService;
-
-  constructor(cfg: IndImmConfigService, tstr: ToastrService, filePrgSvc: FileProgressService) {
+  LoadingCalculatorService: LoadingCalculatorService;
+  
+  constructor(cfg: IndImmConfigService, tstr: ToastrService, filePrgSvc: FileProgressService, loadingCalculatorService: LoadingCalculatorService) {
     this.toaster = tstr;
     this.Config = cfg;
     this.FileProgressService = filePrgSvc;
+    this.LoadingCalculatorService = loadingCalculatorService
     // this.ConnectAPI();
    }
 
@@ -120,18 +123,19 @@ export class RippleService  {
             // this.CheckSequence();
           });
         
+          this.LoadingCalculatorService.IncrementNumberOfClientsConnected();
 
         this.toaster.toasts.forEach(t=>{
           this.toaster.remove(t.toastId);
         });
         console.log('Most recent hash: ' + server_info.validatedLedger.hash);
-         this.toaster.show('Connected to Ripple [Instance: ' + instnaceNumber +  ' ] (' + this.Config.GetEnvironmentName() + '): '
+         /* this.toaster.show('Connected to Ripple [Instance: ' + instnaceNumber +  ' ] (' + this.Config.GetEnvironmentName() + '): '
           + this.Config.GetRippleServer(),
           'SUCCESS', {
           closeButton: true,
           disableTimeOut: true,
           toastClass: 'ngx-toastr tstr-success'
-          }); 
+          }); */
 
           if (instnaceNumber == 1) {
             this.Connected = true;
