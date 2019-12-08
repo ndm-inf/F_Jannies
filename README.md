@@ -11,7 +11,7 @@
 
     This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
 
-    Clone this repo: https://github.com/ndm-inf/BlockChan.git
+    Clone this repo: https://github.com/ndm-inf/F_Jannies.git
 
     Install Angular CLI: npm install -g @angular/cli
     
@@ -40,6 +40,28 @@
         proxy_cache_bypass $http_upgrade;
     }
     
+    If you choose to run on Apache2, then edit /etc/apache2/apache2.conf to be as follows:
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride ALL
+        Require all denied
+    </Directory>
+
+    <Directory /usr/share>
+            AllowOverride ALL
+            Require all granted
+    </Directory>
+
+    <Directory /var/www/>
+            Options Indexes FollowSymLinks
+            AllowOverride ALL
+            Require all granted
+    </Directory>
+
+    You will also need to add a .htaccess file to your root web server directory (typically /var/www/html) that contains the line:
+
+    ErrorDocument 404 /index.html
+
     You should also of course install SSL with a free certificate via https://letsencrypt.org or purchase your own.
 
 ## How does IndImm work

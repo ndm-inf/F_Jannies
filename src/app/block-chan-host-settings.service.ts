@@ -9,13 +9,13 @@ export class BlockChanHostSettingsService {
   public GitHubRepo = ''; //only populate if hosting site on gh-pages
 
   //public TwitterLink = 'https://twitter.com/ind_imm';
-  public TwitterLink = 'https://twitter.com/blockchan_ca';
+  public TwitterLink = 'https://twitter.com/ind_imm';
  
   // public KeyBaseLink = '';
   public KeyBaseLink = 'https://keybase.io/blockchan';
-  public BaseUrl = 'https://blockchan.ca'
+  public BaseUrl = 'https://blockchan.link'
   
-  public MainHeader = 'BlockChan Canada';
+  public MainHeader = 'BlockChan';
   public Footer = '';
 
   public HomeLink = '';
