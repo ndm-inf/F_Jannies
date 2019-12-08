@@ -126,7 +126,7 @@
         <div class="col-lg-6">        
             <hr class="belowReply">
             <div class="blotter">
-                <span class="small">&bull; Aggressive caching is active - make liberal use of the <span style="cursor: pointer;" class="navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span> button</span><br>
+                <span class="small">&bull; Aggressive caching is active - make liberal use of the <span style="cursor: pointer;" class="navgreen" (click)="refresh(false)">[ Update <i class="fas fa-sync"></i> ]</span> button</span><br>
                 <span class="small">&bull; BlockChan is evolving. Keep suggestions, bug reports, etc. in <a href="/catalog/m">/meta</a></span><br>
                 <!--<span class="small">&bull; We run on cigarettes + beer. Send <i class="fa fa-btc"> </i>itcoin asap bros: xxxxxxxxxxxxxxxxx</span>-->
             </div>
@@ -141,7 +141,7 @@
     <div class="row" *ngIf="thread !== null">
         <div class="col-lg-4">
             <div class="util">
-                <span style="cursor: pointer;" class="pull-left navgreen" onclick="window.scrollTo(0,document.body.scrollHeight);">[ Bottom <i class="fa fa-chevron-down"></i> ]&nbsp;</span><span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
+                <span style="cursor: pointer;" class="pull-left navgreen" onclick="window.scrollTo(0,document.body.scrollHeight);">[ Bottom <i class="fa fa-chevron-down"></i> ]&nbsp;</span><span style="cursor: pointer;" class="pull-left navgreen" (click)="refresh(false)">[ Update <i class="fas fa-sync"></i> ]</span>
             </div>
     </div>
         <div class="col-lg-4"></div>
@@ -370,7 +370,7 @@
     <div class="row" *ngIf="thread !== null">
         <div class="col-lg-6">
                 <div class="util">
-	                <span style="cursor: pointer" class="navgreen" (click)="OpenCatalog()">[ Catalog <i class="fa fa-th"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" id="bottom" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" (click)="refresh()">[ Update <i class="fas fa-sync"></i> ]</span>
+	                <span style="cursor: pointer" class="navgreen" (click)="OpenCatalog()">[ Catalog <i class="fa fa-th"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" id="bottom" onclick="window.scrollTo(0,0);">[ Top <i class="fa fa-chevron-up"></i> ]</span>&nbsp;<span style="cursor: pointer" class="navgreen" (click)="refresh(false)">[ Update <i class="fas fa-sync"></i> ]</span>
                 </div>
         </div>
         <div class="col-lg-6">
