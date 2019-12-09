@@ -184,7 +184,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
           const warning: PostModFlag = new PostModFlag();
           warning.Tx = post.Tx;
           warning.Type = result.Type;
-          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key);
+          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key, post.IPFSHash);
           this.ToastrService.success('Post will no longer show in moderated client', 'Post flagged');
         }
       } else {
