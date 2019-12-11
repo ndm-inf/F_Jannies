@@ -23,6 +23,7 @@ import {Title} from '@angular/platform-browser';
 import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 import { LoadingCalculatorService } from '../loading-calculator.service';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-catalog',
@@ -110,6 +111,33 @@ export class CatalogComponent implements OnInit {
   
       this.FlagService = flagService;
       const cu: ChunkingUtility = new ChunkingUtility();
+    }
+
+    public dropped(files: NgxFileDropEntry[]) {
+      if(files.length > 1) {
+        this.ToastrService.error('You can only upload one file at a time', 'Upload Error');
+        return;
+      }
+
+      for (const droppedFile of files) {
+        // Is it a file?
+        if (droppedFile.fileEntry.isFile) {
+          const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+          fileEntry.file((file: File) => {
+            this.fileToUpload = file;
+            console.log('Drag and drop file loaded');
+          });
+        }
+      }
+    }
+  
+   
+    public fileOver(event){
+      console.log(event);
+    }
+   
+    public fileLeave(event){
+      console.log(event);
     }
 
     filterCatalog(event) {
