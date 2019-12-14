@@ -400,7 +400,7 @@ export class CatalogComponent implements OnInit {
       const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
         this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
       this.PostingError = false;
-      this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx]);
+      this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx.TX]);
       // this.refresh();
     } catch (error) {
       console.log(error);

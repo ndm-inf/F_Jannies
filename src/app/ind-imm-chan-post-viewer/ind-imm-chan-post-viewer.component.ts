@@ -27,6 +27,7 @@ import { PostModFlag } from '../post-mod-flag';
 import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 import { LoadingCalculatorService } from '../loading-calculator.service';
+import { AbstractFormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -397,10 +398,25 @@ export class IndImmChanPostViewerComponent implements OnInit {
     this.Posting = true;
     try {
       this.blockPosting();
-      await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
+      const postResult = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
         this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
       this.PostingError = false;
-       this.refresh(false);
+
+      var newPost = new IndImmChanPostModel();
+      newPost.IPFSHash = postResult.IPFSHash;
+      newPost.Title = this.postTitle;
+      newPost.Msg = this.postMessage;
+      newPost.MsgSafeHtml = this.postMessage;
+      newPost.Name = this.posterName;
+      newPost.Parent = this.parentTx;
+      newPost.ETH = this.EthTipAddress;
+      newPost.Timestamp = new Date();
+      newPost.Tx = '';
+
+      this.thread.IndImmChanPostModelChildren.push(newPost);
+
+
+       this.refresh(true);
     } catch (error) {
       console.log(error);
       this.PostingError = true;
