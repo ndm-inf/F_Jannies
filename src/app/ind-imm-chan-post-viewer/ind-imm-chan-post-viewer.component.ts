@@ -215,6 +215,32 @@ export class IndImmChanPostViewerComponent implements OnInit {
     await this.EthTipService.send(post.ETH, amount);
   }
 
+  
+  OpenLit() {
+    this.Router.navigate(['/catalog/lit']);
+  }
+
+  
+  OpenCon() {
+    this.Router.navigate(['/catalog/con']);
+  }
+
+  
+  OpenV() {
+    this.Router.navigate(['/catalog/v']);
+  }
+
+  
+  OpenMis() {
+    this.Router.navigate(['/catalog/mis']);
+  }
+
+  
+  OpenInt() {
+    this.Router.navigate(['/catalog/int']);
+  }
+
+
   OpenPolitics() {
     this.Router.navigate(['/catalog/pol']);
   }

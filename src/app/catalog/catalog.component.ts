@@ -239,10 +239,31 @@ export class CatalogComponent implements OnInit {
       this.selfInit('k');
     }
 
-    OpenAnime() {
-      this.selfInit('a');
+    OpenLit() {
+      this.selfInit('lit');
     }
 
+    
+    OpenCon() {
+      this.selfInit('con');
+    }
+
+    
+    OpenV() {
+      this.selfInit('v');
+    }
+
+    
+    OpenMis() {
+      this.selfInit('mis');
+    }
+
+    
+    OpenInt() {
+      this.selfInit('int');
+    }
+
+    
   async ConfirmEncryption() {
     const dialogRef = this.Dialog.open(ConfirmEncryptPostComponent, {
       width: '650px',
