@@ -502,7 +502,18 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.postBoardName = 'Weapons';
     } else if (board === 'g') {
       this.postBoardName = 'Technology';
+    }else if (board === 'lit') {
+      this.postBoardName = 'Literature';
+    }  else if (board === 'con') {
+      this.postBoardName = 'Conspiracy';
+    } else if (board === 'v') {
+      this.postBoardName = 'Video Games';
+    } else if (board === 'mis') {
+      this.postBoardName = 'Mission Planning';
+    } else if (board === 'int') {
+      this.postBoardName = 'International';
     }
+    
     this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
 
     this.parentTx=id;

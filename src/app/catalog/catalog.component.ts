@@ -436,10 +436,22 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Weapons';
     } else if (this.postBoard === 'g') {
       this.postBoardName = 'Technology';
+    } else if (this.postBoard === 'lit') {
+      this.postBoardName = 'Literature';
+    }  else if (this.postBoard === 'con') {
+      this.postBoardName = 'Conspiracy';
+    } else if (this.postBoard === 'v') {
+      this.postBoardName = 'Video Games';
+    } else if (this.postBoard === 'mis') {
+      this.postBoardName = 'Mission Planning';
+    } else if (this.postBoard === 'int') {
+      this.postBoardName = 'International';
     }
-    
-    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
 
+    
+ 
+    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
+   
     const cu: ChunkingUtility = new ChunkingUtility();
 
     const boardString = localStorage.getItem(this.postBoard);
@@ -561,8 +573,21 @@ export class CatalogComponent implements OnInit {
       this.postBoardName = 'Weapons';
     } else if (board === 'g') {
       this.postBoardName = 'Technology';
+    } else if (board === 'lit') {
+      this.postBoardName = 'Literature';
+    }  else if (board === 'con') {
+      this.postBoardName = 'Conspiracy';
+    } else if (board === 'v') {
+      this.postBoardName = 'Video Games';
+    } else if (board === 'mis') {
+      this.postBoardName = 'Mission Planning';
+    } else if (board === 'int') {
+      this.postBoardName = 'International';
     }
+
+ 
     this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
+
     this.Router.navigate(['/catalog/' + this.postBoard]);
 
     this.setMeta();

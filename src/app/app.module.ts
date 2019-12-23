@@ -30,6 +30,7 @@ import { ModeratorDialogComponent } from './moderator-dialog/moderator-dialog.co
 import { ThreadFilterPipe } from './thread-filter.pipe';
 import { EncodeURIPipe } from './encode-uri.pipe';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { CreateBoardComponent } from './create-board/create-board.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     TipDialogComponent,
     ModeratorDialogComponent,
     ThreadFilterPipe,
-    EncodeURIPipe
+    EncodeURIPipe,
+    CreateBoardComponent
   ],
   imports: [
     BrowserModule,
