@@ -24,6 +24,7 @@ import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 import { LoadingCalculatorService } from '../loading-calculator.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { CreateBoard } from '../create-board';
 
 @Component({
   selector: 'app-catalog',
@@ -41,6 +42,9 @@ export class CatalogComponent implements OnInit {
   BlockChanHostingService: BlockChanHostSettingsService;
   Meta: Meta;
   Title: Title;
+
+  IsUserCreatedBoard = false;
+  UserCreatedBoardReference: CreateBoard;
 
   HeaderImage = '';
   postBoardName = '';
@@ -111,6 +115,7 @@ export class CatalogComponent implements OnInit {
   
       this.FlagService = flagService;
       const cu: ChunkingUtility = new ChunkingUtility();
+      this.setBoardNameWrapper();
     }
 
     public dropped(files: NgxFileDropEntry[]) {
@@ -333,6 +338,8 @@ export class CatalogComponent implements OnInit {
 
   async refresh(silent: boolean) {
 
+    await this.setBoardNameWrapper();
+
     if(!silent) {
       this.PostLoading = true;
     }
@@ -340,7 +347,16 @@ export class CatalogComponent implements OnInit {
     while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
-    const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
+    
+    let boardAddress = '';
+
+    if(this.IsUserCreatedBoard) {
+      boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+    } else {
+      boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
+    }
+
+    const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, this.UserCreatedBoardReference.BoardsModXRPAddress);
     for (let i = 0; i < threads.length; i++) {
       threads[i].Prep(this.BlockChanHostingService.BaseUrl);
     }
@@ -421,9 +437,15 @@ export class CatalogComponent implements OnInit {
     this.Posting = true;
 
     try {
+
+      let forceXRPDestinationAddress = '';
+      if (this.IsUserCreatedBoard) {
+        forceXRPDestinationAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+      }
+
       this.blockPosting();
-      const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, 
-        this.fileToUpload, this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
+      const tx = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload, this.postBoard,
+          this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag(), forceXRPDestinationAddress);
       this.PostingError = false;
       this.Router.navigate(['/postViewer/' + this.postBoard + '/' + tx.TX]);
       // this.refresh();
@@ -444,34 +466,62 @@ export class CatalogComponent implements OnInit {
     this.Router.navigate(['/postViewer/' + this.postBoard + '/' + thread.IndImmChanPostModelParent.Tx]);
 
   }
-  ngOnInit() {  
-    this.postBoard = this.Route.snapshot.params['board'];
 
+  async setBoardName() {
     if (this.postBoard === 'pol') {
       this.postBoardName = 'Politically Incorrect';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'biz') {
       this.postBoardName = 'Business';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'b') {
       this.postBoardName = 'Random';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'm') {
       this.postBoardName = 'Meta';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'a') {
       this.postBoardName = 'Anime';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'k') {
       this.postBoardName = 'Weapons';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'g') {
       this.postBoardName = 'Technology';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'lit') {
       this.postBoardName = 'Literature';
+      this.IsUserCreatedBoard = false;
     }  else if (this.postBoard === 'con') {
       this.postBoardName = 'Conspiracy';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'v') {
       this.postBoardName = 'Video Games';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'mis') {
       this.postBoardName = 'Mission Planning';
+      this.IsUserCreatedBoard = false;
     } else if (this.postBoard === 'int') {
       this.postBoardName = 'International';
+      this.IsUserCreatedBoard = false;
+    } else {
+      const userCreatedBoards = await this.IndImmChanPostManagerService.GetUserCreatedBoardList();
+      userCreatedBoards.forEach(b=> {
+        if(this.postBoard == b.BoardAddress) {
+          this.UserCreatedBoardReference = b;
+          this.postBoardName = b.BoardName;
+          this.IsUserCreatedBoard = true;
+        }
+      })
     }
+  }
+
+  async setBoardNameWrapper() {
+    await this.setBoardName();
+  }
+
+  ngOnInit() {  
+    this.postBoard = this.Route.snapshot.params['board'];
 
     
  
@@ -584,32 +634,7 @@ export class CatalogComponent implements OnInit {
   selfInit(board) {
     this.postBoard = board;
 
-    if (this.postBoard === 'pol') {
-      this.postBoardName = 'Politically Incorrect';
-    } else if (this.postBoard === 'biz') {
-      this.postBoardName = 'Business';
-    } else if (this.postBoard === 'b') {
-      this.postBoardName = 'Random';
-    } else if (board === 'm') {
-      this.postBoardName = 'Meta';
-    } else if (board === 'a') {
-      this.postBoardName = 'Anime';
-    } else if (board === 'k') {
-      this.postBoardName = 'Weapons';
-    } else if (board === 'g') {
-      this.postBoardName = 'Technology';
-    } else if (board === 'lit') {
-      this.postBoardName = 'Literature';
-    }  else if (board === 'con') {
-      this.postBoardName = 'Conspiracy';
-    } else if (board === 'v') {
-      this.postBoardName = 'Video Games';
-    } else if (board === 'mis') {
-      this.postBoardName = 'Mission Planning';
-    } else if (board === 'int') {
-      this.postBoardName = 'International';
-    }
-
+    this.setBoardNameWrapper();
  
     this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
 

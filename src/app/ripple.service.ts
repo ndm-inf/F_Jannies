@@ -36,6 +36,14 @@ export class RippleService  {
   FileProgressService: FileProgressService;
   LoadingCalculatorService: LoadingCalculatorService;
   
+  public AllConnected(): boolean {
+    if(this.Connected && this.secondaryApiAvailable && this.thirdApiAvailable) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   constructor(cfg: IndImmConfigService, tstr: ToastrService, filePrgSvc: FileProgressService, loadingCalculatorService: LoadingCalculatorService) {
     this.toaster = tstr;
     this.Config = cfg;

@@ -28,6 +28,7 @@ import { FlagService } from '../flag.service';
 import { BlockChanHostSettingsService } from '../block-chan-host-settings.service';
 import { LoadingCalculatorService } from '../loading-calculator.service';
 import { AbstractFormGroupDirective } from '@angular/forms';
+import { CreateBoard } from '../create-board';
 
 @Component({
   selector: 'app-ind-imm-chan-post-viewer',
@@ -46,6 +47,10 @@ export class IndImmChanPostViewerComponent implements OnInit {
   Meta: Meta;
   Title: Title;
   Elem: ElementRef;
+
+
+  IsUserCreatedBoard = false;
+  UserCreatedBoardReference: CreateBoard;
 
   postTitle = '';
   postMessage = '';
@@ -177,6 +182,12 @@ export class IndImmChanPostViewerComponent implements OnInit {
       if (<PostModFlagModel>result) {
         result.Tx = post.Tx;
 
+        let warningAddress = '';
+
+        if (this.IsUserCreatedBoard) {
+          warningAddress = this.UserCreatedBoardReference.BoardsModXRPAddress;
+        } 
+
         const modValid = await this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.IsSenderSecretValid(result.Address, result.Key);
 
         if(!modValid){
@@ -185,7 +196,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
           const warning: PostModFlag = new PostModFlag();
           warning.Tx = post.Tx;
           warning.Type = result.Type;
-          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key, post.IPFSHash);
+          await this.IndImmChanPostManagerService.IndImmChanPostService.postWarningToRipple(warning, result.Address, result.Key, post.IPFSHash, warningAddress);
           this.ToastrService.success('Post will no longer show in moderated client', 'Post flagged');
         }
       } else {
@@ -304,7 +315,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
         this.hideImagesFromToggle();
       }
     });
-
+    this.setBoardNameWrapper();
   }
 
   async reloadImages() {
@@ -422,10 +433,18 @@ export class IndImmChanPostViewerComponent implements OnInit {
     }
 
     this.Posting = true;
+
+    let boardAddress = '';
+
     try {
+      let forceXRPDestinationAddress = '';
+      if (this.IsUserCreatedBoard) {
+        forceXRPDestinationAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+      }
+
       this.blockPosting();
       const postResult = await this.IndImmChanPostManagerService.post(this.postTitle, this.postMessage, this.posterName, this.fileToUpload,
-        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag());
+        this.postBoard, this.parentTx, this.EncryptedKey, this.EthTipAddress, useTrip, await this.FlagService.GetFlag(), forceXRPDestinationAddress);
       this.PostingError = false;
 
       var newPost = new IndImmChanPostModel();
@@ -452,6 +471,7 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async refresh(silent: boolean) {
+    this.setBoardNameWrapper();
 
     if(!silent) {
       this.PostLoading = true;
@@ -463,8 +483,16 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
     window.scrollTo(0,document.body.scrollHeight);
 
-    const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(this.AddressManagerService.GetBoardAddress(this.postBoard), 
-      this.parentTx);
+    let boardAddress = '';
+
+    if(this.IsUserCreatedBoard) {
+      boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+    } else {
+      boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
+    }
+
+    const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(boardAddress, 
+      this.parentTx, this.UserCreatedBoardReference.BoardsModXRPAddress);
     threadResult.Board = this.postBoard;
     threadResult.Prep(this.BlockChanHostSettingsService.BaseUrl);
     this.thread = threadResult;
@@ -486,7 +514,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async loadCatalogAsync() {
-    const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(this.AddressManagerService.GetBoardAddress(this.postBoard));
+    let boardAddress = '';
+
+    if(this.IsUserCreatedBoard) {
+      boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+    } else {
+      boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
+    }
+
+    const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, this.UserCreatedBoardReference.BoardsModXRPAddress);
     boardCatalog.sort(this.threadCompare)
     try {
       localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));
@@ -593,6 +629,59 @@ export class IndImmChanPostViewerComponent implements OnInit {
       .substring(0, Math.min(this.thread.IndImmChanPostModelParent.Msg.length, 70)).trim())});
     this.Meta.addTag({ name: 'twitter:image', content: 'https://ipfs.io/ipfs/' + this.thread.IndImmChanPostModelParent.IPFSHash });
       */
+  }
+
+  async setBoardNameWrapper() {
+    await this.setBoardName();
+  }
+
+  async setBoardName() {
+    if (this.postBoard === 'pol') {
+      this.postBoardName = 'Politically Incorrect';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'biz') {
+      this.postBoardName = 'Business';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'b') {
+      this.postBoardName = 'Random';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'm') {
+      this.postBoardName = 'Meta';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'a') {
+      this.postBoardName = 'Anime';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'k') {
+      this.postBoardName = 'Weapons';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'g') {
+      this.postBoardName = 'Technology';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'lit') {
+      this.postBoardName = 'Literature';
+      this.IsUserCreatedBoard = false;
+    }  else if (this.postBoard === 'con') {
+      this.postBoardName = 'Conspiracy';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'v') {
+      this.postBoardName = 'Video Games';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'mis') {
+      this.postBoardName = 'Mission Planning';
+      this.IsUserCreatedBoard = false;
+    } else if (this.postBoard === 'int') {
+      this.postBoardName = 'International';
+      this.IsUserCreatedBoard = false;
+    } else {
+      const userCreatedBoards = await this.IndImmChanPostManagerService.GetUserCreatedBoardList();
+      userCreatedBoards.forEach(b=> {
+        if(this.postBoard == b.BoardAddress) {
+          this.UserCreatedBoardReference = b;
+          this.postBoardName = b.BoardName;
+          this.IsUserCreatedBoard = true;
+        }
+      })
+    }
   }
 
   removeTagIfExists(tag) {
