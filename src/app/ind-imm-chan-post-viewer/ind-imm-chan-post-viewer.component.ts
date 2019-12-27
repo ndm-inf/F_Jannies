@@ -484,15 +484,17 @@ export class IndImmChanPostViewerComponent implements OnInit {
     window.scrollTo(0,document.body.scrollHeight);
 
     let boardAddress = '';
+    let modAddress = '';
 
     if(this.IsUserCreatedBoard) {
       boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+      modAddress = this.UserCreatedBoardReference.BoardsModXRPAddress;
     } else {
       boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
     }
 
     const threadResult = await this.IndImmChanPostManagerService.GetPostsForPostViewer(boardAddress, 
-      this.parentTx, this.UserCreatedBoardReference.BoardsModXRPAddress);
+      this.parentTx, modAddress);
     threadResult.Board = this.postBoard;
     threadResult.Prep(this.BlockChanHostSettingsService.BaseUrl);
     this.thread = threadResult;
@@ -515,14 +517,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   async loadCatalogAsync() {
     let boardAddress = '';
-
+    let modAddress = '';
     if(this.IsUserCreatedBoard) {
       boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+      modAddress = this.UserCreatedBoardReference.BoardsModXRPAddress;
     } else {
       boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
     }
 
-    const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, this.UserCreatedBoardReference.BoardsModXRPAddress);
+    const boardCatalog = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, modAddress);
     boardCatalog.sort(this.threadCompare)
     try {
       localStorage.setItem(this.postBoard, JSON.stringify(boardCatalog));

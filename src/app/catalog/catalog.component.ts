@@ -349,14 +349,15 @@ export class CatalogComponent implements OnInit {
     }
     
     let boardAddress = '';
-
+    let modAddress = '';
     if(this.IsUserCreatedBoard) {
       boardAddress = this.UserCreatedBoardReference.BoardXRPAddress;
+      modAddress = this.UserCreatedBoardReference.BoardsModXRPAddress;
     } else {
       boardAddress = this.AddressManagerService.GetBoardAddress(this.postBoard);
     }
 
-    const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, this.UserCreatedBoardReference.BoardsModXRPAddress);
+    const threads = await this.IndImmChanPostManagerService.GetPostsForCatalog(boardAddress, modAddress);
     for (let i = 0; i < threads.length; i++) {
       threads[i].Prep(this.BlockChanHostingService.BaseUrl);
     }
