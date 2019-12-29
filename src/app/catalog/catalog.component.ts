@@ -519,15 +519,21 @@ export class CatalogComponent implements OnInit {
 
   async setBoardNameWrapper() {
     await this.setBoardName();
+    await this.loadHeaderImage(this.postBoard);
+
+  }
+
+  async loadHeaderImage(boardName: string) {
+      if (this.IsUserCreatedBoard) {
+        this.HeaderImage = 'assets/images/headers/' + 'pol' + '-1.jpg';
+      } else {
+        this.HeaderImage = 'assets/images/headers/' + boardName+ '-1.jpg';
+      }        
   }
 
   ngOnInit() {  
     this.postBoard = this.Route.snapshot.params['board'];
-
-    
  
-    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
-   
     const cu: ChunkingUtility = new ChunkingUtility();
 
     const boardString = localStorage.getItem(this.postBoard);
@@ -637,8 +643,6 @@ export class CatalogComponent implements OnInit {
 
     this.setBoardNameWrapper();
  
-    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
-
     this.Router.navigate(['/catalog/' + this.postBoard]);
 
     this.setMeta();

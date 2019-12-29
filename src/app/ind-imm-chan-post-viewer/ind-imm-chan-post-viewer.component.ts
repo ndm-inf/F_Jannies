@@ -471,12 +471,12 @@ export class IndImmChanPostViewerComponent implements OnInit {
   }
 
   async refresh(silent: boolean) {
-    this.setBoardNameWrapper();
+    await this.setBoardNameWrapper();
 
     if(!silent) {
       this.PostLoading = true;
     }
-    while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.Connected) {
+    while (!this.IndImmChanPostManagerService.IndImmChanPostService.rippleService.AllConnected()) {
       await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
     await this.IndImmChanPostManagerService.IndImmChanPostService.chunkingUtility.sleep(100);
@@ -546,14 +546,15 @@ export class IndImmChanPostViewerComponent implements OnInit {
 
   ngOnInit() {
 
-
+  
     const board = this.Route.snapshot.params['board'];
     const id = this.Route.snapshot.params['id'];
 
   
     console.log('board: ' + board);
     this.postBoard=board;
-    if (board === 'pol') {
+    this.setBoardNameWrapper();
+    /*if (board === 'pol') {
       this.postBoardName = 'Politically Incorrect';
     } else if (board === 'biz') {
       this.postBoardName = 'Business';
@@ -577,10 +578,8 @@ export class IndImmChanPostViewerComponent implements OnInit {
       this.postBoardName = 'Mission Planning';
     } else if (board === 'int') {
       this.postBoardName = 'International';
-    }
+    } */
     
-    this.HeaderImage = 'assets/images/headers/' + this.postBoard + '-1.jpg';
-
     this.parentTx=id;
 
     const threadString = localStorage.getItem('thread-' + id);
@@ -634,8 +633,18 @@ export class IndImmChanPostViewerComponent implements OnInit {
       */
   }
 
+  async loadHeaderImage(boardName: string) {
+      if (this.IsUserCreatedBoard) {
+        this.HeaderImage = 'assets/images/headers/' + 'pol' + '-1.jpg';
+      } else {
+        this.HeaderImage = 'assets/images/headers/' + boardName+ '-1.jpg';
+      }        
+  }
+
   async setBoardNameWrapper() {
     await this.setBoardName();
+    await this.loadHeaderImage(this.postBoard);
+    return; 
   }
 
   async setBoardName() {

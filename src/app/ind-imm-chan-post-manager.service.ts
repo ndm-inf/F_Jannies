@@ -181,7 +181,7 @@ export class IndImmChanPostManagerService {
   }
 
   public async GetUserCreatedBoardList(): Promise<CreateBoard[]> {
-    await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
+    //await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
     while (!this.IndImmChanPostService.rippleService.AllConnected()) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
@@ -361,8 +361,8 @@ export class IndImmChanPostManagerService {
   } */
 
   public async GetPostsForPostViewerPartial(parent: string, unfilteredResultsUnModded: any[], userCreatedBoardAddress: string): Promise<IndImmChanThread> {
-    await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
-    while (!this.IndImmChanPostService.rippleService.Connected) {
+    //await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
+    while (!this.IndImmChanPostService.rippleService.AllConnected()) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
     const minLedger = 49187118;
@@ -644,8 +644,8 @@ export class IndImmChanPostManagerService {
 
 
   public async GetPostsForCatalogPartial(unfilteredResultsUnModded: any[], userCreatedBoardAddress: string): Promise<IndImmChanThread[]> {
-    await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
-    while (!this.IndImmChanPostService.rippleService.Connected) {
+    // await this.IndImmChanPostService.rippleService.ForceConnectIfNotConnected();
+    while (!this.IndImmChanPostService.rippleService.AllConnected()) {
       await this.IndImmChanPostService.chunkingUtility.sleep(1000);
     }
     //const minLedger = this.IndImmChanPostService.rippleService.earliestLedgerVersion;

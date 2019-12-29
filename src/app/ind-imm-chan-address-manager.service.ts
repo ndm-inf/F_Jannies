@@ -37,7 +37,7 @@ export class IndImmChanAddressManagerService {
   }
 
   public GetBoardCreationAddress() {
-    return 'rUUMAadpu5Jn49PMAJesfFFTsYqNFPVuDK';
+    return 'rBEydHVNZDgjhS8zNAqa5MxHeXwS7ev8dU';
   }
 
   public GetBoardAddress(board: string) {
